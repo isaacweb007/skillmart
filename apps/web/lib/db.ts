@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 const db = createClient(
@@ -127,33 +128,35 @@ export async function searchSkills(opts: {
   return { items, total: count ?? 0 };
 }
 
-export async function getSkillBySlug(slug: string, locale: string): Promise<SkillDetail | null> {
-  const { data, error } = await db
-    .from("skills")
-    .select(
-      `${LIST_COLS}, forks, last_commit_at, source_url, license, install_command,
-       ai_review_ko, ai_review_vi, ai_review_en,
-       skill_translations(locale, name, one_liner, description_md, install_guide_md)`,
-    )
-    .eq("status", "visible")
-    .eq("slug", slug)
-    .maybeSingle();
-  if (error) throw new Error(`skill 상세 조회 실패: ${error.message}`);
-  if (!data) return null;
-  const tr = pickTranslation((data.skill_translations as TranslationRow[]) ?? [], locale);
-  if (!tr) return null;
-  const reviews: Record<string, string | null> = {
-    ko: data.ai_review_ko,
-    vi: data.ai_review_vi,
-    en: data.ai_review_en,
-  };
-  const { skill_translations: _t, ai_review_ko: _k, ai_review_vi: _v, ai_review_en: _e, ...rest } = data;
-  return {
-    ...(rest as Omit<SkillDetail, "name" | "one_liner" | "description_md" | "install_guide_md" | "ai_review">),
-    name: tr.name,
-    one_liner: tr.one_liner,
-    description_md: tr.description_md ?? "",
-    install_guide_md: tr.install_guide_md ?? "",
-    ai_review: reviews[locale] ?? reviews.en ?? null,
-  };
-}
+export const getSkillBySlug = cache(
+  async (slug: string, locale: string): Promise<SkillDetail | null> => {
+    const { data, error } = await db
+      .from("skills")
+      .select(
+        `${LIST_COLS}, forks, last_commit_at, source_url, license, install_command,
+         ai_review_ko, ai_review_vi, ai_review_en,
+         skill_translations(locale, name, one_liner, description_md, install_guide_md)`,
+      )
+      .eq("status", "visible")
+      .eq("slug", slug)
+      .maybeSingle();
+    if (error) throw new Error(`skill 상세 조회 실패: ${error.message}`);
+    if (!data) return null;
+    const tr = pickTranslation((data.skill_translations as TranslationRow[]) ?? [], locale);
+    if (!tr) return null;
+    const reviews: Record<string, string | null> = {
+      ko: data.ai_review_ko,
+      vi: data.ai_review_vi,
+      en: data.ai_review_en,
+    };
+    const { skill_translations: _t, ai_review_ko: _k, ai_review_vi: _v, ai_review_en: _e, ...rest } = data;
+    return {
+      ...(rest as Omit<SkillDetail, "name" | "one_liner" | "description_md" | "install_guide_md" | "ai_review">),
+      name: tr.name,
+      one_liner: tr.one_liner,
+      description_md: tr.description_md ?? "",
+      install_guide_md: tr.install_guide_md ?? "",
+      ai_review: reviews[locale] ?? reviews.en ?? null,
+    };
+  }
+);
