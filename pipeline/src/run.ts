@@ -10,6 +10,7 @@ import {
   loadExisting, skillKey, snapshotMetrics, upsertSkill, upsertTranslations,
   type ExistingSkill,
 } from "./publish.js";
+import { refreshUndiscovered, updateTrending } from "./refresh.js";
 
 interface Item {
   candidate: Candidate;
@@ -102,6 +103,13 @@ async function main() {
         console.error((e as Error).message);
       }
     }
+
+    // 발굴 미포함 추적 스킬 지표 갱신 + 삭제 감지 + 트렌딩 재계산
+    const discoveredRepos = new Set(candidates.map((c) => c.repoFullName));
+    const refresh = await refreshUndiscovered(db, octokit, discoveredRepos);
+    const trended = await updateTrending(db);
+    notes = `refresh ${refresh.refreshed}, hidden ${refresh.hidden}, trending ${trended}`;
+    console.log(`지표 갱신 ${refresh.refreshed}건, 숨김 ${refresh.hidden}건, 트렌딩 ${trended}건`);
   } catch (e) {
     notes = (e as Error).message;
     throw e;
