@@ -4,7 +4,7 @@ import SearchBar from "@/components/SearchBar";
 import SkillCard from "@/components/SkillCard";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIES } from "@/lib/categories";
-import { getHomeSkills, getVisibleCount } from "@/lib/db";
+import { getCollections, getHomeSkills, getTrendingSkills, getVisibleCount } from "@/lib/db";
 
 export const revalidate = 3600;
 
@@ -12,7 +12,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations();
-  const [count, { top, fresh }] = await Promise.all([getVisibleCount(), getHomeSkills(locale)]);
+  const [count, { top, fresh }, trending, collections] = await Promise.all([
+    getVisibleCount(),
+    getHomeSkills(locale),
+    getTrendingSkills(locale),
+    getCollections(locale),
+  ]);
 
   return (
     <div className="py-10">
@@ -36,6 +41,34 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           ))}
         </div>
       </section>
+
+      {collections.length > 0 && (
+        <section className="mb-12">
+          <h2 className="mb-4 font-display text-xl font-bold">{t("home.collections")}</h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {collections.map((c) => (
+              <Link
+                key={c.id}
+                href={`/collections/${c.slug}`}
+                className="group block rounded-xl border border-line bg-surface p-4 transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-sm"
+              >
+                <h3 className="mb-1 font-display text-lg font-bold group-hover:text-accent">{c.title}</h3>
+                <p className="mb-2 line-clamp-2 text-sm leading-relaxed text-ink-soft">{c.description}</p>
+                <span className="text-xs text-accent">{t("collection.skillCount", { count: c.count })} →</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {trending.length > 0 && (
+        <HomeSection
+          title={t("home.trending")}
+          viewAll={t("home.viewAll")}
+          href="/skills?sort=trending"
+          skills={trending}
+        />
+      )}
 
       <HomeSection title={t("home.top")} viewAll={t("home.viewAll")} href="/skills?sort=rank" skills={top} />
       <HomeSection title={t("home.fresh")} viewAll={t("home.viewAll")} href="/skills?sort=new" skills={fresh} />

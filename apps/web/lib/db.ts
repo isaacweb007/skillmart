@@ -20,6 +20,7 @@ export interface SkillListItem {
   is_official: boolean;
   created_at: string;
   rank_score: number;
+  trending_delta: number;
   name: string;
   one_liner: string;
 }
@@ -36,7 +37,7 @@ export interface SkillDetail extends SkillListItem {
 }
 
 const LIST_COLS =
-  "id, slug, category, difficulty, ai_score, stars, is_official, created_at, rank_score";
+  "id, slug, category, difficulty, ai_score, stars, is_official, created_at, rank_score, trending_delta";
 
 interface TranslationRow {
   locale: string;
@@ -95,7 +96,7 @@ export async function searchSkills(opts: {
   q?: string;
   category?: string;
   difficulty?: string;
-  sort: "rank" | "new";
+  sort: "rank" | "new" | "trending";
   page: number;
 }): Promise<{ items: SkillListItem[]; total: number }> {
   let query = db
@@ -115,10 +116,10 @@ export async function searchSkills(opts: {
       });
     }
   }
-  query =
-    opts.sort === "new"
-      ? query.order("created_at", { ascending: false })
-      : query.order("rank_score", { ascending: false });
+  if (opts.sort === "new") query = query.order("created_at", { ascending: false });
+  else if (opts.sort === "trending")
+    query = query.order("trending_delta", { ascending: false }).order("rank_score", { ascending: false });
+  else query = query.order("rank_score", { ascending: false });
   const from = (opts.page - 1) * PAGE_SIZE;
   const { data, count, error } = await query.range(from, from + PAGE_SIZE - 1);
   if (error) throw new Error(`skills 검색 실패: ${error.message}`);
@@ -159,4 +160,80 @@ export const getSkillBySlug = cache(
       ai_review: reviews[locale] ?? reviews.en ?? null,
     };
   }
+);
+
+export async function getTrendingSkills(locale: string, limit = 8): Promise<SkillListItem[]> {
+  const { data, error } = await db
+    .from("skills")
+    .select(`${LIST_COLS}, skill_translations(locale, name, one_liner)`)
+    .eq("status", "visible")
+    .gt("trending_delta", 0)
+    .order("trending_delta", { ascending: false })
+    .limit(limit);
+  if (error) throw new Error(`trending 조회 실패: ${error.message}`);
+  return (data as Record<string, unknown>[])
+    .map((r) => toListItem(r, locale))
+    .filter((x): x is SkillListItem => x !== null);
+}
+
+export interface CollectionSummary {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  count: number;
+}
+
+interface CollectionRow {
+  id: string;
+  slug: string;
+  skill_ids: string[];
+  collection_translations: { locale: string; title: string; description: string }[];
+}
+
+function toCollectionSummary(row: CollectionRow, locale: string): CollectionSummary | null {
+  const tr =
+    row.collection_translations.find((t) => t.locale === locale) ??
+    row.collection_translations.find((t) => t.locale === "en") ??
+    row.collection_translations[0];
+  if (!tr) return null;
+  return { id: row.id, slug: row.slug, title: tr.title, description: tr.description, count: row.skill_ids.length };
+}
+
+export async function getCollections(locale: string): Promise<CollectionSummary[]> {
+  const { data, error } = await db
+    .from("collections")
+    .select("id, slug, skill_ids, collection_translations(locale, title, description)");
+  if (error) throw new Error(`collections 조회 실패: ${error.message}`);
+  return (data as CollectionRow[])
+    .map((r) => toCollectionSummary(r, locale))
+    .filter((x): x is CollectionSummary => x !== null);
+}
+
+export const getCollectionBySlug = cache(
+  async (
+    slug: string,
+    locale: string,
+  ): Promise<{ summary: CollectionSummary; skills: SkillListItem[] } | null> => {
+    const { data, error } = await db
+      .from("collections")
+      .select("id, slug, skill_ids, collection_translations(locale, title, description)")
+      .eq("slug", slug)
+      .maybeSingle();
+    if (error) throw new Error(`collection 상세 조회 실패: ${error.message}`);
+    if (!data) return null;
+    const summary = toCollectionSummary(data as CollectionRow, locale);
+    if (!summary) return null;
+    const { data: skillRows, error: skillErr } = await db
+      .from("skills")
+      .select(`${LIST_COLS}, skill_translations(locale, name, one_liner)`)
+      .eq("status", "visible")
+      .in("id", (data as CollectionRow).skill_ids)
+      .order("rank_score", { ascending: false });
+    if (skillErr) throw new Error(`collection 스킬 조회 실패: ${skillErr.message}`);
+    const skills = (skillRows as Record<string, unknown>[])
+      .map((r) => toListItem(r, locale))
+      .filter((x): x is SkillListItem => x !== null);
+    return { summary, skills };
+  },
 );

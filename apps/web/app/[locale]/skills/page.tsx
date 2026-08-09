@@ -44,7 +44,7 @@ export default async function SkillsPage({
     page: first(raw.page),
   };
   const t = await getTranslations();
-  const sort = sp.sort === "new" ? "new" : "rank";
+  const sort = sp.sort === "new" ? "new" : sp.sort === "trending" ? "trending" : "rank";
   const pageNum = Number(sp.page);
   const page = Number.isInteger(pageNum) && pageNum > 0 ? pageNum : 1;
   const { items, total } = await searchSkills({
@@ -95,6 +95,9 @@ export default async function SkillsPage({
         </Link>
         <Link href={qs(base, { sort: "new" })}>
           <Chip active={sort === "new"}>{t("list.sortNew")}</Chip>
+        </Link>
+        <Link href={qs(base, { sort: "trending" })}>
+          <Chip active={sort === "trending"}>{t("list.sortTrending")}</Chip>
         </Link>
         <span className="ml-auto text-ink-soft">{t("list.resultCount", { count: total })}</span>
       </div>

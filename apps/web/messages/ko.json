@@ -8,6 +8,8 @@
     "searchPlaceholder": "어떤 스킬을 찾으세요? (예: PPT, 코드 리뷰)",
     "searchButton": "검색",
     "corners": "코너별로 둘러보기",
+    "trending": "지금 뜨는 스킬",
+    "collections": "추천 세트",
     "top": "인기 스킬",
     "fresh": "새로 들어온 스킬",
     "viewAll": "전체 보기"
@@ -19,6 +21,7 @@
     "allLevels": "모든 난이도",
     "sortRank": "인기순",
     "sortNew": "최신순",
+    "sortTrending": "트렌딩",
     "empty": "조건에 맞는 스킬이 아직 없어요. 검색어를 바꾸거나 코너를 넓혀보세요.",
     "prev": "이전",
     "next": "다음"
@@ -54,6 +57,10 @@
   "footer": {
     "disclaimer": "클로드스킬마트는 비공식 서비스이며 Anthropic과 무관합니다.",
     "dataNote": "스킬 정보는 GitHub 공개 저장소에서 매일 자동 수집됩니다."
+  },
+  "collection": {
+    "skillCount": "{count}개 스킬",
+    "back": "홈으로"
   },
   "notFound": {
     "title": "이 매대는 비어 있어요",
