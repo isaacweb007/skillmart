@@ -56,6 +56,7 @@ export default async function SkillDetail({ params }: Props) {
           <Chip>{t(`categories.${skill.category}`)}</Chip>
           {skill.difficulty && <Chip>{t(`difficulty.${skill.difficulty}`)}</Chip>}
           <span>★ {skill.stars.toLocaleString()}</span>
+          <span>⑂ {skill.forks.toLocaleString()}</span>
           <span>
             {t("detail.score")} {skill.ai_score}/10
           </span>

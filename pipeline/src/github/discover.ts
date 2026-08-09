@@ -15,7 +15,9 @@ export interface Candidate {
 // 시드 저장소는 운영자가 관리한다. 추가 발견 시 여기에 늘린다.
 const SEED_REPOS = ["anthropics/skills", "daymade/claude-code-skills"];
 const TOPICS = ["claude-skills", "claude-code-skills", "claude-code-plugin"];
-const MAX_SEARCH_REPOS = 100; // 런당 검색으로 새로 스캔할 저장소 상한 (초과분은 다음 런 이월)
+const MAX_SEARCH_REPOS = 300; // 런당 검색으로 새로 스캔할 저장소 상한 (초과분은 다음 런 이월)
+const TOPIC_PAGES = 6; // 토픽당 50 × 6 = 최대 300
+const CODE_PAGES = 4;
 const MAX_PATHS_PER_REPO = 200;
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -47,44 +49,61 @@ export async function discover(octokit: Octokit, maxCandidates: number): Promise
     }
   }
 
-  // 2) 토픽 검색 (분당 30회 제한 → 호출 간 대기)
+  // 2) 토픽 검색 (분당 30회 제한 → 호출 간 대기, 페이지네이션)
   for (const topic of TOPICS) {
-    try {
-      const { data } = await octokit.search.repos({ q: `topic:${topic}`, sort: "stars", per_page: 50 });
-      for (const r of data.items) {
-        if (repos.size >= SEED_REPOS.length + MAX_SEARCH_REPOS) break;
-        if (!repos.has(r.full_name)) {
-          repos.set(r.full_name, {
-            full_name: r.full_name,
-            default_branch: r.default_branch ?? "main",
-            stargazers_count: r.stargazers_count ?? 0,
-            forks_count: r.forks_count ?? 0,
-            pushed_at: r.pushed_at ?? null,
-            license: r.license ?? null,
-          });
+    for (let page = 1; page <= TOPIC_PAGES; page++) {
+      if (repos.size >= SEED_REPOS.length + MAX_SEARCH_REPOS) break;
+      let pageCount = 0;
+      try {
+        const { data } = await octokit.search.repos({
+          q: `topic:${topic}`,
+          sort: "stars",
+          per_page: 50,
+          page,
+        });
+        pageCount = data.items.length;
+        for (const r of data.items) {
+          if (repos.size >= SEED_REPOS.length + MAX_SEARCH_REPOS) break;
+          if (!repos.has(r.full_name)) {
+            repos.set(r.full_name, {
+              full_name: r.full_name,
+              default_branch: r.default_branch ?? "main",
+              stargazers_count: r.stargazers_count ?? 0,
+              forks_count: r.forks_count ?? 0,
+              pushed_at: r.pushed_at ?? null,
+              license: r.license ?? null,
+            });
+          }
         }
+      } catch (e) {
+        console.warn(`topic:${topic} p${page} 검색 실패: ${(e as Error).message}`);
+        break;
       }
-    } catch (e) {
-      console.warn(`topic:${topic} 검색 실패: ${(e as Error).message}`);
+      await sleep(2500);
+      if (pageCount < 50) break; // 마지막 페이지
     }
-    await sleep(2500);
   }
 
   // 3) 전역 코드 검색 (베스트 에포트 — API가 거부하면 건너뛴다)
   try {
-    const { data } = await octokit.search.code({ q: "filename:SKILL.md", per_page: 50 });
-    for (const item of data.items) {
+    for (let page = 1; page <= CODE_PAGES; page++) {
       if (repos.size >= SEED_REPOS.length + MAX_SEARCH_REPOS) break;
-      const fullName = item.repository.full_name;
-      if (repos.has(fullName)) continue;
-      const [owner, repo] = fullName.split("/");
-      try {
-        const { data: full } = await octokit.repos.get({ owner, repo });
-        repos.set(full.full_name, full as RepoInfo);
-      } catch {
-        // 접근 불가 저장소는 무시
+      const { data } = await octokit.search.code({ q: "filename:SKILL.md", per_page: 50, page });
+      for (const item of data.items) {
+        if (repos.size >= SEED_REPOS.length + MAX_SEARCH_REPOS) break;
+        const fullName = item.repository.full_name;
+        if (repos.has(fullName)) continue;
+        const [owner, repo] = fullName.split("/");
+        try {
+          const { data: full } = await octokit.repos.get({ owner, repo });
+          repos.set(full.full_name, full as RepoInfo);
+        } catch {
+          // 접근 불가 저장소는 무시
+        }
+        await sleep(1000);
       }
-      await sleep(1000);
+      await sleep(2500);
+      if (data.items.length < 50) break;
     }
   } catch (e) {
     console.warn(`코드 검색 건너뜀: ${(e as Error).message}`);

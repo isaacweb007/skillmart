@@ -10,6 +10,8 @@ import {
   loadExisting, skillKey, snapshotMetrics, upsertSkill, upsertTranslations,
   type ExistingSkill,
 } from "./publish.js";
+import { refreshUndiscovered, updateTrending } from "./refresh.js";
+import { generateCollections, publishCollections, type CollectionInput } from "./claude/collections.js";
 
 interface Item {
   candidate: Candidate;
@@ -22,6 +24,9 @@ async function main() {
   const limitIdx = process.argv.indexOf("--limit");
   const limit = limitIdx > -1 ? Number(process.argv[limitIdx + 1]) : 1000;
   if (!Number.isFinite(limit) || limit < 1) throw new Error(`--limit 값이 잘못됨: ${limit}`);
+
+  // 런 시작 시점에 고정 — 자정 넘김으로 주간 컬렉션이 스킵되는 것 방지
+  const startedOnUtcSaturday = new Date().getUTCDay() === 6;
 
   const db = createDb();
   const octokit = new Octokit({ auth: env("GITHUB_TOKEN") });
@@ -61,6 +66,7 @@ async function main() {
     const outcomes = await runAnalysisBatch(anthropic, requests);
     for (const o of outcomes.values()) cost += costUsd(o.inputTokens, o.outputTokens);
 
+    const publishedRepos = new Set<string>();
     for (const it of items) {
       const idx = toAnalyze.indexOf(it);
       // 상한 초과 이월(신규·변경·재시도 모두): 이번 런에서 건드리지 않아야
@@ -97,9 +103,51 @@ async function main() {
         if (analysis) await upsertTranslations(db, skillId, analysis);
         await snapshotMetrics(db, skillId, it.candidate.stars);
         published++;
+        publishedRepos.add(it.candidate.repoFullName);
       } catch (e) {
         errors++;
         console.error((e as Error).message);
+      }
+    }
+
+    // 발굴 미포함 추적 스킬 지표 갱신 + 삭제 감지 + 트렌딩 재계산
+    // 이번 런에 실제 발행(지표 갱신)된 repo만 제외 — 이월된 후보의 repo는 refresh가 커버
+    const refresh = await refreshUndiscovered(db, octokit, publishedRepos);
+    const trended = await updateTrending(db);
+    notes = `refresh ${refresh.refreshed}, hidden ${refresh.hidden}, trending-changed ${trended}`;
+    console.log(`지표 갱신 ${refresh.refreshed}건, 숨김 ${refresh.hidden}건, 트렌딩 변화 ${trended}건`);
+
+    // 주간 컬렉션 (KST 일요일 03시 런 = UTC 토 18시) 또는 --collections 강제
+    const isWeekly = startedOnUtcSaturday || process.argv.includes("--collections");
+    if (isWeekly) {
+      try {
+        const { data: visRows, error: visErr } = await db
+          .from("skills")
+          .select("slug, category, skill_translations!inner(locale, name, one_liner)")
+          .eq("status", "visible")
+          .eq("skill_translations.locale", "en")
+          .order("rank_score", { ascending: false })
+          .limit(300);
+        if (visErr) throw new Error(`컬렉션 입력 조회 실패: ${visErr.message}`);
+        const inputs: CollectionInput[] = (visRows as unknown as {
+          slug: string;
+          category: string;
+          skill_translations: { name: string; one_liner: string }[];
+        }[]).map((r) => ({
+          slug: r.slug,
+          category: r.category,
+          name: r.skill_translations[0]?.name ?? r.slug,
+          one_liner: r.skill_translations[0]?.one_liner ?? "",
+        }));
+        const gen = await generateCollections(anthropic, inputs);
+        cost += gen.costUsd;
+        const sets = await publishCollections(db, gen.collections);
+        notes = `${notes ? notes + "; " : ""}collections ${sets}`;
+        console.log(`컬렉션 ${sets}세트 발행`);
+      } catch (e) {
+        notes = `${notes ? notes + "; " : ""}collections FAILED: ${(e as Error).message}`;
+        console.error(`컬렉션 생성 실패(런은 계속): ${(e as Error).message}`);
+        errors++;
       }
     }
   } catch (e) {

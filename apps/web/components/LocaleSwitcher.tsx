@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { Link, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 
@@ -9,13 +10,16 @@ const LABELS: Record<string, string> = { ko: "한국어", vi: "Tiếng Việt", 
 export default function LocaleSwitcher() {
   const locale = useLocale();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const query = Object.fromEntries(searchParams.entries());
   return (
     <nav className="flex gap-1 text-xs">
       {routing.locales.map((l) => (
         <Link
           key={l}
-          href={pathname}
+          href={{ pathname, query }}
           locale={l}
+          aria-current={l === locale ? "true" : undefined}
           className={`whitespace-nowrap rounded-full px-2 py-1 ${
             l === locale ? "bg-accent text-accent-ink" : "text-ink-soft hover:text-ink"
           }`}

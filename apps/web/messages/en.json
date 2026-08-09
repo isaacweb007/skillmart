@@ -1,4 +1,9 @@
 {
+  "error": {
+    "title": "Something went wrong",
+    "desc": "Refresh the page or try again in a moment.",
+    "retry": "Try again"
+  },
   "brand": "Claude Skill Mart",
   "tagline": "The Claude Code skill market",
   "nav": { "skills": "Browse skills" },
@@ -8,6 +13,8 @@
     "searchPlaceholder": "What skill do you need? (e.g. PPT, code review)",
     "searchButton": "Search",
     "corners": "Browse by aisle",
+    "trending": "Trending now",
+    "collections": "Curated sets",
     "top": "Popular skills",
     "fresh": "Fresh arrivals",
     "viewAll": "View all"
@@ -19,6 +26,7 @@
     "allLevels": "All levels",
     "sortRank": "Popular",
     "sortNew": "Newest",
+    "sortTrending": "Trending",
     "empty": "No skills match yet. Try a different search or browse another aisle.",
     "prev": "Prev",
     "next": "Next"
@@ -54,6 +62,10 @@
   "footer": {
     "disclaimer": "Claude Skill Mart is an unofficial service, not affiliated with Anthropic.",
     "dataNote": "Skill data is collected automatically every day from public GitHub repositories."
+  },
+  "collection": {
+    "skillCount": "{count} skills",
+    "back": "Back home"
   },
   "notFound": {
     "title": "This shelf is empty",
