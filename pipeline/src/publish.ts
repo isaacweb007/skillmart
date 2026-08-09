@@ -26,6 +26,7 @@ export async function loadExisting(db: SupabaseClient): Promise<Map<string, Exis
     const { data, error } = await db
       .from("skills")
       .select("id, repo_full_name, path, content_hash, status, slug, analysis_attempts, ai_score, is_official")
+      .order("id")
       .range(from, from + pageSize - 1);
     if (error) throw new Error(`skills 조회 실패: ${error.message}`);
     for (const row of data as ExistingSkill[]) map.set(skillKey(row.repo_full_name, row.path), row);
