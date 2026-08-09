@@ -25,6 +25,9 @@ async function main() {
   const limit = limitIdx > -1 ? Number(process.argv[limitIdx + 1]) : 1000;
   if (!Number.isFinite(limit) || limit < 1) throw new Error(`--limit 값이 잘못됨: ${limit}`);
 
+  // 런 시작 시점에 고정 — 자정 넘김으로 주간 컬렉션이 스킵되는 것 방지
+  const startedOnUtcSaturday = new Date().getUTCDay() === 6;
+
   const db = createDb();
   const octokit = new Octokit({ auth: env("GITHUB_TOKEN") });
   const anthropic = new Anthropic(); // ANTHROPIC_API_KEY 자동 인식
@@ -111,11 +114,11 @@ async function main() {
     // 이번 런에 실제 발행(지표 갱신)된 repo만 제외 — 이월된 후보의 repo는 refresh가 커버
     const refresh = await refreshUndiscovered(db, octokit, publishedRepos);
     const trended = await updateTrending(db);
-    notes = `refresh ${refresh.refreshed}, hidden ${refresh.hidden}, trending ${trended}`;
-    console.log(`지표 갱신 ${refresh.refreshed}건, 숨김 ${refresh.hidden}건, 트렌딩 ${trended}건`);
+    notes = `refresh ${refresh.refreshed}, hidden ${refresh.hidden}, trending-changed ${trended}`;
+    console.log(`지표 갱신 ${refresh.refreshed}건, 숨김 ${refresh.hidden}건, 트렌딩 변화 ${trended}건`);
 
     // 주간 컬렉션 (KST 일요일 03시 런 = UTC 토 18시) 또는 --collections 강제
-    const isWeekly = new Date().getUTCDay() === 6 || process.argv.includes("--collections");
+    const isWeekly = startedOnUtcSaturday || process.argv.includes("--collections");
     if (isWeekly) {
       try {
         const { data: visRows, error: visErr } = await db
@@ -136,8 +139,9 @@ async function main() {
           name: r.skill_translations[0]?.name ?? r.slug,
           one_liner: r.skill_translations[0]?.one_liner ?? "",
         }));
-        const generated = await generateCollections(anthropic, inputs);
-        const sets = await publishCollections(db, generated);
+        const gen = await generateCollections(anthropic, inputs);
+        cost += gen.costUsd;
+        const sets = await publishCollections(db, gen.collections);
         notes = `${notes ? notes + "; " : ""}collections ${sets}`;
         console.log(`컬렉션 ${sets}세트 발행`);
       } catch (e) {

@@ -79,14 +79,16 @@ export function validateCollections(
 export async function generateCollections(
   client: Anthropic,
   skills: CollectionInput[],
-): Promise<GeneratedCollection[]> {
+): Promise<{ collections: GeneratedCollection[]; costUsd: number }> {
   const response = await client.messages.create({
     model: MODEL,
     max_tokens: 16000,
     output_config: { format: { type: "json_schema" as const, schema: COLLECTIONS_SCHEMA } },
     messages: [{ role: "user" as const, content: buildCollectionsPrompt(skills) }],
   });
-  if (response.stop_reason === "refusal") return [];
+  const cost =
+    (response.usage.input_tokens * 5 + response.usage.output_tokens * 25) / 1_000_000;
+  if (response.stop_reason === "refusal") return { collections: [], costUsd: cost };
   let text = "";
   for (const block of response.content) {
     if (block.type === "text") {
@@ -96,10 +98,13 @@ export async function generateCollections(
   }
   try {
     const parsed = JSON.parse(text) as { collections: GeneratedCollection[] };
-    return validateCollections(parsed.collections, new Set(skills.map((s) => s.slug)));
+    return {
+      collections: validateCollections(parsed.collections, new Set(skills.map((s) => s.slug))),
+      costUsd: cost,
+    };
   } catch {
     console.error("컬렉션 JSON 파싱 실패");
-    return [];
+    return { collections: [], costUsd: cost };
   }
 }
 

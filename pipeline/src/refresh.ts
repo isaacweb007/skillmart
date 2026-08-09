@@ -28,11 +28,11 @@ interface TrackedSkill {
   last_commit_at: string | null;
 }
 
-/** 이번 런 발굴에 포함되지 않은 visible 스킬들의 지표 갱신 + 삭제 감지 */
+/** 이번 런에 발행(지표 갱신)되지 않은 visible 스킬들의 지표 갱신 + 삭제 감지 */
 export async function refreshUndiscovered(
   db: SupabaseClient,
   octokit: Octokit,
-  discoveredRepos: Set<string>,
+  publishedRepos: Set<string>,
 ): Promise<{ refreshed: number; hidden: number }> {
   const data = await fetchAll<TrackedSkill>(
     (from, to) =>
@@ -47,7 +47,7 @@ export async function refreshUndiscovered(
 
   const byRepo = new Map<string, TrackedSkill[]>();
   for (const row of data) {
-    if (discoveredRepos.has(row.repo_full_name)) continue;
+    if (publishedRepos.has(row.repo_full_name)) continue;
     const list = byRepo.get(row.repo_full_name) ?? [];
     list.push(row);
     byRepo.set(row.repo_full_name, list);
