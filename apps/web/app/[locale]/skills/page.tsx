@@ -70,33 +70,33 @@ export default async function SkillsPage({
       </div>
 
       <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
-        <Link href={qs(base, { category: undefined })}>
+        <Link href={qs(base, { category: undefined })} aria-current={!sp.category ? "true" : undefined}>
           <Chip active={!sp.category}>{t("list.all")}</Chip>
         </Link>
         {CATEGORIES.map((c) => (
-          <Link key={c} href={qs(base, { category: c })}>
+          <Link key={c} href={qs(base, { category: c })} aria-current={sp.category === c ? "true" : undefined}>
             <Chip active={sp.category === c}>{t(`categories.${c}`)}</Chip>
           </Link>
         ))}
       </div>
 
       <div className="mb-5 flex flex-wrap items-center gap-2 text-xs">
-        <Link href={qs(base, { difficulty: undefined })}>
+        <Link href={qs(base, { difficulty: undefined })} aria-current={!sp.difficulty ? "true" : undefined}>
           <Chip active={!sp.difficulty}>{t("list.allLevels")}</Chip>
         </Link>
         {DIFFICULTIES.map((d) => (
-          <Link key={d} href={qs(base, { difficulty: d })}>
+          <Link key={d} href={qs(base, { difficulty: d })} aria-current={sp.difficulty === d ? "true" : undefined}>
             <Chip active={sp.difficulty === d}>{t(`difficulty.${d}`)}</Chip>
           </Link>
         ))}
-        <span className="mx-2 text-line">|</span>
-        <Link href={qs(base, { sort: "rank" })}>
+        <span className="mx-2 text-line" aria-hidden="true">|</span>
+        <Link href={qs(base, { sort: "rank" })} aria-current={sort === "rank" ? "true" : undefined}>
           <Chip active={sort === "rank"}>{t("list.sortRank")}</Chip>
         </Link>
-        <Link href={qs(base, { sort: "new" })}>
+        <Link href={qs(base, { sort: "new" })} aria-current={sort === "new" ? "true" : undefined}>
           <Chip active={sort === "new"}>{t("list.sortNew")}</Chip>
         </Link>
-        <Link href={qs(base, { sort: "trending" })}>
+        <Link href={qs(base, { sort: "trending" })} aria-current={sort === "trending" ? "true" : undefined}>
           <Chip active={sort === "trending"}>{t("list.sortTrending")}</Chip>
         </Link>
         <span className="ml-auto text-ink-soft">{t("list.resultCount", { count: total })}</span>

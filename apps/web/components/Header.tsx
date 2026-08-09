@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import LocaleSwitcher from "./LocaleSwitcher";
@@ -14,7 +15,9 @@ export default function Header() {
           {t("nav.skills")}
         </Link>
         <div className="ml-auto">
-          <LocaleSwitcher />
+          <Suspense fallback={null}>
+            <LocaleSwitcher />
+          </Suspense>
         </div>
       </div>
     </header>

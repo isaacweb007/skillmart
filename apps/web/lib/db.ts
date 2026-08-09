@@ -205,9 +205,25 @@ export async function getCollections(locale: string): Promise<CollectionSummary[
     .from("collections")
     .select("id, slug, skill_ids, collection_translations(locale, title, description)");
   if (error) throw new Error(`collections 조회 실패: ${error.message}`);
-  return (data as CollectionRow[])
-    .map((r) => toCollectionSummary(r, locale))
-    .filter((x): x is CollectionSummary => x !== null);
+  const rows = data as CollectionRow[];
+  const allIds = [...new Set(rows.flatMap((r) => r.skill_ids))];
+  let visibleIds = new Set<string>();
+  if (allIds.length > 0) {
+    const { data: vis, error: visErr } = await db
+      .from("skills")
+      .select("id")
+      .eq("status", "visible")
+      .in("id", allIds);
+    if (visErr) throw new Error(`collections visible 조회 실패: ${visErr.message}`);
+    visibleIds = new Set((vis as { id: string }[]).map((v) => v.id));
+  }
+  return rows
+    .map((r) => {
+      const summary = toCollectionSummary(r, locale);
+      if (!summary) return null;
+      return { ...summary, count: r.skill_ids.filter((id) => visibleIds.has(id)).length };
+    })
+    .filter((x): x is CollectionSummary => x !== null && x.count > 0);
 }
 
 export const getCollectionBySlug = cache(

@@ -1,4 +1,9 @@
 {
+  "error": {
+    "title": "Đã có lỗi xảy ra",
+    "desc": "Hãy tải lại trang hoặc thử lại sau ít phút.",
+    "retry": "Thử lại"
+  },
   "brand": "Claude Skill Mart",
   "tagline": "Chợ kỹ năng Claude Code",
   "nav": { "skills": "Khám phá skill" },

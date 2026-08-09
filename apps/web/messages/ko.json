@@ -1,4 +1,9 @@
 {
+  "error": {
+    "title": "잠깐 문제가 생겼어요",
+    "desc": "새로고침하거나 잠시 뒤 다시 시도해주세요.",
+    "retry": "다시 시도"
+  },
   "brand": "클로드스킬마트",
   "tagline": "Claude Code 스킬 안내소",
   "nav": { "skills": "스킬 둘러보기" },

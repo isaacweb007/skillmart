@@ -1,4 +1,9 @@
 {
+  "error": {
+    "title": "Something went wrong",
+    "desc": "Refresh the page or try again in a moment.",
+    "retry": "Try again"
+  },
   "brand": "Claude Skill Mart",
   "tagline": "The Claude Code skill market",
   "nav": { "skills": "Browse skills" },
