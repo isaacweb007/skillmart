@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import FavoritesProvider from "@/components/FavoritesProvider";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { routing } from "@/i18n/routing";
@@ -47,9 +48,11 @@ export default async function LocaleLayout({
     <html lang={locale} className={fontVars}>
       <body className="flex min-h-screen flex-col">
         <NextIntlClientProvider>
-          <Header />
-          <main className="mx-auto w-full max-w-5xl flex-1 px-4">{children}</main>
-          <Footer />
+          <FavoritesProvider>
+            <Header />
+            <main className="mx-auto w-full max-w-5xl flex-1 px-4">{children}</main>
+            <Footer />
+          </FavoritesProvider>
         </NextIntlClientProvider>
       </body>
     </html>

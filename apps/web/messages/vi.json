@@ -102,5 +102,15 @@
     "safeTitle": "Kiểm tra trước khi cài",
     "safeBody": "Skill chứa hướng dẫn và mã có thể chạy. Với repo lạ, hãy xem nguồn trước. Trang này chỉ dẫn tới repo công khai trên GitHub và không bảo đảm nội dung skill.",
     "cta": "Xem các skill"
+  },
+  "auth": {
+    "signIn": "Đăng nhập",
+    "signOut": "Đăng xuất",
+    "signInGoogle": "Tiếp tục với Google",
+    "myList": "Đã lưu",
+    "signInToSave": "Đăng nhập để lưu skill",
+    "failed": "Đăng nhập thất bại. Vui lòng thử lại sau.",
+    "empty": "Chưa lưu skill nào. Bấm ♡ ở skill bạn thích.",
+    "loading": "Đang tải…"
   }
 }

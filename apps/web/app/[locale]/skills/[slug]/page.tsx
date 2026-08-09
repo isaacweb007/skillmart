@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Markdown from "react-markdown";
 import Chip from "@/components/Chip";
+import FavoriteButton from "@/components/FavoriteButton";
 import InstallBlocks from "@/components/InstallBlocks";
 import { Link } from "@/i18n/navigation";
 import { getSkillBySlug } from "@/lib/db";
@@ -48,6 +49,7 @@ export default async function SkillDetail({ params }: Props) {
               {t("detail.official")}
             </span>
           )}
+          <FavoriteButton skillId={skill.id} />
         </div>
         <p className="mb-3 text-ink-soft">{skill.one_liner}</p>
         <div className="flex flex-wrap items-center gap-2 text-xs text-ink-soft">

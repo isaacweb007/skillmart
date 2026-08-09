@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import AuthButton from "./AuthButton";
 import LocaleSwitcher from "./LocaleSwitcher";
 
 export default function Header() {
@@ -17,7 +18,8 @@ export default function Header() {
         <Link href="/guide" className="text-sm text-ink-soft hover:text-ink">
           {t("nav.guide")}
         </Link>
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-3">
+          <AuthButton />
           <Suspense fallback={null}>
             <LocaleSwitcher />
           </Suspense>
