@@ -63,7 +63,9 @@ async function main() {
 
     for (const it of items) {
       const idx = toAnalyze.indexOf(it);
-      if (idx === -1 && !it.ex) continue; // 상한 초과로 이월된 신규 — 다음 런에서 분석
+      // 상한 초과 이월(신규·변경·재시도 모두): 이번 런에서 건드리지 않아야
+      // 기존 해시가 보존되어 다음 런의 needsAnalysis가 다시 감지한다
+      if (idx === -1 && needsAnalysis(it.ex, it.hash)) continue;
 
       let status: string, attempts: number, aiScoreForRank: number | null;
       let analysis: Analysis | null = null;
