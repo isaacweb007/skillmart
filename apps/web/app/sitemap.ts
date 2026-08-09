@@ -22,6 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   add("");
   add("/skills");
+  add("/guide");
   for (const s of skills) add(`/skills/${s.slug}`, new Date(s.updated_at));
   for (const c of collections) add(`/collections/${c.slug}`);
   return entries;

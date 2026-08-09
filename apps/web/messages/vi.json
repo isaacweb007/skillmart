@@ -7,7 +7,8 @@
   "brand": "Claude Skill Mart",
   "tagline": "Chợ kỹ năng Claude Code",
   "nav": {
-    "skills": "Khám phá skill"
+    "skills": "Khám phá skill",
+    "guide": "Skill là gì?"
   },
   "home": {
     "heroTitle": "Chọn skill Claude cho bạn",
@@ -87,5 +88,19 @@
     "title": "Quầy hàng này đang trống",
     "desc": "Skill bạn tìm không tồn tại hoặc đã bị gỡ.",
     "back": "Về trang chủ"
+  },
+  "guide": {
+    "title": "Skill là gì?",
+    "lead": "Skill là bộ hướng dẫn viết sẵn cho Claude về cách làm một loại việc. Cài một lần, Claude sẽ tự dùng khi bạn nhờ việc liên quan.",
+    "whyTitle": "Được lợi gì",
+    "why1": "Không phải giải thích lại cùng một điều mỗi lần.",
+    "why2": "Việc tốn công như làm PPT, Excel, dọn tài liệu được xử lý theo một cách nhất quán.",
+    "why3": "Chỉ được gọi khi cần, nên cài nhiều cũng không chậm.",
+    "howTitle": "Cài thế nào",
+    "howApp": "Người dùng Claude desktop/web: tải ZIP ở trang chi tiết skill rồi tải lên trong cài đặt Claude. Không cần terminal.",
+    "howCode": "Người dùng Claude Code: copy câu ở trang chi tiết và dán cho Claude, Claude sẽ tự cài.",
+    "safeTitle": "Kiểm tra trước khi cài",
+    "safeBody": "Skill chứa hướng dẫn và mã có thể chạy. Với repo lạ, hãy xem nguồn trước. Trang này chỉ dẫn tới repo công khai trên GitHub và không bảo đảm nội dung skill.",
+    "cta": "Xem các skill"
   }
 }
