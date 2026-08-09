@@ -250,6 +250,6 @@ export const getCollectionBySlug = cache(
     const skills = (skillRows as Record<string, unknown>[])
       .map((r) => toListItem(r, locale))
       .filter((x): x is SkillListItem => x !== null);
-    return { summary, skills };
+    return { summary: { ...summary, count: skills.length }, skills };
   },
 );
