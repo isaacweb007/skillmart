@@ -16,7 +16,7 @@ export default function LocaleSwitcher() {
           key={l}
           href={pathname}
           locale={l}
-          className={`rounded-full px-2 py-1 ${
+          className={`whitespace-nowrap rounded-full px-2 py-1 ${
             l === locale ? "bg-accent text-accent-ink" : "text-ink-soft hover:text-ink"
           }`}
         >
