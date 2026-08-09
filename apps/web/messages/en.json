@@ -1,0 +1,63 @@
+{
+  "brand": "Claude Skill Mart",
+  "tagline": "The Claude Code skill market",
+  "nav": { "skills": "Browse skills" },
+  "home": {
+    "heroTitle": "Pick your Claude skills",
+    "heroSubtitle": "Claude Code skills discovered on GitHub daily by AI, explained in plain English — {count} on the shelves today",
+    "searchPlaceholder": "What skill do you need? (e.g. PPT, code review)",
+    "searchButton": "Search",
+    "corners": "Browse by aisle",
+    "top": "Popular skills",
+    "fresh": "Fresh arrivals",
+    "viewAll": "View all"
+  },
+  "list": {
+    "title": "All skills",
+    "resultCount": "{count} skills",
+    "all": "All",
+    "allLevels": "All levels",
+    "sortRank": "Popular",
+    "sortNew": "Newest",
+    "empty": "No skills match yet. Try a different search or browse another aisle.",
+    "prev": "Prev",
+    "next": "Next"
+  },
+  "detail": {
+    "aiReview": "AI's take",
+    "install": "Install guide",
+    "installCommand": "Install command",
+    "copy": "Copy",
+    "copied": "Copied ✓",
+    "source": "View source on GitHub",
+    "license": "License",
+    "updated": "Last updated",
+    "official": "Official",
+    "back": "Back to list",
+    "score": "AI score"
+  },
+  "difficulty": { "beginner": "Beginner", "intermediate": "Intermediate", "advanced": "Advanced" },
+  "categories": {
+    "docs-office": "Docs & Office",
+    "dev-coding": "Dev & Coding",
+    "design-ui": "Design & UI",
+    "marketing-seo": "Marketing & SEO",
+    "content-writing": "Content & Writing",
+    "image-video": "Image & Video",
+    "data-analytics": "Data & Analytics",
+    "automation-workflow": "Automation",
+    "web-api": "Web & API",
+    "security-review": "Security & Review",
+    "education": "Education",
+    "utility": "Utilities"
+  },
+  "footer": {
+    "disclaimer": "Claude Skill Mart is an unofficial service, not affiliated with Anthropic.",
+    "dataNote": "Skill data is collected automatically every day from public GitHub repositories."
+  },
+  "notFound": {
+    "title": "This shelf is empty",
+    "desc": "The skill you're looking for doesn't exist or was taken down.",
+    "back": "Back home"
+  }
+}
