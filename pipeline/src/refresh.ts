@@ -4,6 +4,23 @@ import { rankScore } from "./lib/score.js";
 import { trendingDelta } from "./lib/trend.js";
 import { snapshotMetrics } from "./publish.js";
 
+const PAGE = 1000;
+
+async function fetchAll<T>(
+  build: (from: number, to: number) => PromiseLike<{ data: unknown[] | null; error: { message: string } | null }>,
+  label: string,
+): Promise<T[]> {
+  const out: T[] = [];
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await build(from, from + PAGE - 1);
+    if (error) throw new Error(`${label} 조회 실패: ${error.message}`);
+    const rows = (data ?? []) as T[];
+    out.push(...rows);
+    if (rows.length < PAGE) break;
+  }
+  return out;
+}
+
 interface TrackedSkill {
   id: string;
   repo_full_name: string;
@@ -17,14 +34,19 @@ export async function refreshUndiscovered(
   octokit: Octokit,
   discoveredRepos: Set<string>,
 ): Promise<{ refreshed: number; hidden: number }> {
-  const { data, error } = await db
-    .from("skills")
-    .select("id, repo_full_name, ai_score, last_commit_at")
-    .eq("status", "visible");
-  if (error) throw new Error(`refresh 대상 조회 실패: ${error.message}`);
+  const data = await fetchAll<TrackedSkill>(
+    (from, to) =>
+      db
+        .from("skills")
+        .select("id, repo_full_name, ai_score, last_commit_at")
+        .eq("status", "visible")
+        .order("id")
+        .range(from, to),
+    "refresh 대상",
+  );
 
   const byRepo = new Map<string, TrackedSkill[]>();
-  for (const row of data as TrackedSkill[]) {
+  for (const row of data) {
     if (discoveredRepos.has(row.repo_full_name)) continue;
     const list = byRepo.get(row.repo_full_name) ?? [];
     list.push(row);
@@ -76,29 +98,38 @@ export async function updateTrending(db: SupabaseClient): Promise<number> {
   const today = new Date().toISOString().slice(0, 10);
   const since = new Date(Date.now() - 8 * 86_400_000).toISOString().slice(0, 10);
 
-  const { data: skills, error } = await db
-    .from("skills")
-    .select("id, stars")
-    .eq("status", "visible");
-  if (error) throw new Error(`trending 대상 조회 실패: ${error.message}`);
+  const skills = await fetchAll<{ id: string; stars: number }>(
+    (from, to) =>
+      db.from("skills").select("id, stars").eq("status", "visible").order("id").range(from, to),
+    "trending 대상",
+  );
 
-  const { data: snaps, error: snapErr } = await db
-    .from("skill_metrics_daily")
-    .select("skill_id, date, stars")
-    .gte("date", since);
-  if (snapErr) throw new Error(`스냅샷 조회 실패: ${snapErr.message}`);
+  const snaps = await fetchAll<{ skill_id: string; date: string; stars: number }>(
+    (from, to) =>
+      db
+        .from("skill_metrics_daily")
+        .select("skill_id, date, stars")
+        .gte("date", since)
+        .order("skill_id")
+        .order("date")
+        .range(from, to),
+    "스냅샷",
+  );
 
   const bySkill = new Map<string, { date: string; stars: number }[]>();
-  for (const s of snaps as { skill_id: string; date: string; stars: number }[]) {
+  for (const s of snaps) {
     const list = bySkill.get(s.skill_id) ?? [];
     list.push({ date: s.date, stars: s.stars });
     bySkill.set(s.skill_id, list);
   }
 
   let updated = 0;
-  for (const s of skills as { id: string; stars: number }[]) {
+  for (const s of skills) {
     const delta = trendingDelta(bySkill.get(s.id) ?? [], s.stars, today);
-    const { error: upErr } = await db.from("skills").update({ trending_delta: delta }).eq("id", s.id);
+    const { error: upErr } = await db
+      .from("skills")
+      .update({ trending_delta: delta, updated_at: new Date().toISOString() })
+      .eq("id", s.id);
     if (upErr) console.error(`trending 갱신 실패 ${s.id}: ${upErr.message}`);
     else updated++;
   }

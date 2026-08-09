@@ -62,6 +62,7 @@ async function main() {
     const outcomes = await runAnalysisBatch(anthropic, requests);
     for (const o of outcomes.values()) cost += costUsd(o.inputTokens, o.outputTokens);
 
+    const publishedRepos = new Set<string>();
     for (const it of items) {
       const idx = toAnalyze.indexOf(it);
       // 상한 초과 이월(신규·변경·재시도 모두): 이번 런에서 건드리지 않아야
@@ -98,6 +99,7 @@ async function main() {
         if (analysis) await upsertTranslations(db, skillId, analysis);
         await snapshotMetrics(db, skillId, it.candidate.stars);
         published++;
+        publishedRepos.add(it.candidate.repoFullName);
       } catch (e) {
         errors++;
         console.error((e as Error).message);
@@ -105,8 +107,8 @@ async function main() {
     }
 
     // 발굴 미포함 추적 스킬 지표 갱신 + 삭제 감지 + 트렌딩 재계산
-    const discoveredRepos = new Set(candidates.map((c) => c.repoFullName));
-    const refresh = await refreshUndiscovered(db, octokit, discoveredRepos);
+    // 이번 런에 실제 발행(지표 갱신)된 repo만 제외 — 이월된 후보의 repo는 refresh가 커버
+    const refresh = await refreshUndiscovered(db, octokit, publishedRepos);
     const trended = await updateTrending(db);
     notes = `refresh ${refresh.refreshed}, hidden ${refresh.hidden}, trending ${trended}`;
     console.log(`지표 갱신 ${refresh.refreshed}건, 숨김 ${refresh.hidden}건, 트렌딩 ${trended}건`);
