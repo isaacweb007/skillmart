@@ -1,6 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { Octokit } from "@octokit/rest";
-import { buildBatchRequest, costUsd, runAnalysisBatch, type Analysis } from "./claude/analyze.js";
+import {
+  buildBatchRequest, costUsd, maxItemsForBudget, runAnalysisBatch, type Analysis,
+} from "./claude/analyze.js";
 import { env } from "./config.js";
 import { createDb } from "./db.js";
 import { discover, type Candidate } from "./github/discover.js";
@@ -24,6 +26,12 @@ async function main() {
   const limitIdx = process.argv.indexOf("--limit");
   const limit = limitIdx > -1 ? Number(process.argv[limitIdx + 1]) : 1000;
   if (!Number.isFinite(limit) || limit < 1) throw new Error(`--limit 값이 잘못됨: ${limit}`);
+
+  // 하루 분석 지출 상한(USD). 발굴 그물이 넓어져도 예상 밖 청구가 나지 않게 막는다.
+  const maxCostIdx = process.argv.indexOf("--max-cost");
+  const maxCostUsd = maxCostIdx > -1 ? Number(process.argv[maxCostIdx + 1]) : 3;
+  if (!Number.isFinite(maxCostUsd) || maxCostUsd <= 0)
+    throw new Error(`--max-cost 값이 잘못됨: ${maxCostUsd}`);
 
   // 런 시작 시점에 고정 — 자정 넘김으로 주간 컬렉션이 스킵되는 것 방지
   const startedOnUtcSaturday = new Date().getUTCDay() === 6;
@@ -59,8 +67,13 @@ async function main() {
       });
     }
 
-    const toAnalyze = items.filter((it) => needsAnalysis(it.ex, it.hash)).slice(0, limit);
-    console.log(`분석 대상: ${toAnalyze.length}건 (상한 ${limit})`);
+    // 예산 상한과 --limit 중 작은 쪽. 초과분은 기존 해시가 보존되어 다음 런으로 이월된다.
+    const byBudget = maxItemsForBudget(maxCostUsd);
+    const analyzeCap = Math.min(limit, byBudget);
+    const toAnalyze = items.filter((it) => needsAnalysis(it.ex, it.hash)).slice(0, analyzeCap);
+    console.log(
+      `분석 대상: ${toAnalyze.length}건 (상한 ${analyzeCap} = min(limit ${limit}, 예산 $${maxCostUsd}→${byBudget}건))`,
+    );
 
     const requests = toAnalyze.map((it, i) => buildBatchRequest(it.candidate, `c${i}`));
     const outcomes = await runAnalysisBatch(anthropic, requests);

@@ -14,7 +14,7 @@ export interface Candidate {
 
 // 시드 저장소는 운영자가 관리한다. 추가 발견 시 여기에 늘린다.
 const SEED_REPOS = ["anthropics/skills", "daymade/claude-code-skills"];
-const TOPICS = ["claude-skills", "claude-code-skills", "claude-code-plugin"];
+const TOPICS = ["claude-skills", "claude-code-skills", "claude-code-plugin", "agent-skills"];
 const MAX_SEARCH_REPOS = 300; // 런당 검색으로 새로 스캔할 저장소 상한 (초과분은 다음 런 이월)
 const TOPIC_PAGES = 6; // 토픽당 50 × 6 = 최대 300
 const CODE_PAGES = 4;
@@ -24,6 +24,28 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export function isSkillMdPath(path: string): boolean {
   return /(^|\/)SKILL\.md$/i.test(path);
+}
+
+/** 저장소별 경로 묶음을 라운드로빈으로 평탄화한다 — 저장소를 돌며 한 번에 하나씩 담는다.
+ *  깊이 우선으로 담으면 SKILL.md가 수백 개인 메가레포 하나가 후보 예산을 독점해
+ *  뒤쪽 저장소는 스캔조차 되지 않는다(실측: 490건이 저장소 10개에서만 나옴).
+ *  ponytail: 매 런이 라운드 0부터 시작하므로 저장소당 도달 가능한 깊이는
+ *  maxCandidates/저장소수 (현재 2000/268 ≈ 7)로 제한된다. 전체 9,995개 경로 중
+ *  더 깊은 스킬까지 필요해지면 런마다 시작 오프셋을 회전시킬 것. */
+export function interleaveByRepo<T>(
+  groups: { repo: T; paths: string[] }[],
+  max: number,
+): { repo: T; path: string }[] {
+  const out: { repo: T; path: string }[] = [];
+  const deepest = Math.max(0, ...groups.map((g) => g.paths.length));
+  for (let round = 0; round < deepest && out.length < max; round++) {
+    for (const g of groups) {
+      if (out.length >= max) break;
+      const path = g.paths[round];
+      if (path !== undefined) out.push({ repo: g.repo, path });
+    }
+  }
+  return out;
 }
 
 interface RepoInfo {
@@ -109,28 +131,32 @@ export async function discover(octokit: Octokit, maxCandidates: number): Promise
     console.warn(`코드 검색 건너뜀: ${(e as Error).message}`);
   }
 
-  // 4) 저장소별 트리 스캔 → SKILL.md 수집
-  const out: Candidate[] = [];
+  // 4) 저장소별 트리 스캔 (저장소당 1콜) → 라운드로빈으로 후보 배분
+  const groups: { repo: RepoInfo; paths: string[] }[] = [];
   for (const repo of repos.values()) {
-    if (out.length >= maxCandidates) break;
     const [owner, name] = repo.full_name.split("/");
     const paths = await findSkillMdPaths(octokit, owner, name, repo.default_branch);
-    for (const path of paths) {
-      if (out.length >= maxCandidates) break;
-      const raw = await fetchRaw(octokit, owner, name, path);
-      if (!raw) continue;
-      out.push({
-        repoFullName: repo.full_name,
-        path,
-        raw,
-        stars: repo.stargazers_count,
-        forks: repo.forks_count,
-        lastCommitAt: repo.pushed_at ?? null,
-        license: repo.license?.spdx_id ?? null,
-        sourceUrl: `https://github.com/${repo.full_name}/blob/${repo.default_branch}/${path}`,
-        isOfficial: repo.full_name.startsWith("anthropics/"),
-      });
-    }
+    if (paths.length > 0) groups.push({ repo, paths });
+  }
+  console.log(`SKILL.md 보유 저장소 ${groups.length}개, 총 경로 ${groups.reduce((a, g) => a + g.paths.length, 0)}개`);
+
+  // 5) 라운드로빈 순서로 본문 수집
+  const out: Candidate[] = [];
+  for (const { repo, path } of interleaveByRepo(groups, maxCandidates)) {
+    const [owner, name] = repo.full_name.split("/");
+    const raw = await fetchRaw(octokit, owner, name, path);
+    if (!raw) continue;
+    out.push({
+      repoFullName: repo.full_name,
+      path,
+      raw,
+      stars: repo.stargazers_count,
+      forks: repo.forks_count,
+      lastCommitAt: repo.pushed_at ?? null,
+      license: repo.license?.spdx_id ?? null,
+      sourceUrl: `https://github.com/${repo.full_name}/blob/${repo.default_branch}/${path}`,
+      isOfficial: repo.full_name.startsWith("anthropics/"),
+    });
   }
   return out;
 }

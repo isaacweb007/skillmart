@@ -3,6 +3,7 @@ import {
   ANALYSIS_SCHEMA,
   buildBatchRequest,
   CATEGORIES,
+  maxItemsForBudget,
   costUsd,
   MODEL,
   runAnalysisBatch,
@@ -165,5 +166,17 @@ describe("runAnalysisBatch", () => {
     const outcome = result.get("c0");
     expect(outcome?.error).toBe("json_parse");
     expect(outcome?.analysis).toBeUndefined();
+  });
+});
+
+describe("maxItemsForBudget", () => {
+  it("실측 단가로 예산을 건수로 환산한다 ($3 → 41건)", () => {
+    expect(maxItemsForBudget(3)).toBe(41); // floor(3 / 0.073)
+  });
+  it("단가보다 작은 예산도 최소 1건은 통과시킨다 (진행 불가 방지)", () => {
+    expect(maxItemsForBudget(0.01)).toBe(1);
+  });
+  it("예산이 크면 비례해 늘어난다", () => {
+    expect(maxItemsForBudget(30)).toBe(410);
   });
 });
