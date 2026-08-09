@@ -9,7 +9,7 @@ export function rankScore(
   let recency = 0;
   if (lastCommitAt) {
     const days = (now.getTime() - new Date(lastCommitAt).getTime()) / 86_400_000;
-    recency = Math.max(0, 1 - days / 180);
+    recency = Math.min(1, Math.max(0, 1 - days / 180));
   }
   return Number((0.5 * quality + 0.3 * popularity + 0.2 * recency).toFixed(4));
 }

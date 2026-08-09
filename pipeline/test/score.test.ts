@@ -19,6 +19,10 @@ describe("rankScore", () => {
   it("180일 넘으면 최신성 0", () => {
     expect(rankScore(null, 0, "2024-01-01T00:00:00Z", NOW)).toBe(0);
   });
+  it("미래 커밋 날짜여도 최신성은 1을 넘지 않는다", () => {
+    // 10일 뒤 커밋 → recency 1로 클램프 → 0.2
+    expect(rankScore(null, 0, "2026-08-19T00:00:00Z", NOW)).toBe(0.2);
+  });
 });
 
 describe("isVisible", () => {
