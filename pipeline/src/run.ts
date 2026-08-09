@@ -11,6 +11,7 @@ import {
   type ExistingSkill,
 } from "./publish.js";
 import { refreshUndiscovered, updateTrending } from "./refresh.js";
+import { generateCollections, publishCollections, type CollectionInput } from "./claude/collections.js";
 
 interface Item {
   candidate: Candidate;
@@ -112,6 +113,33 @@ async function main() {
     const trended = await updateTrending(db);
     notes = `refresh ${refresh.refreshed}, hidden ${refresh.hidden}, trending ${trended}`;
     console.log(`지표 갱신 ${refresh.refreshed}건, 숨김 ${refresh.hidden}건, 트렌딩 ${trended}건`);
+
+    // 주간 컬렉션 (KST 일요일 03시 런 = UTC 토 18시) 또는 --collections 강제
+    const isWeekly = new Date().getUTCDay() === 6 || process.argv.includes("--collections");
+    if (isWeekly) {
+      const { data: visRows, error: visErr } = await db
+        .from("skills")
+        .select("slug, category, skill_translations!inner(locale, name, one_liner)")
+        .eq("status", "visible")
+        .eq("skill_translations.locale", "en")
+        .order("rank_score", { ascending: false })
+        .limit(300);
+      if (visErr) throw new Error(`컬렉션 입력 조회 실패: ${visErr.message}`);
+      const inputs: CollectionInput[] = (visRows as unknown as {
+        slug: string;
+        category: string;
+        skill_translations: { name: string; one_liner: string }[];
+      }[]).map((r) => ({
+        slug: r.slug,
+        category: r.category,
+        name: r.skill_translations[0]?.name ?? r.slug,
+        one_liner: r.skill_translations[0]?.one_liner ?? "",
+      }));
+      const generated = await generateCollections(anthropic, inputs);
+      const sets = await publishCollections(db, generated);
+      notes = `${notes ? notes + "; " : ""}collections ${sets}`;
+      console.log(`컬렉션 ${sets}세트 발행`);
+    }
   } catch (e) {
     notes = (e as Error).message;
     throw e;
