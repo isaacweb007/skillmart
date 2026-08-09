@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Chip from "@/components/Chip";
 import SearchBar from "@/components/SearchBar";
@@ -44,6 +45,10 @@ export default async function SkillsPage({
   });
   const lastPage = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const base: Search = { ...sp, sort, page: undefined };
+
+  if (total > 0 && page > lastPage) {
+    redirect(`/${locale}${qs(base, { page: lastPage > 1 ? String(lastPage) : undefined })}`);
+  }
 
   return (
     <div className="py-8">
