@@ -226,6 +226,29 @@ export async function getCollections(locale: string): Promise<CollectionSummary[
     .filter((x): x is CollectionSummary => x !== null && x.count > 0);
 }
 
+export interface SitemapSkill {
+  slug: string;
+  updated_at: string;
+}
+
+/** visible 스킬 전량의 slug·updated_at — Supabase 1000행 상한 대응 페이지네이션 */
+export async function getAllVisibleForSitemap(): Promise<SitemapSkill[]> {
+  const CHUNK = 1000;
+  const out: SitemapSkill[] = [];
+  for (let from = 0; ; from += CHUNK) {
+    const { data, error } = await db
+      .from("skills")
+      .select("slug, updated_at")
+      .eq("status", "visible")
+      .order("slug")
+      .range(from, from + CHUNK - 1);
+    if (error) throw new Error(`sitemap skills 조회 실패: ${error.message}`);
+    out.push(...(data as SitemapSkill[]));
+    if (data.length < CHUNK) break;
+  }
+  return out;
+}
+
 export const getCollectionBySlug = cache(
   async (
     slug: string,
