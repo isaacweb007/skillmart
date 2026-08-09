@@ -53,7 +53,16 @@ export async function discover(octokit: Octokit, maxCandidates: number): Promise
       const { data } = await octokit.search.repos({ q: `topic:${topic}`, sort: "stars", per_page: 50 });
       for (const r of data.items) {
         if (repos.size >= SEED_REPOS.length + MAX_SEARCH_REPOS) break;
-        if (!repos.has(r.full_name)) repos.set(r.full_name, r as unknown as RepoInfo);
+        if (!repos.has(r.full_name)) {
+          repos.set(r.full_name, {
+            full_name: r.full_name,
+            default_branch: r.default_branch ?? "main",
+            stargazers_count: r.stargazers_count ?? 0,
+            forks_count: r.forks_count ?? 0,
+            pushed_at: r.pushed_at ?? null,
+            license: r.license ?? null,
+          });
+        }
       }
     } catch (e) {
       console.warn(`topic:${topic} 검색 실패: ${(e as Error).message}`);
