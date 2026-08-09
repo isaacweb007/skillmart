@@ -6,7 +6,10 @@
   },
   "brand": "Claude Skill Mart",
   "tagline": "The Claude Code skill market",
-  "nav": { "skills": "Browse skills" },
+  "nav": {
+    "skills": "Browse skills",
+    "guide": "What is a Skill?"
+  },
   "home": {
     "heroTitle": "Pick your Claude skills",
     "heroSubtitle": "Claude Code skills discovered on GitHub daily by AI, explained in plain English — {count} on the shelves today",
@@ -42,9 +45,23 @@
     "updated": "Last updated",
     "official": "Official",
     "back": "Back to list",
-    "score": "AI score"
+    "score": "AI score",
+    "installAppTitle": "Install in the Claude app (no terminal)",
+    "installAppStep1": "Download the ZIP with the button below.",
+    "installAppStep2": "In Claude, open Settings → Capabilities and turn on 'Code execution and file creation'. (one time)",
+    "installAppStep3": "Go to Customize → Skills → + → 'Upload a skill' and upload the ZIP.",
+    "installAppDownload": "Download ZIP",
+    "installCodeTitle": "Install in Claude Code",
+    "installCodeAsk": "Let Claude do it — paste this into Claude Code",
+    "installCodeManual": "Install with a command instead",
+    "installTrust": "This is a third-party skill. Check the source repository before installing.",
+    "installPrompt": "Install the skill I found on Claude Skill Mart.\nCopy the {dir} folder from the GitHub repo {repo} into my ~/.claude/skills/{slug}/.\nWhen it's done, tell me in one line what this skill can do."
   },
-  "difficulty": { "beginner": "Beginner", "intermediate": "Intermediate", "advanced": "Advanced" },
+  "difficulty": {
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced"
+  },
   "categories": {
     "docs-office": "Docs & Office",
     "dev-coding": "Dev & Coding",
@@ -71,5 +88,19 @@
     "title": "This shelf is empty",
     "desc": "The skill you're looking for doesn't exist or was taken down.",
     "back": "Back home"
+  },
+  "guide": {
+    "title": "What is a Skill?",
+    "lead": "A Skill is a written guide that tells Claude how to do a certain kind of work. Install it once and Claude pulls it up whenever your request matches.",
+    "whyTitle": "Why it helps",
+    "why1": "You stop re-explaining the same thing every time.",
+    "why2": "Fiddly work like slide decks, spreadsheets and document cleanup gets done a consistent way.",
+    "why3": "Skills load only when relevant, so many installed Skills don't slow Claude down.",
+    "howTitle": "How to install",
+    "howApp": "Claude desktop/web users: download the ZIP on a skill page and upload it in Claude's settings. No terminal.",
+    "howCode": "Claude Code users: copy the sentence on the skill page and paste it to Claude — it installs the skill for you.",
+    "safeTitle": "Check before you install",
+    "safeBody": "Skills carry instructions and runnable code. For unfamiliar repositories, read the source first. This site points to public GitHub repositories and does not vouch for skill contents.",
+    "cta": "Browse skills"
   }
 }

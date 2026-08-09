@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Markdown from "react-markdown";
 import Chip from "@/components/Chip";
-import InstallReceipt from "@/components/InstallReceipt";
+import InstallBlocks from "@/components/InstallBlocks";
 import { Link } from "@/i18n/navigation";
 import { getSkillBySlug } from "@/lib/db";
 import { pageAlternates } from "@/lib/site";
@@ -79,7 +79,13 @@ export default async function SkillDetail({ params }: Props) {
         <Markdown>{skill.description_md}</Markdown>
       </div>
 
-      <InstallReceipt command={skill.install_command} guideMd={skill.install_guide_md} />
+      <InstallBlocks
+        slug={slug}
+        repo={skill.repo_full_name}
+        dir={skill.path.slice(0, skill.path.lastIndexOf("/"))}
+        command={skill.install_command}
+        guideMd={skill.install_guide_md}
+      />
 
       <div className="flex flex-wrap items-center gap-4 text-sm">
         <a

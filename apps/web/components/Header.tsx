@@ -14,6 +14,9 @@ export default function Header() {
         <Link href="/skills" className="text-sm text-ink-soft hover:text-ink">
           {t("nav.skills")}
         </Link>
+        <Link href="/guide" className="text-sm text-ink-soft hover:text-ink">
+          {t("nav.guide")}
+        </Link>
         <div className="ml-auto">
           <Suspense fallback={null}>
             <LocaleSwitcher />

@@ -6,7 +6,10 @@
   },
   "brand": "Claude Skill Mart",
   "tagline": "Chợ kỹ năng Claude Code",
-  "nav": { "skills": "Khám phá skill" },
+  "nav": {
+    "skills": "Khám phá skill",
+    "guide": "Skill là gì?"
+  },
   "home": {
     "heroTitle": "Chọn skill Claude cho bạn",
     "heroSubtitle": "Skill Claude Code do AI khám phá trên GitHub mỗi ngày, giải thích bằng tiếng Việt — hôm nay có {count} skill trên kệ",
@@ -42,9 +45,23 @@
     "updated": "Cập nhật lần cuối",
     "official": "Chính thức",
     "back": "Về danh sách",
-    "score": "Điểm AI"
+    "score": "Điểm AI",
+    "installAppTitle": "Cài vào ứng dụng Claude (không cần terminal)",
+    "installAppStep1": "Tải tệp ZIP bằng nút bên dưới.",
+    "installAppStep2": "Trong Claude, mở Settings → Capabilities và bật 'Code execution and file creation'. (chỉ một lần)",
+    "installAppStep3": "Vào Customize → Skills → + → 'Upload a skill' rồi tải tệp ZIP lên.",
+    "installAppDownload": "Tải ZIP",
+    "installCodeTitle": "Cài vào Claude Code",
+    "installCodeAsk": "Để Claude làm — dán câu dưới đây vào Claude Code",
+    "installCodeManual": "Cài bằng lệnh thủ công",
+    "installTrust": "Đây là skill do người khác tạo. Hãy kiểm tra repo gốc trước khi cài.",
+    "installPrompt": "Hãy cài skill mình tìm thấy trên Claude Skill Mart.\nCopy thư mục {dir} từ repo GitHub {repo} vào ~/.claude/skills/{slug}/ của mình.\nSau khi cài xong, cho mình biết skill này làm được gì trong một câu."
   },
-  "difficulty": { "beginner": "Nhập môn", "intermediate": "Trung cấp", "advanced": "Nâng cao" },
+  "difficulty": {
+    "beginner": "Nhập môn",
+    "intermediate": "Trung cấp",
+    "advanced": "Nâng cao"
+  },
   "categories": {
     "docs-office": "Tài liệu · Văn phòng",
     "dev-coding": "Lập trình",
@@ -71,5 +88,19 @@
     "title": "Quầy hàng này đang trống",
     "desc": "Skill bạn tìm không tồn tại hoặc đã bị gỡ.",
     "back": "Về trang chủ"
+  },
+  "guide": {
+    "title": "Skill là gì?",
+    "lead": "Skill là bộ hướng dẫn viết sẵn cho Claude về cách làm một loại việc. Cài một lần, Claude sẽ tự dùng khi bạn nhờ việc liên quan.",
+    "whyTitle": "Được lợi gì",
+    "why1": "Không phải giải thích lại cùng một điều mỗi lần.",
+    "why2": "Việc tốn công như làm PPT, Excel, dọn tài liệu được xử lý theo một cách nhất quán.",
+    "why3": "Chỉ được gọi khi cần, nên cài nhiều cũng không chậm.",
+    "howTitle": "Cài thế nào",
+    "howApp": "Người dùng Claude desktop/web: tải ZIP ở trang chi tiết skill rồi tải lên trong cài đặt Claude. Không cần terminal.",
+    "howCode": "Người dùng Claude Code: copy câu ở trang chi tiết và dán cho Claude, Claude sẽ tự cài.",
+    "safeTitle": "Kiểm tra trước khi cài",
+    "safeBody": "Skill chứa hướng dẫn và mã có thể chạy. Với repo lạ, hãy xem nguồn trước. Trang này chỉ dẫn tới repo công khai trên GitHub và không bảo đảm nội dung skill.",
+    "cta": "Xem các skill"
   }
 }

@@ -26,6 +26,8 @@ export interface SkillListItem {
 }
 
 export interface SkillDetail extends SkillListItem {
+  repo_full_name: string;
+  path: string;
   forks: number;
   last_commit_at: string | null;
   source_url: string;
@@ -135,7 +137,7 @@ export const getSkillBySlug = cache(
       .from("skills")
       .select(
         `${LIST_COLS}, forks, last_commit_at, source_url, license, install_command,
-         ai_review_ko, ai_review_vi, ai_review_en,
+         repo_full_name, path, ai_review_ko, ai_review_vi, ai_review_en,
          skill_translations(locale, name, one_liner, description_md, install_guide_md)`,
       )
       .eq("status", "visible")
@@ -225,6 +227,20 @@ export async function getCollections(locale: string): Promise<CollectionSummary[
     })
     .filter((x): x is CollectionSummary => x !== null && x.count > 0);
 }
+
+/** ZIP 생성용 GitHub 좌표 — visible 스킬만 */
+export const getSkillSource = cache(
+  async (slug: string): Promise<{ repo_full_name: string; path: string } | null> => {
+    const { data, error } = await db
+      .from("skills")
+      .select("repo_full_name, path")
+      .eq("status", "visible")
+      .eq("slug", slug)
+      .maybeSingle();
+    if (error) throw new Error(`skill source 조회 실패: ${error.message}`);
+    return data as { repo_full_name: string; path: string } | null;
+  },
+);
 
 export interface SitemapSkill {
   slug: string;
