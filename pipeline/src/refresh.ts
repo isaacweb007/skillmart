@@ -98,9 +98,14 @@ export async function updateTrending(db: SupabaseClient): Promise<number> {
   const today = new Date().toISOString().slice(0, 10);
   const since = new Date(Date.now() - 8 * 86_400_000).toISOString().slice(0, 10);
 
-  const skills = await fetchAll<{ id: string; stars: number }>(
+  const skills = await fetchAll<{ id: string; stars: number; trending_delta: number }>(
     (from, to) =>
-      db.from("skills").select("id, stars").eq("status", "visible").order("id").range(from, to),
+      db
+        .from("skills")
+        .select("id, stars, trending_delta")
+        .eq("status", "visible")
+        .order("id")
+        .range(from, to),
     "trending 대상",
   );
 
@@ -126,12 +131,18 @@ export async function updateTrending(db: SupabaseClient): Promise<number> {
   let updated = 0;
   for (const s of skills) {
     const delta = trendingDelta(bySkill.get(s.id) ?? [], s.stars, today);
-    const { error: upErr } = await db
-      .from("skills")
-      .update({ trending_delta: delta, updated_at: new Date().toISOString() })
-      .eq("id", s.id);
-    if (upErr) console.error(`trending 갱신 실패 ${s.id}: ${upErr.message}`);
-    else updated++;
+    if (delta === s.trending_delta) continue; // 변화 없으면 쓰기 생략 (대부분 0→0)
+    let ok = false;
+    for (let attempt = 0; attempt < 2 && !ok; attempt++) {
+      const { error: upErr } = await db
+        .from("skills")
+        .update({ trending_delta: delta, updated_at: new Date().toISOString() })
+        .eq("id", s.id);
+      if (!upErr) ok = true;
+      else if (attempt === 0) await new Promise((r) => setTimeout(r, 500));
+      else console.error(`trending 갱신 실패 ${s.id}: ${upErr.message}`);
+    }
+    if (ok) updated++;
   }
   return updated;
 }
