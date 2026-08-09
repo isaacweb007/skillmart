@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { routing } from "@/i18n/routing";
 import { gowun, plex, plexKr, plexMono, sourceSerif } from "@/lib/fonts";
+import { SITE_URL } from "@/lib/site";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -20,8 +21,14 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale });
   return {
+    metadataBase: new URL(SITE_URL),
     title: { default: t("brand"), template: `%s — ${t("brand")}` },
     description: t("tagline"),
+    openGraph: {
+      siteName: t("brand"),
+      type: "website",
+      locale,
+    },
   };
 }
 
