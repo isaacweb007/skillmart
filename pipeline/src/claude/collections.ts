@@ -115,35 +115,66 @@ export async function publishCollections(
   if (skillErr) throw new Error(`컬렉션용 스킬 조회 실패: ${skillErr.message}`);
   const idBySlug = new Map((skillRows as { id: string; slug: string }[]).map((r) => [r.slug, r.id]));
 
+  // 백업: 삭제 전 기존 비고정 컬렉션 보존 (전멸 시 복원용)
+  const { data: backup, error: bakErr } = await db
+    .from("collections")
+    .select("slug, skill_ids, collection_translations(locale, title, description)")
+    .eq("is_pinned", false);
+  if (bakErr) throw new Error(`컬렉션 백업 실패: ${bakErr.message}`);
+
   const { error: delErr } = await db.from("collections").delete().eq("is_pinned", false);
   if (delErr) throw new Error(`기존 컬렉션 삭제 실패: ${delErr.message}`);
+
+  const insertOne = async (
+    slug: string,
+    skillIds: string[],
+    translations: { locale: string; title: string; description: string }[],
+  ): Promise<boolean> => {
+    const { data: row, error: insErr } = await db
+      .from("collections")
+      .insert({ slug, skill_ids: skillIds })
+      .select("id")
+      .single();
+    if (insErr) {
+      console.error(`컬렉션 삽입 실패 ${slug}: ${insErr.message}`);
+      return false;
+    }
+    const collectionId = (row as { id: string }).id;
+    const { error: trErr } = await db
+      .from("collection_translations")
+      .insert(translations.map((t) => ({ ...t, collection_id: collectionId })));
+    if (trErr) {
+      console.error(`컬렉션 번역 삽입 실패 ${slug}: ${trErr.message}`);
+      await db.from("collections").delete().eq("id", collectionId); // 고아 방지 보상
+      return false;
+    }
+    return true;
+  };
 
   let inserted = 0;
   for (const c of generated) {
     const skillIds = c.skill_slugs.map((s) => idBySlug.get(s)).filter((x): x is string => !!x);
     if (skillIds.length < 3) continue;
-    const { data: row, error: insErr } = await db
-      .from("collections")
-      .insert({ slug: c.slug, skill_ids: skillIds })
-      .select("id")
-      .single();
-    if (insErr) {
-      console.error(`컬렉션 삽입 실패 ${c.slug}: ${insErr.message}`);
-      continue;
-    }
-    const collectionId = (row as { id: string }).id;
-    const trRows = (["ko", "vi", "en"] as const).map((locale) => ({
-      collection_id: collectionId,
+    const translations = (["ko", "vi", "en"] as const).map((locale) => ({
       locale,
       title: c.translations[locale].title,
       description: c.translations[locale].description,
     }));
-    const { error: trErr } = await db.from("collection_translations").insert(trRows);
-    if (trErr) {
-      console.error(`컬렉션 번역 삽입 실패 ${c.slug}: ${trErr.message}`);
-      continue;
+    if (await insertOne(c.slug, skillIds, translations)) inserted++;
+  }
+
+  // 전멸 시 백업 복원 — 컬렉션 0개 상태 방지
+  if (inserted === 0 && backup && backup.length > 0) {
+    console.error("신규 컬렉션 전멸 — 백업 복원 시도");
+    let restored = 0;
+    for (const b of backup as {
+      slug: string;
+      skill_ids: string[];
+      collection_translations: { locale: string; title: string; description: string }[];
+    }[]) {
+      if (await insertOne(b.slug, b.skill_ids, b.collection_translations)) restored++;
     }
-    inserted++;
+    console.error(`백업 복원 ${restored}/${backup.length}세트`);
   }
   return inserted;
 }

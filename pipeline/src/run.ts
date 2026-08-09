@@ -117,28 +117,34 @@ async function main() {
     // 주간 컬렉션 (KST 일요일 03시 런 = UTC 토 18시) 또는 --collections 강제
     const isWeekly = new Date().getUTCDay() === 6 || process.argv.includes("--collections");
     if (isWeekly) {
-      const { data: visRows, error: visErr } = await db
-        .from("skills")
-        .select("slug, category, skill_translations!inner(locale, name, one_liner)")
-        .eq("status", "visible")
-        .eq("skill_translations.locale", "en")
-        .order("rank_score", { ascending: false })
-        .limit(300);
-      if (visErr) throw new Error(`컬렉션 입력 조회 실패: ${visErr.message}`);
-      const inputs: CollectionInput[] = (visRows as unknown as {
-        slug: string;
-        category: string;
-        skill_translations: { name: string; one_liner: string }[];
-      }[]).map((r) => ({
-        slug: r.slug,
-        category: r.category,
-        name: r.skill_translations[0]?.name ?? r.slug,
-        one_liner: r.skill_translations[0]?.one_liner ?? "",
-      }));
-      const generated = await generateCollections(anthropic, inputs);
-      const sets = await publishCollections(db, generated);
-      notes = `${notes ? notes + "; " : ""}collections ${sets}`;
-      console.log(`컬렉션 ${sets}세트 발행`);
+      try {
+        const { data: visRows, error: visErr } = await db
+          .from("skills")
+          .select("slug, category, skill_translations!inner(locale, name, one_liner)")
+          .eq("status", "visible")
+          .eq("skill_translations.locale", "en")
+          .order("rank_score", { ascending: false })
+          .limit(300);
+        if (visErr) throw new Error(`컬렉션 입력 조회 실패: ${visErr.message}`);
+        const inputs: CollectionInput[] = (visRows as unknown as {
+          slug: string;
+          category: string;
+          skill_translations: { name: string; one_liner: string }[];
+        }[]).map((r) => ({
+          slug: r.slug,
+          category: r.category,
+          name: r.skill_translations[0]?.name ?? r.slug,
+          one_liner: r.skill_translations[0]?.one_liner ?? "",
+        }));
+        const generated = await generateCollections(anthropic, inputs);
+        const sets = await publishCollections(db, generated);
+        notes = `${notes ? notes + "; " : ""}collections ${sets}`;
+        console.log(`컬렉션 ${sets}세트 발행`);
+      } catch (e) {
+        notes = `${notes ? notes + "; " : ""}collections FAILED: ${(e as Error).message}`;
+        console.error(`컬렉션 생성 실패(런은 계속): ${(e as Error).message}`);
+        errors++;
+      }
     }
   } catch (e) {
     notes = (e as Error).message;
