@@ -1,5 +1,6 @@
+import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -9,6 +10,19 @@ import "../globals.css";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale });
+  return {
+    title: { default: t("brand"), template: `%s — ${t("brand")}` },
+    description: t("tagline"),
+  };
 }
 
 export default async function LocaleLayout({

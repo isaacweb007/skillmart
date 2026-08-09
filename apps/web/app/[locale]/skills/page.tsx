@@ -22,19 +22,31 @@ function qs(base: Search, patch: Partial<Search>): string {
   return s ? `/skills?${s}` : "/skills";
 }
 
+function first(v: string | string[] | undefined): string | undefined {
+  return Array.isArray(v) ? v[0] : v;
+}
+
 export default async function SkillsPage({
   params,
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<Search>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const sp = await searchParams;
+  const raw = await searchParams;
+  const sp: Search = {
+    q: first(raw.q),
+    category: first(raw.category),
+    difficulty: first(raw.difficulty),
+    sort: first(raw.sort),
+    page: first(raw.page),
+  };
   const t = await getTranslations();
   const sort = sp.sort === "new" ? "new" : "rank";
-  const page = Math.max(1, Number(sp.page) || 1);
+  const pageNum = Number(sp.page);
+  const page = Number.isInteger(pageNum) && pageNum > 0 ? pageNum : 1;
   const { items, total } = await searchSkills({
     locale,
     q: sp.q,

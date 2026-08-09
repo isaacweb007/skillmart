@@ -9,6 +9,7 @@ export default function SearchBar({ locale, defaultValue = "" }: { locale: strin
         name="q"
         defaultValue={defaultValue}
         placeholder={t("searchPlaceholder")}
+        aria-label={t("searchPlaceholder")}
         className="w-full rounded-xl border border-line bg-surface px-4 py-3 text-sm placeholder:text-ink-soft"
       />
       <button

@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const skill = await getSkillBySlug(slug, locale);
   if (!skill) return {};
   return {
-    title: `${skill.name} — 클로드스킬마트`,
+    title: skill.name,
     description: skill.one_liner,
     alternates: {
       languages: Object.fromEntries(routing.locales.map((l) => [l, `/${l}/skills/${slug}`])),
