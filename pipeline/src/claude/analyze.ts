@@ -113,6 +113,15 @@ export function costUsd(inputTokens: number, outputTokens: number): number {
   return (inputTokens * INPUT_USD_PER_MTOK + outputTokens * OUTPUT_USD_PER_MTOK) / 1_000_000;
 }
 
+/** 스킬 1건(분석 + 3개 언어 번역) 실측 단가 — M1 E2E·M3 백필 798건 평균 */
+export const EST_COST_PER_SKILL_USD = 0.073;
+
+/** ponytail: 배치 실비는 완료 후에만 알 수 있어 실측 단가로 사전 환산해 건수를 제한한다.
+ *  단가가 흔들리면 초과 지출이 하루치 안에서 발생할 수 있다 — 단가 재측정 시 위 상수를 갱신할 것. */
+export function maxItemsForBudget(maxCostUsd: number): number {
+  return Math.max(1, Math.floor(maxCostUsd / EST_COST_PER_SKILL_USD));
+}
+
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const MAX_POLLS = 270; // 60초 × 270회 = 4.5시간 — Actions timeout(300분)보다 30분 완충
 

@@ -6,8 +6,11 @@ on:
   workflow_dispatch:
     inputs:
       limit:
-        description: "런당 분석 상한"
+        description: "런당 분석 상한 (건수)"
         default: "1000"
+      max_cost:
+        description: "런당 분석 지출 상한 (USD) — 실제 상한은 limit과 이 값 중 작은 쪽"
+        default: "3"
 
 permissions:
   contents: read
@@ -26,7 +29,7 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: npm run --workspace pipeline start -- --limit ${{ github.event.inputs.limit || '1000' }}
+      - run: npm run --workspace pipeline start -- --limit ${{ github.event.inputs.limit || '1000' }} --max-cost ${{ github.event.inputs.max_cost || '3' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
