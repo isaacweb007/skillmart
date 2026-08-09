@@ -6,7 +6,9 @@
   },
   "brand": "Claude Skill Mart",
   "tagline": "The Claude Code skill market",
-  "nav": { "skills": "Browse skills" },
+  "nav": {
+    "skills": "Browse skills"
+  },
   "home": {
     "heroTitle": "Pick your Claude skills",
     "heroSubtitle": "Claude Code skills discovered on GitHub daily by AI, explained in plain English — {count} on the shelves today",
@@ -42,9 +44,23 @@
     "updated": "Last updated",
     "official": "Official",
     "back": "Back to list",
-    "score": "AI score"
+    "score": "AI score",
+    "installAppTitle": "Install in the Claude app (no terminal)",
+    "installAppStep1": "Download the ZIP with the button below.",
+    "installAppStep2": "In Claude, open Settings → Capabilities and turn on 'Code execution and file creation'. (one time)",
+    "installAppStep3": "Go to Customize → Skills → + → 'Upload a skill' and upload the ZIP.",
+    "installAppDownload": "Download ZIP",
+    "installCodeTitle": "Install in Claude Code",
+    "installCodeAsk": "Let Claude do it — paste this into Claude Code",
+    "installCodeManual": "Install with a command instead",
+    "installTrust": "This is a third-party skill. Check the source repository before installing.",
+    "installPrompt": "Install the skill I found on Claude Skill Mart.\nCopy the {dir} folder from the GitHub repo {repo} into my ~/.claude/skills/{slug}/.\nWhen it's done, tell me in one line what this skill can do."
   },
-  "difficulty": { "beginner": "Beginner", "intermediate": "Intermediate", "advanced": "Advanced" },
+  "difficulty": {
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced"
+  },
   "categories": {
     "docs-office": "Docs & Office",
     "dev-coding": "Dev & Coding",

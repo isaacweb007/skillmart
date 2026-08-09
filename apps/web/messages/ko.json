@@ -6,7 +6,9 @@
   },
   "brand": "클로드스킬마트",
   "tagline": "Claude Code 스킬 안내소",
-  "nav": { "skills": "스킬 둘러보기" },
+  "nav": {
+    "skills": "스킬 둘러보기"
+  },
   "home": {
     "heroTitle": "클로드 스킬, 골라 담으세요",
     "heroSubtitle": "AI가 매일 GitHub에서 발굴해 한국어로 풀어쓴 Claude Code 스킬 — 오늘 매대에 {count}개",
@@ -42,9 +44,23 @@
     "updated": "마지막 업데이트",
     "official": "공식",
     "back": "목록으로",
-    "score": "AI 점수"
+    "score": "AI 점수",
+    "installAppTitle": "Claude 앱에 설치 (터미널 필요 없음)",
+    "installAppStep1": "아래 버튼으로 ZIP 파일을 받으세요.",
+    "installAppStep2": "Claude 설정 → Capabilities에서 '코드 실행 및 파일 생성'을 켭니다. (한 번만)",
+    "installAppStep3": "Claude에서 Customize → Skills → + → '스킬 업로드'를 누르고 받은 ZIP을 올립니다.",
+    "installAppDownload": "ZIP 내려받기",
+    "installCodeTitle": "Claude Code에 설치",
+    "installCodeAsk": "Claude에게 맡기기 — 아래 문장을 Claude Code에 붙여넣으세요",
+    "installCodeManual": "직접 명령으로 설치하기",
+    "installTrust": "제3자가 만든 스킬입니다. 설치 전 원본 저장소를 한 번 확인하세요.",
+    "installPrompt": "클로드스킬마트에서 찾은 스킬을 설치해줘.\nGitHub 저장소 {repo} 의 {dir} 폴더를 내 ~/.claude/skills/{slug}/ 에 그대로 복사해줘.\n설치가 끝나면 이 스킬로 무엇을 할 수 있는지 한 줄로 알려줘."
   },
-  "difficulty": { "beginner": "입문", "intermediate": "중급", "advanced": "고급" },
+  "difficulty": {
+    "beginner": "입문",
+    "intermediate": "중급",
+    "advanced": "고급"
+  },
   "categories": {
     "docs-office": "문서·오피스",
     "dev-coding": "개발·코딩",

@@ -26,6 +26,8 @@ export interface SkillListItem {
 }
 
 export interface SkillDetail extends SkillListItem {
+  repo_full_name: string;
+  path: string;
   forks: number;
   last_commit_at: string | null;
   source_url: string;
@@ -135,7 +137,7 @@ export const getSkillBySlug = cache(
       .from("skills")
       .select(
         `${LIST_COLS}, forks, last_commit_at, source_url, license, install_command,
-         ai_review_ko, ai_review_vi, ai_review_en,
+         repo_full_name, path, ai_review_ko, ai_review_vi, ai_review_en,
          skill_translations(locale, name, one_liner, description_md, install_guide_md)`,
       )
       .eq("status", "visible")
