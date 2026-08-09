@@ -5,8 +5,8 @@ import Markdown from "react-markdown";
 import Chip from "@/components/Chip";
 import InstallReceipt from "@/components/InstallReceipt";
 import { Link } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
 import { getSkillBySlug } from "@/lib/db";
+import { pageAlternates } from "@/lib/site";
 
 export const revalidate = 3600;
 
@@ -19,9 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: skill.name,
     description: skill.one_liner,
-    alternates: {
-      languages: Object.fromEntries(routing.locales.map((l) => [l, `/${l}/skills/${slug}`])),
-    },
+    alternates: pageAlternates(locale, `/skills/${slug}`),
   };
 }
 
