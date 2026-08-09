@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import SkillCard from "@/components/SkillCard";
 import { Link } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
 import { getCollectionBySlug } from "@/lib/db";
+import { pageAlternates } from "@/lib/site";
 
 export const revalidate = 3600;
 
@@ -17,9 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: data.summary.title,
     description: data.summary.description,
-    alternates: {
-      languages: Object.fromEntries(routing.locales.map((l) => [l, `/${l}/collections/${slug}`])),
-    },
+    alternates: pageAlternates(locale, `/collections/${slug}`),
   };
 }
 

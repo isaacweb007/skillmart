@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Chip from "@/components/Chip";
@@ -6,8 +7,19 @@ import SkillCard from "@/components/SkillCard";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIES, DIFFICULTIES } from "@/lib/categories";
 import { PAGE_SIZE, searchSkills } from "@/lib/db";
+import { pageAlternates } from "@/lib/site";
 
 export const revalidate = 3600;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale });
+  return { title: t("list.title"), alternates: pageAlternates(locale, "/skills") };
+}
 
 type Search = { q?: string; category?: string; difficulty?: string; sort?: string; page?: string };
 

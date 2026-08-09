@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Chip from "@/components/Chip";
 import SearchBar from "@/components/SearchBar";
@@ -5,8 +6,18 @@ import SkillCard from "@/components/SkillCard";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIES } from "@/lib/categories";
 import { getCollections, getHomeSkills, getTrendingSkills, getVisibleCount } from "@/lib/db";
+import { pageAlternates } from "@/lib/site";
 
 export const revalidate = 3600;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { alternates: pageAlternates(locale, "") };
+}
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
