@@ -112,5 +112,10 @@
     "failed": "Đăng nhập thất bại. Vui lòng thử lại sau.",
     "empty": "Chưa lưu skill nào. Bấm ♡ ở skill bạn thích.",
     "loading": "Đang tải…"
+  },
+  "og": {
+    "stall": "Sạp hôm nay",
+    "tagline": "Skill cho Claude Code, chọn mỗi ngày",
+    "count": "{count} skill"
   }
 }

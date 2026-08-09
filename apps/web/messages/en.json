@@ -112,5 +112,10 @@
     "failed": "Sign-in failed. Please try again in a moment.",
     "empty": "Nothing saved yet. Tap ♡ on a skill you like.",
     "loading": "Loading…"
+  },
+  "og": {
+    "stall": "Today's stall",
+    "tagline": "Claude Code skills, picked fresh daily",
+    "count": "{count} skills"
   }
 }
