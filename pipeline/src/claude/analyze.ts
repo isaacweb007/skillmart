@@ -112,6 +112,7 @@ export function costUsd(inputTokens: number, outputTokens: number): number {
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const MAX_POLLS = 300; // 60초 × 300 = 5시간 (GitHub Actions timeout과 정합)
 
 export async function runAnalysisBatch(
   client: Anthropic,
@@ -126,7 +127,16 @@ export async function runAnalysisBatch(
   console.log(`배치 제출: ${batch.id} (${requests.length}건)`);
 
   let status = batch;
+  let polls = 0;
   while (status.processing_status !== "ended") {
+    if (++polls > MAX_POLLS) {
+      try {
+        await client.messages.batches.cancel(batch.id);
+      } catch {
+        // 취소 실패는 무시 — 어차피 중단한다
+      }
+      throw new Error(`배치 ${batch.id} 폴링 상한(${MAX_POLLS}회) 초과 — 취소 요청 후 중단`);
+    }
     await sleep(60_000);
     status = await client.messages.batches.retrieve(batch.id);
     console.log(`배치 ${batch.id}: ${status.processing_status} (처리 중 ${status.request_counts.processing}건)`);
@@ -149,6 +159,7 @@ export async function runAnalysisBatch(
     }
     try {
       const parsed = JSON.parse(text) as Analysis;
+      if (!Number.isFinite(parsed.ai_score)) throw new Error("ai_score 비수치");
       parsed.ai_score = Math.max(0, Math.min(10, parsed.ai_score));
       parsed.tags = parsed.tags.slice(0, 5);
       outcomes.set(result.custom_id, { ...usage, analysis: parsed });

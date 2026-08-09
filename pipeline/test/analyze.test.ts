@@ -5,6 +5,7 @@ import {
   CATEGORIES,
   costUsd,
   MODEL,
+  runAnalysisBatch,
 } from "../src/claude/analyze.js";
 import type { Candidate } from "../src/github/discover.js";
 
@@ -52,5 +53,117 @@ describe("costUsd", () => {
   it("Batch 요율($2.5/$12.5 per MTok)로 계산한다", () => {
     expect(costUsd(1_000_000, 1_000_000)).toBe(15);
     expect(costUsd(0, 0)).toBe(0);
+  });
+});
+
+// --- runAnalysisBatch 스텁 헬퍼 (네트워크·타이머 없음: create/retrieve가 즉시 "ended"를 반환해 폴링 루프를 건너뛴다) ---
+
+function succeededResult(
+  text: string,
+  opts?: { stopReason?: string; inputTokens?: number; outputTokens?: number },
+) {
+  return {
+    type: "succeeded",
+    message: {
+      stop_reason: opts?.stopReason ?? "end_turn",
+      usage: { input_tokens: opts?.inputTokens ?? 100, output_tokens: opts?.outputTokens ?? 50 },
+      content: [{ type: "text", text }],
+    },
+  };
+}
+
+function erroredResult() {
+  return { type: "errored", error: { type: "invalid_request_error", message: "실패" } };
+}
+
+function validAnalysisJson(overrides: Record<string, unknown> = {}): string {
+  return JSON.stringify({
+    category: "utility",
+    tags: ["a", "b", "c", "d", "e", "f"], // 6개 — 5개 슬라이스 검증용
+    difficulty: "beginner",
+    ai_score: 22, // 범위 밖 — 10 클램프 검증용
+    install_command: "git clone https://github.com/acme/skills ~/.claude/skills/pdf",
+    reviews: { ko: "한줄평", vi: "Nhận xét", en: "One-line review" },
+    translations: {
+      ko: { name: "PDF 도구", one_liner: "PDF를 다룬다", description_md: "# 설명", install_guide_md: "1. 설치" },
+      vi: { name: "Công cụ PDF", one_liner: "Xử lý PDF", description_md: "# Mô tả", install_guide_md: "1. Cài đặt" },
+      en: { name: "PDF Tool", one_liner: "Handles PDFs", description_md: "# Description", install_guide_md: "1. Install" },
+    },
+    ...overrides,
+  });
+}
+
+function fakeClient(entries: Array<{ custom_id: string; result: unknown }>, opts?: { createThrows?: boolean }) {
+  return {
+    messages: {
+      batches: {
+        create: async () => {
+          if (opts?.createThrows) throw new Error("호출되면 안 됨");
+          return { id: "b_test", processing_status: "ended", request_counts: { processing: 0 } };
+        },
+        retrieve: async () => ({ id: "b_test", processing_status: "ended", request_counts: { processing: 0 } }),
+        results: async () => (async function* () { for (const e of entries) yield e; })(),
+        cancel: async () => ({}),
+      },
+    },
+  } as unknown as import("@anthropic-ai/sdk").default;
+}
+
+describe("runAnalysisBatch", () => {
+  it("빈 요청이면 클라이언트를 호출하지 않고 빈 Map을 반환한다", async () => {
+    const client = fakeClient([], { createThrows: true });
+    const result = await runAnalysisBatch(client, []);
+    expect(result.size).toBe(0);
+  });
+
+  it("succeeded + 유효 JSON: ai_score 22 → 10 클램프, tags 6개 → 5개 슬라이스, usage 토큰 기록", async () => {
+    const requests = [buildBatchRequest(CAND, "c0")];
+    const client = fakeClient([
+      { custom_id: "c0", result: succeededResult(validAnalysisJson(), { inputTokens: 111, outputTokens: 222 }) },
+    ]);
+    const result = await runAnalysisBatch(client, requests);
+    const outcome = result.get("c0");
+    expect(outcome?.error).toBeUndefined();
+    expect(outcome?.analysis?.ai_score).toBe(10);
+    expect(outcome?.analysis?.tags).toHaveLength(5);
+    expect(outcome?.inputTokens).toBe(111);
+    expect(outcome?.outputTokens).toBe(222);
+  });
+
+  it('succeeded + stop_reason "refusal": error "refusal" 기록, analysis 없음, usage는 기록', async () => {
+    const requests = [buildBatchRequest(CAND, "c0")];
+    const client = fakeClient([
+      {
+        custom_id: "c0",
+        result: succeededResult(validAnalysisJson(), { stopReason: "refusal", inputTokens: 5, outputTokens: 1 }),
+      },
+    ]);
+    const result = await runAnalysisBatch(client, requests);
+    const outcome = result.get("c0");
+    expect(outcome?.error).toBe("refusal");
+    expect(outcome?.analysis).toBeUndefined();
+    expect(outcome?.inputTokens).toBe(5);
+    expect(outcome?.outputTokens).toBe(1);
+  });
+
+  it('result.type "errored": error "errored" 기록, 토큰 0', async () => {
+    const requests = [buildBatchRequest(CAND, "c0")];
+    const client = fakeClient([{ custom_id: "c0", result: erroredResult() }]);
+    const result = await runAnalysisBatch(client, requests);
+    const outcome = result.get("c0");
+    expect(outcome?.error).toBe("errored");
+    expect(outcome?.inputTokens).toBe(0);
+    expect(outcome?.outputTokens).toBe(0);
+  });
+
+  it("succeeded + ai_score가 문자열인 JSON: error \"json_parse\" 기록, analysis 없음", async () => {
+    const requests = [buildBatchRequest(CAND, "c0")];
+    const client = fakeClient([
+      { custom_id: "c0", result: succeededResult(validAnalysisJson({ ai_score: "many" })) },
+    ]);
+    const result = await runAnalysisBatch(client, requests);
+    const outcome = result.get("c0");
+    expect(outcome?.error).toBe("json_parse");
+    expect(outcome?.analysis).toBeUndefined();
   });
 });
