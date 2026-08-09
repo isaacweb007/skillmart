@@ -3,3 +3,7 @@ dist/
 .env
 .DS_Store
 .superpowers/
+.next/
+next-env.d.ts
+.env*.local
+*.tsbuildinfo

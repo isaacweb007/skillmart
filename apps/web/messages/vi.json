@@ -1,0 +1,63 @@
+{
+  "brand": "Claude Skill Mart",
+  "tagline": "Chợ kỹ năng Claude Code",
+  "nav": { "skills": "Khám phá skill" },
+  "home": {
+    "heroTitle": "Chọn skill Claude cho bạn",
+    "heroSubtitle": "Skill Claude Code do AI khám phá trên GitHub mỗi ngày, giải thích bằng tiếng Việt — hôm nay có {count} skill trên kệ",
+    "searchPlaceholder": "Bạn cần skill gì? (vd: PPT, review code)",
+    "searchButton": "Tìm kiếm",
+    "corners": "Xem theo quầy hàng",
+    "top": "Skill phổ biến",
+    "fresh": "Skill mới về",
+    "viewAll": "Xem tất cả"
+  },
+  "list": {
+    "title": "Danh sách skill",
+    "resultCount": "{count} skill",
+    "all": "Tất cả",
+    "allLevels": "Mọi trình độ",
+    "sortRank": "Phổ biến",
+    "sortNew": "Mới nhất",
+    "empty": "Chưa có skill nào phù hợp. Thử đổi từ khóa hoặc xem quầy hàng khác nhé.",
+    "prev": "Trước",
+    "next": "Sau"
+  },
+  "detail": {
+    "aiReview": "Nhận xét của AI",
+    "install": "Hướng dẫn cài đặt",
+    "installCommand": "Lệnh cài đặt",
+    "copy": "Sao chép",
+    "copied": "Đã sao chép ✓",
+    "source": "Xem mã nguồn trên GitHub",
+    "license": "Giấy phép",
+    "updated": "Cập nhật lần cuối",
+    "official": "Chính thức",
+    "back": "Về danh sách",
+    "score": "Điểm AI"
+  },
+  "difficulty": { "beginner": "Nhập môn", "intermediate": "Trung cấp", "advanced": "Nâng cao" },
+  "categories": {
+    "docs-office": "Tài liệu · Văn phòng",
+    "dev-coding": "Lập trình",
+    "design-ui": "Thiết kế · UI",
+    "marketing-seo": "Marketing · SEO",
+    "content-writing": "Nội dung · Viết lách",
+    "image-video": "Ảnh · Video",
+    "data-analytics": "Dữ liệu · Phân tích",
+    "automation-workflow": "Tự động hóa",
+    "web-api": "Web · API",
+    "security-review": "Bảo mật · Review",
+    "education": "Giáo dục",
+    "utility": "Tiện ích"
+  },
+  "footer": {
+    "disclaimer": "Claude Skill Mart là dịch vụ không chính thức, không liên quan đến Anthropic.",
+    "dataNote": "Dữ liệu skill được thu thập tự động mỗi ngày từ các kho GitHub công khai."
+  },
+  "notFound": {
+    "title": "Quầy hàng này đang trống",
+    "desc": "Skill bạn tìm không tồn tại hoặc đã bị gỡ.",
+    "back": "Về trang chủ"
+  }
+}

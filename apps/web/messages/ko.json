@@ -1,0 +1,63 @@
+{
+  "brand": "클로드스킬마트",
+  "tagline": "Claude Code 스킬 안내소",
+  "nav": { "skills": "스킬 둘러보기" },
+  "home": {
+    "heroTitle": "클로드 스킬, 골라 담으세요",
+    "heroSubtitle": "AI가 매일 GitHub에서 발굴해 한국어로 풀어쓴 Claude Code 스킬 — 오늘 매대에 {count}개",
+    "searchPlaceholder": "어떤 스킬을 찾으세요? (예: PPT, 코드 리뷰)",
+    "searchButton": "검색",
+    "corners": "코너별로 둘러보기",
+    "top": "인기 스킬",
+    "fresh": "새로 들어온 스킬",
+    "viewAll": "전체 보기"
+  },
+  "list": {
+    "title": "스킬 목록",
+    "resultCount": "{count}개 스킬",
+    "all": "전체",
+    "allLevels": "모든 난이도",
+    "sortRank": "인기순",
+    "sortNew": "최신순",
+    "empty": "조건에 맞는 스킬이 아직 없어요. 검색어를 바꾸거나 코너를 넓혀보세요.",
+    "prev": "이전",
+    "next": "다음"
+  },
+  "detail": {
+    "aiReview": "AI 한줄평",
+    "install": "설치 가이드",
+    "installCommand": "설치 명령",
+    "copy": "복사",
+    "copied": "복사됨 ✓",
+    "source": "GitHub에서 원본 보기",
+    "license": "라이선스",
+    "updated": "마지막 업데이트",
+    "official": "공식",
+    "back": "목록으로",
+    "score": "AI 점수"
+  },
+  "difficulty": { "beginner": "입문", "intermediate": "중급", "advanced": "고급" },
+  "categories": {
+    "docs-office": "문서·오피스",
+    "dev-coding": "개발·코딩",
+    "design-ui": "디자인·UI",
+    "marketing-seo": "마케팅·SEO",
+    "content-writing": "콘텐츠·글쓰기",
+    "image-video": "이미지·영상",
+    "data-analytics": "데이터·분석",
+    "automation-workflow": "자동화·워크플로",
+    "web-api": "웹·API 연동",
+    "security-review": "보안·리뷰",
+    "education": "교육·학습",
+    "utility": "유틸리티"
+  },
+  "footer": {
+    "disclaimer": "클로드스킬마트는 비공식 서비스이며 Anthropic과 무관합니다.",
+    "dataNote": "스킬 정보는 GitHub 공개 저장소에서 매일 자동 수집됩니다."
+  },
+  "notFound": {
+    "title": "이 매대는 비어 있어요",
+    "desc": "찾으시는 스킬이 없거나 내려갔습니다.",
+    "back": "홈으로"
+  }
+}
