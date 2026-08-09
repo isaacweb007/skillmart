@@ -102,5 +102,15 @@
     "safeTitle": "Check before you install",
     "safeBody": "Skills carry instructions and runnable code. For unfamiliar repositories, read the source first. This site points to public GitHub repositories and does not vouch for skill contents.",
     "cta": "Browse skills"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "signInGoogle": "Continue with Google",
+    "myList": "Saved",
+    "signInToSave": "Sign in to save skills",
+    "failed": "Sign-in failed. Please try again in a moment.",
+    "empty": "Nothing saved yet. Tap ♡ on a skill you like.",
+    "loading": "Loading…"
   }
 }
