@@ -69,6 +69,24 @@ export async function getVisibleCount(): Promise<number> {
   return count ?? 0;
 }
 
+/** 제목·설명용 개수. head:true로 행을 받지 않는다.
+ *  인자가 원시값이라 React cache()가 실제로 동작한다(객체 리터럴은 참조 비교라 캐시 미스). */
+export const countVisibleSkills = cache(
+  async (locale: string, category?: string, difficulty?: string): Promise<number> => {
+    let q = db
+      .from("skills")
+      // 목록과 같은 inner 조인 — 해당 언어 번역이 없는 스킬이 빠지는 조건을 일치시킨다
+      .select("id, skill_translations!inner(locale)", { count: "exact", head: true })
+      .eq("status", "visible")
+      .eq("skill_translations.locale", locale);
+    if (category) q = q.eq("category", category);
+    if (difficulty) q = q.eq("difficulty", difficulty);
+    const { count, error } = await q;
+    if (error) throw new Error(`skills 개수 조회 실패: ${error.message}`);
+    return count ?? 0;
+  },
+);
+
 export async function getHomeSkills(
   locale: string,
 ): Promise<{ top: SkillListItem[]; fresh: SkillListItem[] }> {

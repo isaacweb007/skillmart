@@ -6,7 +6,7 @@ import SearchBar from "@/components/SearchBar";
 import SkillCard from "@/components/SkillCard";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIES, DIFFICULTIES } from "@/lib/categories";
-import { PAGE_SIZE, searchSkills } from "@/lib/db";
+import { countVisibleSkills, PAGE_SIZE, searchSkills } from "@/lib/db";
 import { pageAlternates } from "@/lib/site";
 
 export const revalidate = 3600;
@@ -34,7 +34,7 @@ export async function generateMetadata({
 
   if (cornerOnly) {
     const corner = t(`categories.${category}`);
-    const { total } = await searchSkills({ locale, category, sort: "rank", page: 1 });
+    const total = await countVisibleSkills(locale, category);
     return {
       title: { absolute: t("seo.cornerTitle", { corner, count: total }) },
       description: t("seo.cornerDesc", { corner, count: total }),
@@ -47,7 +47,7 @@ export async function generateMetadata({
   const easyOnly =
     difficulty === "beginner" && !category && !first(raw.q) && !first(raw.sort) && !first(raw.page);
   if (easyOnly) {
-    const { total } = await searchSkills({ locale, difficulty, sort: "rank", page: 1 });
+    const total = await countVisibleSkills(locale, undefined, difficulty);
     return {
       title: { absolute: t("seo.easyTitle", { count: total }) },
       description: t("seo.easyDesc", { count: total }),
@@ -55,7 +55,7 @@ export async function generateMetadata({
     };
   }
 
-  const { total } = await searchSkills({ locale, sort: "rank", page: 1 });
+  const total = await countVisibleSkills(locale);
   return {
     title: { absolute: t("seo.listTitle", { count: total }) },
     description: t("seo.listDesc", { count: total }),
