@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { supabaseBrowser } from "@/lib/supabase-browser";
+import { signInWithGoogle } from "@/lib/supabase-browser";
 import { useFavorites } from "./FavoritesProvider";
 
 export default function FavoriteButton({ skillId }: { skillId: string }) {
@@ -18,10 +18,7 @@ export default function FavoriteButton({ skillId }: { skillId: string }) {
         e.preventDefault();
         e.stopPropagation();
         if (!signedIn) {
-          void supabaseBrowser.auth.signInWithOAuth({
-            provider: "google",
-            options: { redirectTo: window.location.href },
-          });
+          void signInWithGoogle();
           return;
         }
         void toggle(skillId);

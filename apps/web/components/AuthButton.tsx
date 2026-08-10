@@ -1,37 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { supabaseBrowser } from "@/lib/supabase-browser";
+import { signInWithGoogle, supabaseBrowser } from "@/lib/supabase-browser";
+import { useFavorites } from "./FavoritesProvider";
 
 export default function AuthButton() {
   const t = useTranslations("auth");
-  const [email, setEmail] = useState<string | null>(null);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    supabaseBrowser.auth.getSession().then(({ data }) => {
-      setEmail(data.session?.user.email ?? null);
-      setReady(true);
-    });
-    const { data: sub } = supabaseBrowser.auth.onAuthStateChange((_e, session) => {
-      setEmail(session?.user.email ?? null);
-    });
-    return () => sub.subscription.unsubscribe();
-  }, []);
+  // 세션 구독은 FavoritesProvider 하나뿐 — 여기서 또 구독하면 리스너가 둘이 된다
+  const { signedIn, ready } = useFavorites();
 
   if (!ready) return <span className="text-xs text-ink-soft">&nbsp;</span>;
 
-  if (!email) {
+  if (!signedIn) {
     return (
       <button
         type="button"
         onClick={async () => {
-          const { error } = await supabaseBrowser.auth.signInWithOAuth({
-            provider: "google",
-            options: { redirectTo: window.location.href },
-          });
+          const { error } = await signInWithGoogle();
           if (error) alert(t("failed"));
         }}
         className="rounded-lg bg-accent px-3 py-1.5 text-xs font-semibold text-accent-ink"

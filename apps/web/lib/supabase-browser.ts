@@ -8,3 +8,11 @@ export const supabaseBrowser = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
+
+/** 헤더·♡·보관함 세 곳이 같은 호출을 복사해 쓰고 있었다. 돌아올 곳은 항상 지금 보던 URL. */
+export function signInWithGoogle() {
+  return supabaseBrowser.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo: window.location.href },
+  });
+}
