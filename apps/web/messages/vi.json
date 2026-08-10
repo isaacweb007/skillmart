@@ -55,7 +55,12 @@
     "installCodeAsk": "Để Claude làm — dán câu dưới đây vào Claude Code",
     "installCodeManual": "Cài bằng lệnh thủ công",
     "installTrust": "Đây là skill do người khác tạo. Hãy kiểm tra repo gốc trước khi cài.",
-    "installPrompt": "Hãy cài skill mình tìm thấy trên Claude Skill Mart.\nCopy thư mục {dir} từ repo GitHub {repo} vào ~/.claude/skills/{slug}/ của mình.\nSau khi cài xong, cho mình biết skill này làm được gì trong một câu."
+    "installPrompt": "Hãy cài skill mình tìm thấy trên Claude Skill Mart.\nCopy thư mục {dir} từ repo GitHub {repo} vào ~/.claude/skills/{slug}/ của mình.\nSau khi cài xong, cho mình biết skill này làm được gì trong một câu.",
+    "tryTitle": "Dùng thử ngay, không cần cài",
+    "tryLead": "Dán đoạn dưới vào Claude là dùng được skill này mà không cần cài đặt.",
+    "tryPrompt": "Hãy đọc hướng dẫn trong tệp này và làm theo để giúp mình:\n{rawUrl}\n\nMình muốn: (viết việc bạn cần ở đây)",
+    "tryFallback": "Nếu Claude không mở được liên kết, hãy mở liên kết và copy nội dung vào rồi dán.",
+    "tryConvert": "Thấy hữu ích thì tải ZIP bên dưới và cài. Sau đó skill tự chạy, không phải dán lại mỗi lần."
   },
   "difficulty": {
     "beginner": "Nhập môn",
@@ -101,7 +106,21 @@
     "howCode": "Người dùng Claude Code: copy câu ở trang chi tiết và dán cho Claude, Claude sẽ tự cài.",
     "safeTitle": "Kiểm tra trước khi cài",
     "safeBody": "Skill chứa hướng dẫn và mã có thể chạy. Với repo lạ, hãy xem nguồn trước. Trang này chỉ dẫn tới repo công khai trên GitHub và không bảo đảm nội dung skill.",
-    "cta": "Xem các skill"
+    "cta": "Xem các skill",
+    "onramp": {
+      "title": "Làm được gì ngay, chưa cần skill",
+      "lead": "Những câu dưới đây bạn chỉ cần dán vào Claude. Đây không phải lệnh có sẵn, nên lần nào cũng phải tự viết lại. Cài skill thì việc này tự diễn ra.",
+      "colPaste": "Câu để dán",
+      "colAuto": "Để khỏi viết lại mỗi lần",
+      "s1": "Tóm tắt bài này trong 3 dòng, chỉ ý chính",
+      "s2": "Chỉ ra điểm yếu của đoạn code này một cách thẳng thắn",
+      "s3": "Viết lại phần chữ trên giao diện này cho tự nhiên hơn",
+      "s4": "Cho mình 5 câu mở đầu khiến người ta muốn đọc tiếp",
+      "s5": "Câu này nghe không tự nhiên. Viết lại giúp mình",
+      "s6": "Làm bảng so sánh các lựa chọn này theo từng tiêu chí",
+      "s7": "Lập checklist cho việc này, đừng bỏ sót bước nào",
+      "s8": "Giải thích thật đơn giản, như cho học sinh tiểu học"
+    }
   },
   "auth": {
     "signIn": "Đăng nhập",
