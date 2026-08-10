@@ -36,6 +36,13 @@
   --font-mono-plex: var(--font-plex-mono), ui-monospace, monospace;
 }
 
+/* 스크롤바 자리를 항상 비워둔다.
+   없으면 짧은 페이지(스크롤바 0px)와 긴 페이지(15px) 사이를 오갈 때
+   가운데 정렬된 내용이 7px씩 좌우로 튄다(실측: main 왼쪽 128px ↔ 121px). */
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   background: var(--bg);
   color: var(--ink);
