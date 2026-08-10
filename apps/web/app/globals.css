@@ -30,8 +30,9 @@
   --color-ink-soft: var(--ink-soft);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
-  --font-display: var(--font-source-serif), var(--font-gowun), "Georgia", serif;
-  --font-body: var(--font-plex), var(--font-plex-kr), "Apple SD Gothic Neo", sans-serif;
+  /* 한글은 시스템 명조(AppleMyungjo·바탕)가 받는다 — 기존 렌더링과 동일 */
+  --font-display: var(--font-source-serif), "Georgia", serif;
+  --font-body: var(--font-plex), "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-mono-plex: var(--font-plex-mono), ui-monospace, monospace;
 }
 

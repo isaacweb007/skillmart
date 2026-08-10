@@ -161,7 +161,7 @@
   },
   "prompts": {
     "title": "40 câu dùng được ngay, không cần cài",
-    "lead": "Đây là những câu bạn chỉ cần dán vào Claude. Không phải lệnh có sẵn, nên lần nào cũng phải tự viết. Bấm vào mục bên phải để xem skill tự làm việc đó.",
+    "lead": "Bạn có thể dán những câu dưới đây vào ứng dụng Claude, Claude web hoặc terminal Claude Code. Riêng tên /lệnh ở bên trái chỉ là nhãn — gõ thẳng vào cửa sổ chat sẽ không chạy. Trong Claude Code, bạn tạo tệp trong ~/.claude/commands/ thì nó thành lệnh slash thật. Bấm mục bên phải để xem skill tự làm việc đó.",
     "auto": "Để tự động",
     "homeTitle": "Dùng ngay, không cần cài",
     "homeMore": "Xem cả 40 câu",
