@@ -6,12 +6,15 @@ import { supabaseBrowser } from "@/lib/supabase-browser";
 interface Ctx {
   ids: Set<string>;
   signedIn: boolean;
+  /** 세션 확인 전에는 false — 이걸 안 보면 로그인한 사람도 첫 프레임에 "로그인하세요"를 본다 */
+  ready: boolean;
   toggle: (skillId: string) => Promise<void>;
 }
 
 const FavoritesContext = createContext<Ctx>({
   ids: new Set(),
   signedIn: false,
+  ready: false,
   toggle: async () => {},
 });
 
@@ -22,6 +25,7 @@ export function useFavorites() {
 export default function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const [ids, setIds] = useState<Set<string>>(new Set());
   const [userId, setUserId] = useState<string | null>(null);
+  const [ready, setReady] = useState(false);
 
   const load = useCallback(async (uid: string | null) => {
     setUserId(uid);
@@ -34,7 +38,10 @@ export default function FavoritesProvider({ children }: { children: React.ReactN
   }, []);
 
   useEffect(() => {
-    supabaseBrowser.auth.getSession().then(({ data }) => load(data.session?.user.id ?? null));
+    supabaseBrowser.auth
+      .getSession()
+      .then(({ data }) => load(data.session?.user.id ?? null))
+      .finally(() => setReady(true));
     const { data: sub } = supabaseBrowser.auth.onAuthStateChange((_e, session) =>
       void load(session?.user.id ?? null),
     );
@@ -74,7 +81,7 @@ export default function FavoritesProvider({ children }: { children: React.ReactN
   );
 
   return (
-    <FavoritesContext.Provider value={{ ids, signedIn: !!userId, toggle }}>
+    <FavoritesContext.Provider value={{ ids, signedIn: !!userId, ready, toggle }}>
       {children}
     </FavoritesContext.Provider>
   );
