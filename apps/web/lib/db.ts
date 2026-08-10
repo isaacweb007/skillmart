@@ -266,6 +266,31 @@ export async function getVideos(locale: string, limit = 10): Promise<VideoItem[]
   return data as VideoItem[];
 }
 
+export interface DailyPrompt {
+  cmd: string;
+  category: string;
+  label: string;
+  example: string;
+  created_at: string;
+}
+
+/** 매일 파이프라인이 추가하는 문장 — 코드의 큐레이션 시드 40개 위에 쌓인다 */
+export async function getDailyPrompts(locale: string): Promise<DailyPrompt[]> {
+  const { data, error } = await db
+    .from("daily_prompts")
+    .select("cmd, category, ko_label, ko_example, vi_label, vi_example, en_label, en_example, created_at")
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(`daily_prompts 조회 실패: ${error.message}`);
+  const key = locale === "vi" ? "vi" : locale === "en" ? "en" : "ko";
+  return (data as Record<string, string>[]).map((r) => ({
+    cmd: r.cmd,
+    category: r.category,
+    label: r[`${key}_label`],
+    example: r[`${key}_example`],
+    created_at: r.created_at,
+  }));
+}
+
 export interface SitemapSkill {
   slug: string;
   updated_at: string;
