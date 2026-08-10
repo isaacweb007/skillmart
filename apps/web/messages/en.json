@@ -55,7 +55,12 @@
     "installCodeAsk": "Let Claude do it — paste this into Claude Code",
     "installCodeManual": "Install with a command instead",
     "installTrust": "This is a third-party skill. Check the source repository before installing.",
-    "installPrompt": "Install the skill I found on Claude Skill Mart.\nCopy the {dir} folder from the GitHub repo {repo} into my ~/.claude/skills/{slug}/.\nWhen it's done, tell me in one line what this skill can do."
+    "installPrompt": "Install the skill I found on Claude Skill Mart.\nCopy the {dir} folder from the GitHub repo {repo} into my ~/.claude/skills/{slug}/.\nWhen it's done, tell me in one line what this skill can do.",
+    "tryTitle": "Try it now, no install",
+    "tryLead": "Paste this into Claude to use the skill without installing anything.",
+    "tryPrompt": "Read the instructions in this file and follow them to help me:\n{rawUrl}\n\nWhat I want: (describe your task here)",
+    "tryFallback": "If Claude can't open the link, open it yourself and paste the contents instead.",
+    "tryConvert": "If it works for you, download the ZIP below and install it. Then it runs on its own — no pasting each time."
   },
   "difficulty": {
     "beginner": "Beginner",
@@ -101,7 +106,21 @@
     "howCode": "Claude Code users: copy the sentence on the skill page and paste it to Claude — it installs the skill for you.",
     "safeTitle": "Check before you install",
     "safeBody": "Skills carry instructions and runnable code. For unfamiliar repositories, read the source first. This site points to public GitHub repositories and does not vouch for skill contents.",
-    "cta": "Browse skills"
+    "cta": "Browse skills",
+    "onramp": {
+      "title": "What you can do right now, without a skill",
+      "lead": "These are just phrasings you paste into Claude. They aren't built-in commands, so you retype them every time. Installing a skill makes this happen on its own.",
+      "colPaste": "Paste this",
+      "colAuto": "To stop retyping it",
+      "s1": "Summarize this in three lines, key points only",
+      "s2": "Tell me honestly where this code is weak",
+      "s3": "Rewrite this interface copy so it reads naturally",
+      "s4": "Give me five opening lines that make people keep reading",
+      "s5": "This sentence reads awkwardly. Rewrite it",
+      "s6": "Put these options in a comparison table by criteria",
+      "s7": "Turn this task into a checklist with nothing missed",
+      "s8": "Explain it very simply, like to a ten-year-old"
+    }
   },
   "auth": {
     "signIn": "Sign in",

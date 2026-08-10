@@ -111,6 +111,7 @@ export default async function SkillDetail({ params }: Props) {
         slug={slug}
         repo={skill.repo_full_name}
         dir={skill.path.slice(0, skill.path.lastIndexOf("/"))}
+        path={skill.path}
         command={skill.install_command}
         guideMd={skill.install_guide_md}
       />
