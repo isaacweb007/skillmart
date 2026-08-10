@@ -171,6 +171,7 @@
     "empty": "No videos yet. The list fills up every morning.",
     "views": "{count} views",
     "onYoutube": "Watch on YouTube",
-    "note": "Videos and thumbnails belong to their YouTube channels; this site only links to them."
+    "note": "Videos and thumbnails belong to their YouTube channels; this site only links to them.",
+    "caption": "Captions"
   }
 }

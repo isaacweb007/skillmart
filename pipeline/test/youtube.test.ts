@@ -21,6 +21,7 @@ function candidate(over: Partial<RawCandidate> = {}): RawCandidate {
     publishedAt: "2026-08-08T00:00:00Z",
     views: 1000,
     durationIso: "PT8M30S",
+    hasCaption: false,
     ...over,
   };
 }
@@ -126,5 +127,30 @@ describe("mentionsClaude", () => {
   });
   it("passesFilter에도 반영된다", () => {
     expect(passesFilter(candidate({ title: "ChatGPT Skill 사용법" }), NOW, "ko")).toBe(false);
+  });
+});
+
+describe("selectTop 자막 우선", () => {
+  it("조회수가 낮아도 자막 있는 영상이 위로 온다", () => {
+    const list = [
+      candidate({ videoId: "noCap", views: 9999, hasCaption: false }),
+      candidate({ videoId: "cap", views: 100, hasCaption: true }),
+    ];
+    expect(selectTop(list, 2).map((c) => c.videoId)).toEqual(["cap", "noCap"]);
+  });
+  it("자막 영상이 부족하면 나머지로 채운다 (목록이 비지 않게)", () => {
+    const list = [
+      candidate({ videoId: "cap", views: 50, hasCaption: true }),
+      candidate({ videoId: "a", views: 900, hasCaption: false }),
+      candidate({ videoId: "b", views: 800, hasCaption: false }),
+    ];
+    expect(selectTop(list, 3).map((c) => c.videoId)).toEqual(["cap", "a", "b"]);
+  });
+  it("자막끼리는 조회수 순", () => {
+    const list = [
+      candidate({ videoId: "low", views: 10, hasCaption: true }),
+      candidate({ videoId: "high", views: 500, hasCaption: true }),
+    ];
+    expect(selectTop(list, 2).map((c) => c.videoId)).toEqual(["high", "low"]);
   });
 });

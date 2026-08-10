@@ -171,6 +171,7 @@
     "empty": "Chưa có video nào. Danh sách được cập nhật mỗi sáng.",
     "views": "{count} lượt xem",
     "onYoutube": "Xem trên YouTube",
-    "note": "Video và ảnh thu nhỏ thuộc về các kênh YouTube tương ứng; trang này chỉ dẫn liên kết."
+    "note": "Video và ảnh thu nhỏ thuộc về các kênh YouTube tương ứng; trang này chỉ dẫn liên kết.",
+    "caption": "Phụ đề"
   }
 }

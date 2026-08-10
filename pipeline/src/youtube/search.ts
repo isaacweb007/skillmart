@@ -14,7 +14,7 @@ export const FILTER = {
   minViews: 200, // 아무도 안 본 양산 영상 제외
   minDurationSeconds: 120, // 2분 미만 쇼츠·예고 제외
   maxDurationSeconds: 3600, // 1시간 초과는 라이브 아카이브·전체 강의 — 매일 보는 큐레이션에 안 맞는다
-  perLocale: 9, // 사용자 요청: 하루 10개 미만
+  perLocale: 10, // 언어별 10개 (사용자 요청)
 };
 
 /* 언어 판별 — YouTube의 relevanceLanguage는 힌트일 뿐 강제가 아니다.
@@ -53,6 +53,7 @@ export interface VideoRow {
   published_at: string;
   views: number;
   duration_seconds: number;
+  has_caption: boolean;
   category: string | null;
 }
 
@@ -97,6 +98,7 @@ export interface RawCandidate {
   publishedAt: string;
   views: number;
   durationIso: string;
+  hasCaption: boolean;
 }
 
 /** 필터 통과 여부. now를 인자로 받아 테스트가 시각에 의존하지 않게 한다. */
@@ -111,12 +113,14 @@ export function passesFilter(c: RawCandidate, now: Date, locale?: string): boole
   return true;
 }
 
-/** 조회수 내림차순으로 상위 n개. 같은 영상이 여러 검색어에 걸리면 하나만 남긴다. */
+/** 자막 있는 영상을 먼저, 그 안에서 조회수 내림차순으로 상위 n개.
+ *  하드 필터가 아니라 우선순위다 — 자막 영상이 n개보다 적으면 나머지로 채운다(목록이 비지 않게).
+ *  같은 영상이 여러 검색어에 걸리면 하나만 남긴다. */
 export function selectTop(candidates: RawCandidate[], n: number): RawCandidate[] {
   const seen = new Set<string>();
   return candidates
     .filter((c) => (seen.has(c.videoId) ? false : (seen.add(c.videoId), true)))
-    .sort((a, b) => b.views - a.views)
+    .sort((a, b) => Number(b.hasCaption) - Number(a.hasCaption) || b.views - a.views)
     .slice(0, n);
 }
 
@@ -127,7 +131,7 @@ interface VideoItem {
   id: string;
   snippet: { title: string; channelTitle: string; publishedAt: string; thumbnails: Record<string, { url: string }> };
   statistics?: { viewCount?: string };
-  contentDetails?: { duration?: string };
+  contentDetails?: { duration?: string; caption?: string };
 }
 
 async function api<T>(path: string, params: Record<string, string>, key: string): Promise<T> {
@@ -142,7 +146,14 @@ export async function fetchVideos(apiKey: string, now = new Date()): Promise<Vid
   const out: VideoRow[] = [];
   for (const [locale, queries] of Object.entries(QUERIES)) {
     const ids = new Set<string>();
-    for (const q of queries) {
+    // 각 검색어를 두 번 돌린다: 일반 + 자막 보유 한정.
+    // 자막 한정만 쓰면 후보가 말라 목록이 비고, 일반만 쓰면 자막 영상이 거의 안 들어온다.
+    const passes = queries.flatMap((q) => [
+      { q, caption: undefined as string | undefined },
+      { q, caption: "closedCaption" },
+    ]);
+    for (const pass of passes) {
+      const q = pass.q;
       try {
         const data = await api<{ items?: SearchItem[] }>(
           "search",
@@ -150,6 +161,7 @@ export async function fetchVideos(apiKey: string, now = new Date()): Promise<Vid
             part: "id",
             q,
             type: "video",
+            ...(pass.caption ? { videoCaption: pass.caption } : {}),
             // viewCount로 정렬한다. date로 받으면 갓 올라온 조회수 0~200 영상이
             // 결과를 채워 저조회 탈락이 후보의 57%였다(실측). 기간은 publishedAfter가 이미 제한한다.
             order: "viewCount",
@@ -188,6 +200,7 @@ export async function fetchVideos(apiKey: string, now = new Date()): Promise<Vid
         publishedAt: v.snippet.publishedAt,
         views: Number(v.statistics?.viewCount ?? 0),
         durationIso: v.contentDetails?.duration ?? "",
+        hasCaption: v.contentDetails?.caption === "true",
       }));
     } catch (e) {
       console.warn(`유튜브 상세 조회 실패 (${locale}): ${(e as Error).message}`);
@@ -208,10 +221,13 @@ export async function fetchVideos(apiKey: string, now = new Date()): Promise<Vid
         published_at: c.publishedAt,
         views: c.views,
         duration_seconds: parseDuration(c.durationIso),
+        has_caption: c.hasCaption,
         category: guessCategory(c.title),
       });
     }
-    console.log(`유튜브 ${locale}: 후보 ${candidates.length} → 채택 ${picked.length}`);
+    console.log(
+      `유튜브 ${locale}: 후보 ${candidates.length} → 채택 ${picked.length} (자막 ${picked.filter((c) => c.hasCaption).length}건)`,
+    );
   }
   return out;
 }

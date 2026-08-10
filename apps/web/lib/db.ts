@@ -249,15 +249,18 @@ export interface VideoItem {
   thumbnail_url: string;
   published_at: string;
   views: number;
+  has_caption: boolean;
   category: string | null;
 }
 
 /** 언어별 큐레이션 영상 — 파이프라인이 매일 채우고 30일 지난 것은 삭제한다 */
-export async function getVideos(locale: string, limit = 9): Promise<VideoItem[]> {
+export async function getVideos(locale: string, limit = 10): Promise<VideoItem[]> {
   const { data, error } = await db
     .from("videos")
-    .select("video_id, title, channel_title, thumbnail_url, published_at, views, category")
+    .select("video_id, title, channel_title, thumbnail_url, published_at, views, has_caption, category")
     .eq("locale", locale)
+    // 자막 있는 것 먼저(외국어 사용자가 번역 자막으로 볼 수 있다), 그 안에서 최신순
+    .order("has_caption", { ascending: false })
     .order("published_at", { ascending: false })
     .limit(limit);
   if (error) throw new Error(`videos 조회 실패: ${error.message}`);

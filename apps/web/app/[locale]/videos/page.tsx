@@ -64,7 +64,12 @@ export default async function VideosPage({ params }: Props) {
                   new Date(v.published_at),
                 )}
               </p>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                {v.has_caption && (
+                  <span className="rounded-full border border-accent px-2 py-0.5 text-xs text-accent">
+                    {t("videos.caption")}
+                  </span>
+                )}
                 {v.category && (
                   <Link href={`/skills?category=${v.category}`}>
                     <Chip>{t(`categories.${v.category}`)}</Chip>
