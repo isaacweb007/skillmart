@@ -86,7 +86,8 @@
   },
   "footer": {
     "disclaimer": "클로드스킬마트는 비공식 서비스이며 Anthropic과 무관합니다.",
-    "dataNote": "스킬 정보는 GitHub 공개 저장소에서 매일 자동 수집됩니다."
+    "dataNote": "스킬 정보는 GitHub 공개 저장소에서 매일 자동 수집됩니다.",
+    "contact": "개발자에게 문의"
   },
   "collection": {
     "skillCount": "{count}개 스킬",

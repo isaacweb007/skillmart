@@ -86,7 +86,8 @@
   },
   "footer": {
     "disclaimer": "Claude Skill Mart is an unofficial service, not affiliated with Anthropic.",
-    "dataNote": "Skill data is collected automatically every day from public GitHub repositories."
+    "dataNote": "Skill data is collected automatically every day from public GitHub repositories.",
+    "contact": "Contact the developer"
   },
   "collection": {
     "skillCount": "{count} skills",
