@@ -23,6 +23,9 @@ export default function Header() {
         <Link href="/videos" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
           {t("nav.videos")}
         </Link>
+        <Link href="/terminal" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
+          {t("nav.terminal")}
+        </Link>
         <Link href="/guide" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
           {t("nav.guide")}
         </Link>

@@ -26,6 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   add("/guide");
   add("/prompts");
   add("/videos");
+  add("/terminal");
   add("/skills?difficulty=beginner"); // 바로 쓰기 좋은 스킬
   // 코너 12개 — 검색 유입 경로. 코너만 지정된 URL은 자기 canonical을 가진다(skills/page.tsx)
   for (const c of CATEGORIES) add(`/skills?category=${c}`);

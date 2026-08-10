@@ -10,7 +10,8 @@
     "skills": "Khám phá skill",
     "guide": "Skill là gì?",
     "prompts": "Câu dùng ngay",
-    "videos": "Học qua video"
+    "videos": "Học qua video",
+    "terminal": "Dùng terminal"
   },
   "home": {
     "heroTitle": "Chọn skill Claude cho bạn",
@@ -157,7 +158,9 @@
     "easyTitle": "{count} skill Claude Code dễ dùng ngay — Claude Skill Mart",
     "easyDesc": "{count} skill Claude Code dễ cài và dùng được ngay từ lần đầu, kèm giải thích và cách cài.",
     "videosTitle": "Video YouTube về skill Claude — Claude Skill Mart",
-    "videosDesc": "Tuyển chọn hằng ngày các video YouTube về Claude và Claude Code skill trong 2 tuần gần nhất, theo từng ngôn ngữ."
+    "videosDesc": "Tuyển chọn hằng ngày các video YouTube về Claude và Claude Code skill trong 2 tuần gần nhất, theo từng ngôn ngữ.",
+    "terminalTitle": "Cách dùng terminal Claude Code — cài trên Windows và Mac (cho người mới)",
+    "terminalDesc": "Hướng dẫn cài và dùng Claude Code cho người chưa từng mở terminal. Có hình minh hoạ từng bước cho cả Windows và Mac."
   },
   "prompts": {
     "title": "40 câu dùng được ngay, không cần cài",
@@ -177,5 +180,43 @@
     "onYoutube": "Xem trên YouTube",
     "note": "Video và ảnh thu nhỏ thuộc về các kênh YouTube tương ứng; trang này chỉ dẫn liên kết.",
     "caption": "Phụ đề"
+  },
+  "terminal": {
+    "title": "Hướng dẫn dùng terminal Claude Code, siêu dễ",
+    "lead": "Cửa sổ đen nhìn đáng sợ nhỉ? Thật ra đó chỉ là nơi bạn nhờ máy tính làm việc bằng chữ. Làm theo thứ tự dưới đây là xong trong 10 phút. Có cả Windows và Mac.",
+    "whatTitle": "0. Terminal là gì?",
+    "whatBody": "Bình thường bạn bấm chuột vào biểu tượng để mở phần mềm. Terminal là cửa sổ để bạn nói bằng chữ. Viết một dòng \"cài cái này giúp tôi\" là máy tự làm. Không đáng sợ, chỉ là cách nói khác.",
+    "needTitle": "1. Cần chuẩn bị gì",
+    "needPlan": "Bạn cần gói Claude trả phí — Pro, Max, Team hoặc Enterprise. Gói miễn phí không dùng được Claude Code.",
+    "needOs": "Mac cần macOS 13 trở lên, Windows cần Windows 10 trở lên. Máy mấy năm nay hầu như đều được.",
+    "needNode": "Không cần cài thêm phần mềm nào. Trước đây cần Node.js, giờ thì không.",
+    "macTitle": "2. Mac: mở Terminal",
+    "macOpen": "Bấm ⌘ (Command) + Space cùng lúc. Một khung tìm kiếm hiện ra giữa màn hình. Gõ `terminal` rồi Enter là cửa sổ đen mở ra.",
+    "winTitle": "3. Windows: mở PowerShell",
+    "winOpen": "Bấm nút Start (hình cửa sổ) ở góc dưới bên trái, gõ `powershell`. Bấm vào Windows PowerShell ở trên cùng là cửa sổ xanh mở ra.",
+    "winNote": "Không cần chạy bằng quyền Administrator. Bấm thường là được.",
+    "installTitle": "4. Dán một dòng để cài",
+    "installBody": "Dán dòng dưới đây vào cửa sổ vừa mở rồi Enter. Nên bấm nút copy thay vì tự gõ.",
+    "installMac": "Trên Mac dùng dòng này",
+    "installWin": "Trên Windows PowerShell dùng dòng này",
+    "installWait": "Chữ sẽ chạy lên liên tục. Đợi 1–2 phút là xong. Đừng đóng cửa sổ giữa lúc đó.",
+    "checkTitle": "5. Kiểm tra đã cài được chưa",
+    "checkBody": "Gõ dòng này rồi Enter. Nếu hiện số như `2.1.211 (Claude Code)` là thành công.",
+    "checkFail": "Nếu thấy `command not found` hoặc báo không nhận lệnh? Đóng cửa sổ rồi mở lại và thử lần nữa. Phần lớn trường hợp là xong.",
+    "loginTitle": "6. Đăng nhập lần đầu",
+    "loginBody": "Chỉ gõ `claude` rồi Enter, trình duyệt sẽ tự mở. Chọn tài khoản Claude của bạn và bấm đồng ý là xong. Việc này chỉ làm một lần.",
+    "folderTitle": "7. Bắt đầu trong thư mục bạn muốn làm",
+    "folderBody": "Claude Code đọc file trong \"thư mục hiện tại\". Vì vậy hãy chuyển vào thư mục cần làm trước.",
+    "folderMac": "Mẹo trên Mac: gõ `cd ` (có một dấu cách) rồi kéo thư mục vào cửa sổ terminal, đường dẫn sẽ tự điền. Enter, rồi gõ `claude`.",
+    "folderWin": "Mẹo trên Windows: mở thư mục, bấm vào ô địa chỉ phía trên để copy đường dẫn, rồi dán sau `cd `.",
+    "skillTitle": "8. Giờ thử cài một skill",
+    "skillBody": "Đến đây là xong phần chuẩn bị. Chọn một skill trên Claude Skill Mart, copy câu \"Để Claude làm\" rồi dán vào `claude` vừa mở — nó sẽ tự cài.",
+    "skillCta": "Xem các skill",
+    "stuckTitle": "Khi bị kẹt",
+    "stuck1": "Gõ lệnh mà không thấy gì xảy ra → kiểm tra xem đã bấm Enter chưa.",
+    "stuck2": "`command not found` → đóng cửa sổ, mở lại rồi thử lần nữa.",
+    "stuck3": "Cửa sổ đăng nhập không mở → mở trình duyệt trước, rồi gõ `claude` lại.",
+    "stuck4": "Có thông báo về gói dịch vụ → gói miễn phí không dùng được, cần Pro trở lên.",
+    "stuckAsk": "Vẫn không được thì nhắn cho nhà phát triển ở dưới. Gửi ảnh chụp màn hình chỗ bị kẹt sẽ nhanh hơn."
   }
 }
