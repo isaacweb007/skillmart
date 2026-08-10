@@ -161,7 +161,7 @@
   },
   "prompts": {
     "title": "40 lines you can use right now, no install",
-    "lead": "These are phrasings you paste straight into Claude. They aren't built-in commands, so you retype them each time. Tap a corner on the right to find skills that do it on their own.",
+    "lead": "You can paste these lines into the Claude app, Claude on the web, or the Claude Code terminal. The /command names on the left are just labels — typing one into a chat window does nothing. In Claude Code, saving a file under ~/.claude/commands/ turns it into a real slash command. Tap a corner on the right to find skills that do it on their own.",
     "auto": "To automate it",
     "homeTitle": "Use it now, no install",
     "homeMore": "See all 40 lines",
