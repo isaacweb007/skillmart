@@ -163,7 +163,10 @@
     "lead": "Đây là những câu bạn chỉ cần dán vào Claude. Không phải lệnh có sẵn, nên lần nào cũng phải tự viết. Bấm vào mục bên phải để xem skill tự làm việc đó.",
     "auto": "Để tự động",
     "homeTitle": "Dùng ngay, không cần cài",
-    "homeMore": "Xem cả 40 câu"
+    "homeMore": "Xem cả 40 câu",
+    "newTitle": "Câu mới thêm mỗi ngày",
+    "newLead": "Mỗi sáng thêm vài câu hữu ích.",
+    "copyCmd": "Copy tên"
   },
   "videos": {
     "title": "Học qua video",

@@ -15,6 +15,7 @@ import {
 import { refreshUndiscovered, updateTrending } from "./refresh.js";
 import { fetchVideos } from "./youtube/search.js";
 import { generateCollections, publishCollections, type CollectionInput } from "./claude/collections.js";
+import { generatePrompts, MAX_STORED, publishPrompts, SEED_CMDS } from "./claude/prompts.js";
 
 interface Item {
   candidate: Candidate;
@@ -157,6 +158,25 @@ async function main() {
       }
     } else {
       console.log("YOUTUBE_API_KEY 없음 — 유튜브 패스 건너뜀");
+    }
+
+    // 매일 문장 몇 개 추가 — 누적 상한에 닿으면 호출조차 하지 않는다(비용·중복 방지)
+    try {
+      const { data: stored, error: pErr } = await db.from("daily_prompts").select("cmd");
+      if (pErr) throw new Error(`daily_prompts 조회 실패: ${pErr.message}`);
+      const storedCmds = (stored as { cmd: string }[]).map((r) => r.cmd);
+      if (storedCmds.length >= MAX_STORED) {
+        console.log(`문장 추가 생략 — 누적 ${storedCmds.length}개로 상한(${MAX_STORED}) 도달`);
+      } else {
+        const gen = await generatePrompts(anthropic, [...SEED_CMDS, ...storedCmds]);
+        cost += gen.costUsd;
+        const added = await publishPrompts(db, gen.prompts);
+        notes += `, prompts +${added}`;
+        console.log(`문장 ${added}개 추가 (누적 ${storedCmds.length + added}), $${gen.costUsd.toFixed(4)}`);
+      }
+    } catch (e) {
+      errors++;
+      console.error(`문장 추가 실패(무시하고 계속): ${(e as Error).message}`);
     }
 
     // 주간 컬렉션 (KST 일요일 03시 런 = UTC 토 18시) 또는 --collections 강제

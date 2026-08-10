@@ -163,7 +163,10 @@
     "lead": "These are phrasings you paste straight into Claude. They aren't built-in commands, so you retype them each time. Tap a corner on the right to find skills that do it on their own.",
     "auto": "To automate it",
     "homeTitle": "Use it now, no install",
-    "homeMore": "See all 40 lines"
+    "homeMore": "See all 40 lines",
+    "newTitle": "Added daily",
+    "newLead": "A few more useful lines every morning.",
+    "copyCmd": "Copy name"
   },
   "videos": {
     "title": "Learn by video",
