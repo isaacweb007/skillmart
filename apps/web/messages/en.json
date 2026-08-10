@@ -10,7 +10,8 @@
     "skills": "Browse skills",
     "guide": "What is a Skill?",
     "prompts": "Quick lines",
-    "videos": "Learn by video"
+    "videos": "Learn by video",
+    "terminal": "Terminal guide"
   },
   "home": {
     "heroTitle": "Pick your Claude skills",
@@ -157,7 +158,9 @@
     "easyTitle": "{count} Claude Code skills that are easy to start with — Claude Skill Mart",
     "easyDesc": "{count} Claude Code skills that install simply and work on the first try, with explanations and install steps.",
     "videosTitle": "Claude skills on YouTube — Claude Skill Mart",
-    "videosDesc": "A daily selection of YouTube videos about Claude and Claude Code skills from the past two weeks, per language."
+    "videosDesc": "A daily selection of YouTube videos about Claude and Claude Code skills from the past two weeks, per language.",
+    "terminalTitle": "How to use the Claude Code terminal — Windows and Mac setup for beginners",
+    "terminalDesc": "Install and use Claude Code even if you have never opened a terminal. Step-by-step with illustrations for both Windows and Mac."
   },
   "prompts": {
     "title": "40 lines you can use right now, no install",
@@ -177,5 +180,43 @@
     "onYoutube": "Watch on YouTube",
     "note": "Videos and thumbnails belong to their YouTube channels; this site only links to them.",
     "caption": "Captions"
+  },
+  "terminal": {
+    "title": "The very easy guide to the Claude Code terminal",
+    "lead": "That black window looks scary, right? It's really just where you ask your computer for things in writing. Follow the steps below and you'll be done in ten minutes. Both Windows and Mac are covered.",
+    "whatTitle": "0. What is a terminal?",
+    "whatBody": "Normally you click an icon to open a program. A terminal is a window where you say it in writing instead. Type one line like \"install this for me\" and the computer does it. Nothing scary — just a different way of talking.",
+    "needTitle": "1. What you need first",
+    "needPlan": "You need a paid Claude plan — Pro, Max, Team or Enterprise. The free plan does not include Claude Code.",
+    "needOs": "macOS 13 or newer, or Windows 10 or newer. Almost any recent computer works.",
+    "needNode": "Nothing else to install. Node.js used to be required; it isn't anymore.",
+    "macTitle": "2. Mac: open Terminal",
+    "macOpen": "Press ⌘ (Command) + Space together. A search box appears in the middle of the screen. Type `terminal` and press Enter — the black window opens.",
+    "winTitle": "3. Windows: open PowerShell",
+    "winOpen": "Click the Start button (the window shape) at the bottom left and type `powershell`. Click Windows PowerShell at the top and the blue window opens.",
+    "winNote": "You don't need to run it as Administrator. A normal click is fine.",
+    "installTitle": "4. Paste one line to install",
+    "installBody": "Paste the line below into the window you just opened and press Enter. Use the copy button rather than typing it yourself.",
+    "installMac": "On Mac, use this",
+    "installWin": "On Windows PowerShell, use this",
+    "installWait": "Text will stream past. Wait one or two minutes and it's done. Don't close the window while it runs.",
+    "checkTitle": "5. Check that it worked",
+    "checkBody": "Type this and press Enter. If you see a number like `2.1.211 (Claude Code)`, you're done.",
+    "checkFail": "Seeing `command not found` or \"not recognized\"? Close the window and open a new one, then try again. That fixes it most of the time.",
+    "loginTitle": "6. Sign in the first time",
+    "loginBody": "Type just `claude` and press Enter — a browser window opens by itself. Pick your Claude account, approve it, and you're in. You only do this once.",
+    "folderTitle": "7. Start inside the folder you want to work in",
+    "folderBody": "Claude Code reads the files in \"the folder you're currently in\", so move into your project folder first.",
+    "folderMac": "Mac tip: type `cd ` (with one space) and then drag the folder onto the terminal window — the path fills itself in. Press Enter, then type `claude`.",
+    "folderWin": "Windows tip: open the folder, click the address bar at the top to copy the path, then paste it after `cd `.",
+    "skillTitle": "8. Now install a skill",
+    "skillBody": "That's the setup done. Pick a skill on Claude Skill Mart, copy its \"Let Claude do it\" line, and paste it into the `claude` session you just started — it installs the skill for you.",
+    "skillCta": "Browse skills",
+    "stuckTitle": "If you get stuck",
+    "stuck1": "Typed a command and nothing happened → check that you pressed Enter.",
+    "stuck2": "`command not found` → close the window, open a new one, and try again.",
+    "stuck3": "The sign-in window doesn't open → open a browser first, then type `claude` again.",
+    "stuck4": "A message about your plan → the free plan won't work; you need Pro or above.",
+    "stuckAsk": "Still stuck? Message the developer below. A screenshot of where it stopped makes it much faster."
   }
 }
