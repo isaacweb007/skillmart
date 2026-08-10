@@ -259,9 +259,8 @@ export async function getVideos(locale: string, limit = 10): Promise<VideoItem[]
     .from("videos")
     .select("video_id, title, channel_title, thumbnail_url, published_at, views, has_caption, category")
     .eq("locale", locale)
-    // 자막 있는 것 먼저(외국어 사용자가 번역 자막으로 볼 수 있다), 그 안에서 최신순
-    .order("has_caption", { ascending: false })
-    .order("published_at", { ascending: false })
+    // 조회수 높은 순 (사용자 요청). 최근 3주 안의 영상만 담겨 있어 최신성은 수집 단계가 보장한다
+    .order("views", { ascending: false })
     .limit(limit);
   if (error) throw new Error(`videos 조회 실패: ${error.message}`);
   return data as VideoItem[];

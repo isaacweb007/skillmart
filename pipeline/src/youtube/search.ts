@@ -113,14 +113,16 @@ export function passesFilter(c: RawCandidate, now: Date, locale?: string): boole
   return true;
 }
 
-/** 자막 있는 영상을 먼저, 그 안에서 조회수 내림차순으로 상위 n개.
- *  하드 필터가 아니라 우선순위다 — 자막 영상이 n개보다 적으면 나머지로 채운다(목록이 비지 않게).
- *  같은 영상이 여러 검색어에 걸리면 하나만 남긴다. */
+/** 조회수 내림차순으로 상위 n개. 같은 영상이 여러 검색어에 걸리면 하나만 남긴다.
+ *  자막 우선 정렬은 쓰지 않는다 — 베트남 채널은 자막을 거의 안 넣어(실측 1/10)
+ *  자막을 1차 키로 두면 348회 영상이 98,000회 영상 위로 올라간다.
+ *  자막 여부(has_caption)는 수집만 한다 — API가 직접 올린 자막만 true로 주므로
+ *  자동 생성 자막이 있는 영상도 false가 되어 표시에 쓰면 오해를 준다. */
 export function selectTop(candidates: RawCandidate[], n: number): RawCandidate[] {
   const seen = new Set<string>();
   return candidates
     .filter((c) => (seen.has(c.videoId) ? false : (seen.add(c.videoId), true)))
-    .sort((a, b) => Number(b.hasCaption) - Number(a.hasCaption) || b.views - a.views)
+    .sort((a, b) => b.views - a.views)
     .slice(0, n);
 }
 
@@ -146,14 +148,7 @@ export async function fetchVideos(apiKey: string, now = new Date()): Promise<Vid
   const out: VideoRow[] = [];
   for (const [locale, queries] of Object.entries(QUERIES)) {
     const ids = new Set<string>();
-    // 각 검색어를 두 번 돌린다: 일반 + 자막 보유 한정.
-    // 자막 한정만 쓰면 후보가 말라 목록이 비고, 일반만 쓰면 자막 영상이 거의 안 들어온다.
-    const passes = queries.flatMap((q) => [
-      { q, caption: undefined as string | undefined },
-      { q, caption: "closedCaption" },
-    ]);
-    for (const pass of passes) {
-      const q = pass.q;
+    for (const q of queries) {
       try {
         const data = await api<{ items?: SearchItem[] }>(
           "search",
@@ -161,7 +156,6 @@ export async function fetchVideos(apiKey: string, now = new Date()): Promise<Vid
             part: "id",
             q,
             type: "video",
-            ...(pass.caption ? { videoCaption: pass.caption } : {}),
             // viewCount로 정렬한다. date로 받으면 갓 올라온 조회수 0~200 영상이
             // 결과를 채워 저조회 탈락이 후보의 57%였다(실측). 기간은 publishedAfter가 이미 제한한다.
             order: "viewCount",

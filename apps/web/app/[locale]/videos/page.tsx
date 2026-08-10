@@ -64,12 +64,10 @@ export default async function VideosPage({ params }: Props) {
                   new Date(v.published_at),
                 )}
               </p>
+              {/* 자막 배지는 쓰지 않는다 — YouTube API의 contentDetails.caption은 직접 올린 자막만
+                  true로 표시해서, 자동 생성 자막이 있는 영상도 false로 나온다(70만 조회 영상도 false).
+                  배지가 없으면 자막이 없다는 잘못된 신호를 준다. 값은 계속 수집만 한다. */}
               <div className="flex flex-wrap items-center gap-2">
-                {v.has_caption && (
-                  <span className="rounded-full border border-accent px-2 py-0.5 text-xs text-accent">
-                    {t("videos.caption")}
-                  </span>
-                )}
                 {v.category && (
                   <Link href={`/skills?category=${v.category}`}>
                     <Chip>{t(`categories.${v.category}`)}</Chip>

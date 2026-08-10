@@ -130,27 +130,18 @@ describe("mentionsClaude", () => {
   });
 });
 
-describe("selectTop 자막 우선", () => {
-  it("조회수가 낮아도 자막 있는 영상이 위로 온다", () => {
+describe("selectTop 정렬 기준", () => {
+  it("자막 여부와 무관하게 조회수 순 — 자막이 순위를 왜곡하지 않는다", () => {
     const list = [
-      candidate({ videoId: "noCap", views: 9999, hasCaption: false }),
-      candidate({ videoId: "cap", views: 100, hasCaption: true }),
+      candidate({ videoId: "capLow", views: 348, hasCaption: true }),
+      candidate({ videoId: "noCapHigh", views: 98434, hasCaption: false }),
     ];
-    expect(selectTop(list, 2).map((c) => c.videoId)).toEqual(["cap", "noCap"]);
+    expect(selectTop(list, 2).map((c) => c.videoId)).toEqual(["noCapHigh", "capLow"]);
   });
-  it("자막 영상이 부족하면 나머지로 채운다 (목록이 비지 않게)", () => {
-    const list = [
-      candidate({ videoId: "cap", views: 50, hasCaption: true }),
-      candidate({ videoId: "a", views: 900, hasCaption: false }),
-      candidate({ videoId: "b", views: 800, hasCaption: false }),
-    ];
-    expect(selectTop(list, 3).map((c) => c.videoId)).toEqual(["cap", "a", "b"]);
-  });
-  it("자막끼리는 조회수 순", () => {
-    const list = [
-      candidate({ videoId: "low", views: 10, hasCaption: true }),
-      candidate({ videoId: "high", views: 500, hasCaption: true }),
-    ];
-    expect(selectTop(list, 2).map((c) => c.videoId)).toEqual(["high", "low"]);
+  it("자막이 하나도 없어도 10개를 채운다", () => {
+    const list = Array.from({ length: 14 }, (_, i) =>
+      candidate({ videoId: `v${i}`, views: 1000 - i, hasCaption: false }),
+    );
+    expect(selectTop(list, 10)).toHaveLength(10);
   });
 });
