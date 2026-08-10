@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
+import { CATEGORIES } from "@/lib/categories";
 import { getAllVisibleForSitemap, getCollections } from "@/lib/db";
 import { SITE_URL, sitemapLanguages } from "@/lib/site";
 
@@ -23,6 +24,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   add("");
   add("/skills");
   add("/guide");
+  // 코너 12개 — 검색 유입 경로. 코너만 지정된 URL은 자기 canonical을 가진다(skills/page.tsx)
+  for (const c of CATEGORIES) add(`/skills?category=${c}`);
   for (const s of skills) add(`/skills/${s.slug}`, new Date(s.updated_at));
   for (const c of collections) add(`/collections/${c.slug}`);
   return entries;

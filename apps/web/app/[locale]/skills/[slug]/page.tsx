@@ -7,7 +7,8 @@ import FavoriteButton from "@/components/FavoriteButton";
 import InstallBlocks from "@/components/InstallBlocks";
 import { Link } from "@/i18n/navigation";
 import { getSkillBySlug } from "@/lib/db";
-import { pageAlternates } from "@/lib/site";
+import { breadcrumb, jsonLd, softwareSourceCode } from "@/lib/jsonld";
+import { pageAlternates, SITE_URL } from "@/lib/site";
 
 export const revalidate = 3600;
 
@@ -17,8 +18,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const skill = await getSkillBySlug(slug, locale);
   if (!skill) return {};
+  const t = await getTranslations({ locale });
   return {
-    title: skill.name,
+    // 절대 제목 — "스킬 이름 + Claude Code 스킬"이 실제 검색어에 가깝다
+    title: { absolute: t("seo.skillTitle", { name: skill.name }) },
     description: skill.one_liner,
     alternates: pageAlternates(locale, `/skills/${slug}`),
   };
@@ -37,6 +40,29 @@ export default async function SkillDetail({ params }: Props) {
 
   return (
     <article className="mx-auto max-w-2xl py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd([
+            breadcrumb(
+              [
+                { name: t("brand"), path: "" },
+                { name: t("list.title"), path: "/skills" },
+                { name: skill.name, path: `/skills/${slug}` },
+              ],
+              locale,
+            ),
+            softwareSourceCode({
+              name: skill.name,
+              description: skill.one_liner,
+              url: `${SITE_URL}/${locale}/skills/${slug}`,
+              codeRepository: skill.source_url,
+              license: skill.license,
+              locale,
+            }),
+          ]),
+        }}
+      />
       <Link href="/skills" className="text-sm text-ink-soft hover:text-ink">
         ← {t("detail.back")}
       </Link>
