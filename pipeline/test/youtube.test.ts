@@ -4,6 +4,8 @@ import {
   guessCategory,
   parseDuration,
   passesFilter,
+  matchesLocale,
+  mentionsClaude,
   selectTop,
   type RawCandidate,
 } from "../src/youtube/search.js";
@@ -78,5 +80,51 @@ describe("guessCategory", () => {
   });
   it("단서가 없으면 null (표시에는 문제 없음)", () => {
     expect(guessCategory("오늘의 잡담")).toBeNull();
+  });
+});
+
+describe("matchesLocale", () => {
+  it("ko는 한글 제목만 통과", () => {
+    expect(matchesLocale("클로드 스킬 완전정복", "ko")).toBe(true);
+    expect(matchesLocale("Build Websites using Claude Code", "ko")).toBe(false);
+  });
+  it("vi는 베트남 전용 문자가 있어야 통과", () => {
+    expect(matchesLocale("Claude AI Tự Làm Video 3D Từ A-Z", "vi")).toBe(true);
+    expect(matchesLocale("Dieser Claude Code Skill ist GENIAL!", "vi")).toBe(false);
+  });
+  it("en은 한글·일본어·키릴이 없어야 통과", () => {
+    expect(matchesLocale("Claude Code Skills Beat Superpowers", "en")).toBe(true);
+    expect(matchesLocale("Skills機能を世界一わかりやすく解説してみた", "en")).toBe(false);
+    expect(matchesLocale("클로드 스킬 사용법", "en")).toBe(false);
+    expect(matchesLocale("Anthropic vừa mở kho Agent Skills", "en")).toBe(false);
+  });
+  it("공용 발음부호(café·José)는 베트남어로 오판하지 않는다", () => {
+    expect(matchesLocale("Claude Skills for café owners", "en")).toBe(true);
+    expect(matchesLocale("Claude Skills for café owners", "vi")).toBe(false);
+  });
+});
+
+describe("passesFilter 언어·길이 경계", () => {
+  it("locale을 주면 언어가 안 맞는 영상은 탈락", () => {
+    const en = candidate({ title: "Claude Code Skill Guide" });
+    expect(passesFilter(en, NOW, "en")).toBe(true);
+    expect(passesFilter(en, NOW, "ko")).toBe(false);
+  });
+  it("1시간 초과는 탈락 (라이브 아카이브 제외)", () => {
+    expect(passesFilter(candidate({ durationIso: "PT2H32M" }), NOW)).toBe(false);
+  });
+});
+
+describe("mentionsClaude", () => {
+  it("Claude·클로드가 있으면 통과", () => {
+    expect(mentionsClaude("Claude Code Skill Guide")).toBe(true);
+    expect(mentionsClaude("클로드 스킬 사용법")).toBe(true);
+  });
+  it("타사·무관 영상은 탈락", () => {
+    expect(mentionsClaude("Cách Dùng Skill ChatGPT Work tạo ảnh")).toBe(false);
+    expect(mentionsClaude("AI로 월 500만원 버는 법")).toBe(false);
+  });
+  it("passesFilter에도 반영된다", () => {
+    expect(passesFilter(candidate({ title: "ChatGPT Skill 사용법" }), NOW, "ko")).toBe(false);
   });
 });

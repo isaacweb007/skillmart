@@ -2,19 +2,47 @@ import { CATEGORIES } from "../claude/analyze.js";
 
 /** 언어별 검색어. 스킬과 무관한 일반 Claude 영상이 섞이지 않게 '스킬'을 반드시 포함시킨다. */
 const QUERIES: Record<string, string[]> = {
-  ko: ["클로드 스킬", "Claude Code 스킬"],
-  vi: ["Claude skill", "Claude Code skill tiếng Việt"],
-  en: ["Claude skills tutorial", "Claude Code skill"],
+  ko: ["클로드 스킬", "Claude Code 스킬", "클로드코드 스킬 사용법"],
+  vi: ["Claude skill tiếng Việt", "Claude Code skill hướng dẫn", "Claude AI skill"],
+  en: ["Claude skills tutorial", "Claude Code skill", "Claude agent skills"],
 };
 
 /** ponytail: AI 채점 없이 기계 필터만 쓴다. 저품질 양산 영상 상당수가 걸러지고 비용이 0이다.
  *  통과율이 나빠지면 그때 Claude 한 줄 채점을 붙인다(스킬 1건보다 훨씬 싸다). */
 export const FILTER = {
-  maxAgeDays: 14, // 최근 것만
-  minViews: 300, // 아무도 안 본 양산 영상 제외
+  maxAgeDays: 21, // 최근 것만. ko보다 vi·en 공급이 적어 3주까지 본다
+  minViews: 200, // 아무도 안 본 양산 영상 제외
   minDurationSeconds: 120, // 2분 미만 쇼츠·예고 제외
+  maxDurationSeconds: 3600, // 1시간 초과는 라이브 아카이브·전체 강의 — 매일 보는 큐레이션에 안 맞는다
   perLocale: 9, // 사용자 요청: 하루 10개 미만
 };
+
+/* 언어 판별 — YouTube의 relevanceLanguage는 힌트일 뿐 강제가 아니다.
+   실측에서 vi 결과에 독일어·일본어가, ko 1위에 영어 영상이 섞였다. 제목 문자로 직접 가른다. */
+const HANGUL = /[\uAC00-\uD7AF]/;
+// 베트남어 전용 문자만 쓴다 — à á é í ó ú 같은 공용 발음부호를 넣으면
+// 프랑스어·스페인어 제목까지 베트남어로 오판한다. U+1EA0~1EF9는 사실상 베트남어 전용 구간.
+const VIETNAMESE = /[ăâđêôơưĂÂĐÊÔƠƯ\u1EA0-\u1EF9]/;
+const JP_HAN = /[\u3040-\u30FF\u4E00-\u9FFF]/; // 히라가나·가타카나·한자
+const CYRILLIC = /[\u0400-\u04FF]/;
+
+/** 제목에 Claude가 없으면 제외 — 실측에서 ChatGPT 스킬 영상과 일반 AI 돈벌이 영상이 섞였다. */
+export function mentionsClaude(title: string): boolean {
+  return /claude|클로드/i.test(title);
+}
+
+/** 제목이 해당 언어권 영상인지. ko는 한글, vi는 베트남 전용 문자, en은 CJK·키릴이 없을 때만. */
+export function matchesLocale(title: string, locale: string): boolean {
+  if (locale === "ko") return HANGUL.test(title);
+  if (locale === "vi") return VIETNAMESE.test(title);
+  // en은 다른 문자권 제목을 전부 제외 — 베트남어 제목이 en 목록에 섞이던 문제
+  return (
+    !HANGUL.test(title) &&
+    !JP_HAN.test(title) &&
+    !CYRILLIC.test(title) &&
+    !VIETNAMESE.test(title)
+  );
+}
 
 export interface VideoRow {
   video_id: string;
@@ -72,11 +100,14 @@ export interface RawCandidate {
 }
 
 /** 필터 통과 여부. now를 인자로 받아 테스트가 시각에 의존하지 않게 한다. */
-export function passesFilter(c: RawCandidate, now: Date): boolean {
+export function passesFilter(c: RawCandidate, now: Date, locale?: string): boolean {
   const ageDays = (now.getTime() - new Date(c.publishedAt).getTime()) / 86_400_000;
   if (!Number.isFinite(ageDays) || ageDays < 0 || ageDays > FILTER.maxAgeDays) return false;
   if (c.views < FILTER.minViews) return false;
-  if (parseDuration(c.durationIso) < FILTER.minDurationSeconds) return false;
+  const seconds = parseDuration(c.durationIso);
+  if (seconds < FILTER.minDurationSeconds || seconds > FILTER.maxDurationSeconds) return false;
+  if (!mentionsClaude(c.title)) return false;
+  if (locale && !matchesLocale(c.title, locale)) return false;
   return true;
 }
 
@@ -119,7 +150,9 @@ export async function fetchVideos(apiKey: string, now = new Date()): Promise<Vid
             part: "id",
             q,
             type: "video",
-            order: "date",
+            // viewCount로 정렬한다. date로 받으면 갓 올라온 조회수 0~200 영상이
+            // 결과를 채워 저조회 탈락이 후보의 57%였다(실측). 기간은 publishedAfter가 이미 제한한다.
+            order: "viewCount",
             maxResults: "25",
             relevanceLanguage: locale,
             publishedAfter: new Date(now.getTime() - FILTER.maxAgeDays * 86_400_000).toISOString(),
@@ -135,12 +168,18 @@ export async function fetchVideos(apiKey: string, now = new Date()): Promise<Vid
 
     let candidates: RawCandidate[] = [];
     try {
-      const detail = await api<{ items?: VideoItem[] }>(
-        "videos",
-        { part: "snippet,statistics,contentDetails", id: [...ids].join(",") },
-        apiKey,
-      );
-      candidates = (detail.items ?? []).map((v) => ({
+      // videos.list는 id를 50개까지만 받는다 — 초과하면 400 invalid filter parameter
+      const idList = [...ids];
+      const items: VideoItem[] = [];
+      for (let i = 0; i < idList.length; i += 50) {
+        const detail = await api<{ items?: VideoItem[] }>(
+          "videos",
+          { part: "snippet,statistics,contentDetails", id: idList.slice(i, i + 50).join(",") },
+          apiKey,
+        );
+        items.push(...(detail.items ?? []));
+      }
+      candidates = items.map((v) => ({
         videoId: v.id,
         title: v.snippet.title,
         channelTitle: v.snippet.channelTitle,
@@ -155,7 +194,10 @@ export async function fetchVideos(apiKey: string, now = new Date()): Promise<Vid
       continue;
     }
 
-    const picked = selectTop(candidates.filter((c) => passesFilter(c, now)), FILTER.perLocale);
+    const picked = selectTop(
+      candidates.filter((c) => passesFilter(c, now, locale)),
+      FILTER.perLocale,
+    );
     for (const c of picked) {
       out.push({
         video_id: c.videoId,

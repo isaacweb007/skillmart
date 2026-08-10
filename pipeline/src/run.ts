@@ -145,7 +145,7 @@ async function main() {
           const { error: upErr } = await db
             .from("videos")
             .upsert(rows.map((r) => ({ ...r, fetched_at: new Date().toISOString() })), {
-              onConflict: "video_id",
+              onConflict: "video_id,locale",
             });
           if (upErr) throw new Error(`videos upsert 실패: ${upErr.message}`);
         }
