@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { CATEGORIES } from "@/lib/categories";
 import { getCollections, getHomeSkills, getTrendingSkills, getVisibleCount } from "@/lib/db";
 import { jsonLd, webSite } from "@/lib/jsonld";
+import { PROMPTS } from "@/lib/prompts";
 import { pageAlternates } from "@/lib/site";
 
 export const revalidate = 3600;
@@ -63,6 +64,33 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </Link>
           ))}
         </div>
+        <div className="mt-3">
+          <Link href="/skills?difficulty=beginner" className="text-sm text-accent underline">
+            {t("list.easyTitle")} →
+          </Link>
+        </div>
+      </section>
+
+      {/* 설치 전에 얻는 가치 — 첫 방문자가 여기서 바로 써본다 */}
+      <section className="mb-12 rounded-xl border border-line bg-surface p-5">
+        <h2 className="mb-2 font-display text-xl font-bold">{t("prompts.homeTitle")}</h2>
+        <p className="mb-4 text-sm leading-relaxed text-ink-soft">{t("prompts.lead")}</p>
+        <div className="mb-4 space-y-2">
+          {PROMPTS.slice(0, 4).map((p) => {
+            const text = locale === "vi" ? p.vi : locale === "en" ? p.en : p.ko;
+            return (
+              <p
+                key={p.cmd}
+                className="rounded-lg border border-line bg-bg p-3 font-mono-plex text-xs leading-relaxed"
+              >
+                {text.example}
+              </p>
+            );
+          })}
+        </div>
+        <Link href="/prompts" className="text-sm font-semibold text-accent underline">
+          {t("prompts.homeMore")} →
+        </Link>
       </section>
 
       {collections.length > 0 && (

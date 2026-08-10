@@ -42,6 +42,19 @@ export async function generateMetadata({
     };
   }
 
+  // "바로 쓰기 좋은 스킬" = 난이도만 beginner로 지정된 변형. 코너와 같은 취급으로 색인한다.
+  const difficulty = first(raw.difficulty);
+  const easyOnly =
+    difficulty === "beginner" && !category && !first(raw.q) && !first(raw.sort) && !first(raw.page);
+  if (easyOnly) {
+    const { total } = await searchSkills({ locale, difficulty, sort: "rank", page: 1 });
+    return {
+      title: { absolute: t("seo.easyTitle", { count: total }) },
+      description: t("seo.easyDesc", { count: total }),
+      alternates: pageAlternates(locale, "/skills?difficulty=beginner"),
+    };
+  }
+
   const { total } = await searchSkills({ locale, sort: "rank", page: 1 });
   return {
     title: { absolute: t("seo.listTitle", { count: total }) },
@@ -108,7 +121,9 @@ export default async function SkillsPage({
       <h1 className="mb-4 font-display text-2xl font-bold">
         {sp.category && (CATEGORIES as readonly string[]).includes(sp.category)
           ? t(`categories.${sp.category}`)
-          : t("list.title")}
+          : sp.difficulty === "beginner" && !sp.category
+            ? t("list.easyTitle")
+            : t("list.title")}
       </h1>
       <div className="mb-5 max-w-xl">
         <SearchBar locale={locale} defaultValue={sp.q ?? ""} />

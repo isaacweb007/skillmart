@@ -8,7 +8,8 @@
   "tagline": "The Claude Code skill market",
   "nav": {
     "skills": "Browse skills",
-    "guide": "What is a Skill?"
+    "guide": "What is a Skill?",
+    "prompts": "Quick lines"
   },
   "home": {
     "heroTitle": "Pick your Claude skills",
@@ -32,7 +33,8 @@
     "sortTrending": "Trending",
     "empty": "No skills match yet. Try a different search or browse another aisle.",
     "prev": "Prev",
-    "next": "Next"
+    "next": "Next",
+    "easyTitle": "Easy to start with"
   },
   "detail": {
     "aiReview": "AI's take",
@@ -120,7 +122,8 @@
       "s6": "Put these options in a comparison table by criteria",
       "s7": "Turn this task into a checklist with nothing missed",
       "s8": "Explain it very simply, like to a ten-year-old"
-    }
+    },
+    "langNote": "This site carries the same skills in three languages: 한국어, Tiếng Việt, English. Switch at the top right."
   },
   "auth": {
     "signIn": "Sign in",
@@ -146,6 +149,17 @@
     "cornerDesc": "{count} Claude Code skills in {corner}. What each skill does and how to install it.",
     "skillTitle": "{name} — Claude Code skill | Claude Skill Mart",
     "guideTitle": "What is a Claude Code skill? How to install — Claude Skill Mart",
-    "guideDesc": "What a Skill is and how to install one in the Claude desktop/web app and in Claude Code."
+    "guideDesc": "What a Skill is and how to install one in the Claude desktop/web app and in Claude Code.",
+    "promptsTitle": "40 Claude prompt lines — Claude Skill Mart",
+    "promptsDesc": "40 lines to paste into Claude with nothing installed — summaries, comparison tables, checklists, opening lines — each linked to skills that automate it.",
+    "easyTitle": "{count} Claude Code skills that are easy to start with — Claude Skill Mart",
+    "easyDesc": "{count} Claude Code skills that install simply and work on the first try, with explanations and install steps."
+  },
+  "prompts": {
+    "title": "40 lines you can use right now, no install",
+    "lead": "These are phrasings you paste straight into Claude. They aren't built-in commands, so you retype them each time. Tap a corner on the right to find skills that do it on their own.",
+    "auto": "To automate it",
+    "homeTitle": "Use it now, no install",
+    "homeMore": "See all 40 lines"
   }
 }

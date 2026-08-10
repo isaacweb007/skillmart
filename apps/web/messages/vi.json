@@ -8,7 +8,8 @@
   "tagline": "Chợ kỹ năng Claude Code",
   "nav": {
     "skills": "Khám phá skill",
-    "guide": "Skill là gì?"
+    "guide": "Skill là gì?",
+    "prompts": "Câu dùng ngay"
   },
   "home": {
     "heroTitle": "Chọn skill Claude cho bạn",
@@ -32,7 +33,8 @@
     "sortTrending": "Nổi bật",
     "empty": "Chưa có skill nào phù hợp. Thử đổi từ khóa hoặc xem quầy hàng khác nhé.",
     "prev": "Trước",
-    "next": "Sau"
+    "next": "Sau",
+    "easyTitle": "Skill dễ dùng ngay"
   },
   "detail": {
     "aiReview": "Nhận xét của AI",
@@ -120,7 +122,8 @@
       "s6": "Làm bảng so sánh các lựa chọn này theo từng tiêu chí",
       "s7": "Lập checklist cho việc này, đừng bỏ sót bước nào",
       "s8": "Giải thích thật đơn giản, như cho học sinh tiểu học"
-    }
+    },
+    "langNote": "Trang này có cùng bộ skill bằng ba ngôn ngữ: 한국어, Tiếng Việt, English. Đổi ngôn ngữ ở góc trên bên phải."
   },
   "auth": {
     "signIn": "Đăng nhập",
@@ -146,6 +149,17 @@
     "cornerDesc": "{count} skill Claude Code trong mục {corner}. Skill làm được gì và cách cài đặt.",
     "skillTitle": "{name} — Skill Claude Code | Claude Skill Mart",
     "guideTitle": "Skill của Claude Code là gì? Cách cài — Claude Skill Mart",
-    "guideDesc": "Skill là gì và cách cài vào Claude desktop/web cũng như Claude Code."
+    "guideDesc": "Skill là gì và cách cài vào Claude desktop/web cũng như Claude Code.",
+    "promptsTitle": "40 câu lệnh prompt cho Claude — Claude Skill Mart",
+    "promptsDesc": "40 câu dán thẳng vào Claude, không cần cài gì. Tóm tắt, bảng so sánh, checklist, câu mở đầu — mỗi câu đều dẫn tới skill làm việc đó tự động.",
+    "easyTitle": "{count} skill Claude Code dễ dùng ngay — Claude Skill Mart",
+    "easyDesc": "{count} skill Claude Code dễ cài và dùng được ngay từ lần đầu, kèm giải thích và cách cài."
+  },
+  "prompts": {
+    "title": "40 câu dùng được ngay, không cần cài",
+    "lead": "Đây là những câu bạn chỉ cần dán vào Claude. Không phải lệnh có sẵn, nên lần nào cũng phải tự viết. Bấm vào mục bên phải để xem skill tự làm việc đó.",
+    "auto": "Để tự động",
+    "homeTitle": "Dùng ngay, không cần cài",
+    "homeMore": "Xem cả 40 câu"
   }
 }

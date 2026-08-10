@@ -24,7 +24,10 @@ export default async function GuidePage({ params }: Props) {
   return (
     <article className="mx-auto max-w-2xl py-10">
       <h1 className="mb-4 font-display text-3xl font-bold">{t("title")}</h1>
-      <p className="mb-10 text-[15px] leading-relaxed text-ink-soft">{t("lead")}</p>
+      <p className="mb-4 text-[15px] leading-relaxed text-ink-soft">{t("lead")}</p>
+      <p className="mb-10 rounded-xl border border-line bg-surface p-4 text-sm leading-relaxed">
+        {t("langNote")}
+      </p>
 
       <h2 className="mb-3 font-display text-xl font-bold">{t("whyTitle")}</h2>
       <ul className="mb-10 list-disc space-y-2 pl-5 text-[15px] leading-relaxed">
