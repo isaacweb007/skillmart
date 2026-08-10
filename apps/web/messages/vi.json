@@ -9,7 +9,8 @@
   "nav": {
     "skills": "Khám phá skill",
     "guide": "Skill là gì?",
-    "prompts": "Câu dùng ngay"
+    "prompts": "Câu dùng ngay",
+    "videos": "Học qua video"
   },
   "home": {
     "heroTitle": "Chọn skill Claude cho bạn",
@@ -153,7 +154,9 @@
     "promptsTitle": "40 câu lệnh prompt cho Claude — Claude Skill Mart",
     "promptsDesc": "40 câu dán thẳng vào Claude, không cần cài gì. Tóm tắt, bảng so sánh, checklist, câu mở đầu — mỗi câu đều dẫn tới skill làm việc đó tự động.",
     "easyTitle": "{count} skill Claude Code dễ dùng ngay — Claude Skill Mart",
-    "easyDesc": "{count} skill Claude Code dễ cài và dùng được ngay từ lần đầu, kèm giải thích và cách cài."
+    "easyDesc": "{count} skill Claude Code dễ cài và dùng được ngay từ lần đầu, kèm giải thích và cách cài.",
+    "videosTitle": "Video YouTube về skill Claude — Claude Skill Mart",
+    "videosDesc": "Tuyển chọn hằng ngày các video YouTube về Claude và Claude Code skill trong 2 tuần gần nhất, theo từng ngôn ngữ."
   },
   "prompts": {
     "title": "40 câu dùng được ngay, không cần cài",
@@ -161,5 +164,13 @@
     "auto": "Để tự động",
     "homeTitle": "Dùng ngay, không cần cài",
     "homeMore": "Xem cả 40 câu"
+  },
+  "videos": {
+    "title": "Học qua video",
+    "lead": "Mỗi ngày chọn các video YouTube về skill cho Claude trong 2 tuần gần nhất. Bấm tiêu đề để mở YouTube.",
+    "empty": "Chưa có video nào. Danh sách được cập nhật mỗi sáng.",
+    "views": "{count} lượt xem",
+    "onYoutube": "Xem trên YouTube",
+    "note": "Video và ảnh thu nhỏ thuộc về các kênh YouTube tương ứng; trang này chỉ dẫn liên kết."
   }
 }

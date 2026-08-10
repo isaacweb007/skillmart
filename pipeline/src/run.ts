@@ -13,6 +13,7 @@ import {
   type ExistingSkill,
 } from "./publish.js";
 import { refreshUndiscovered, updateTrending } from "./refresh.js";
+import { fetchVideos } from "./youtube/search.js";
 import { generateCollections, publishCollections, type CollectionInput } from "./claude/collections.js";
 
 interface Item {
@@ -129,6 +130,34 @@ async function main() {
     const trended = await updateTrending(db);
     notes = `refresh ${refresh.refreshed}, hidden ${refresh.hidden}, trending-changed ${trended}`;
     console.log(`지표 갱신 ${refresh.refreshed}건, 숨김 ${refresh.hidden}건, 트렌딩 변화 ${trended}건`);
+
+    // 유튜브 큐레이션 — 키가 없으면 건너뛴다(파이프라인 본류를 막지 않는다)
+    const youtubeKey = process.env.YOUTUBE_API_KEY;
+    if (youtubeKey) {
+      try {
+        // YouTube API 약관: 저장 데이터는 30일 내 갱신 또는 삭제. 먼저 만료분을 지운다.
+        const cutoff = new Date(Date.now() - 30 * 86_400_000).toISOString();
+        const { error: delErr } = await db.from("videos").delete().lt("fetched_at", cutoff);
+        if (delErr) throw new Error(`videos 만료 삭제 실패: ${delErr.message}`);
+
+        const rows = await fetchVideos(youtubeKey);
+        if (rows.length > 0) {
+          const { error: upErr } = await db
+            .from("videos")
+            .upsert(rows.map((r) => ({ ...r, fetched_at: new Date().toISOString() })), {
+              onConflict: "video_id",
+            });
+          if (upErr) throw new Error(`videos upsert 실패: ${upErr.message}`);
+        }
+        notes += `, videos ${rows.length}`;
+        console.log(`유튜브 ${rows.length}건 갱신`);
+      } catch (e) {
+        errors++;
+        console.error(`유튜브 패스 실패(무시하고 계속): ${(e as Error).message}`);
+      }
+    } else {
+      console.log("YOUTUBE_API_KEY 없음 — 유튜브 패스 건너뜀");
+    }
 
     // 주간 컬렉션 (KST 일요일 03시 런 = UTC 토 18시) 또는 --collections 강제
     const isWeekly = startedOnUtcSaturday || process.argv.includes("--collections");

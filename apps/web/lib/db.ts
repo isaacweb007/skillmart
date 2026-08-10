@@ -242,6 +242,28 @@ export const getSkillSource = cache(
   },
 );
 
+export interface VideoItem {
+  video_id: string;
+  title: string;
+  channel_title: string;
+  thumbnail_url: string;
+  published_at: string;
+  views: number;
+  category: string | null;
+}
+
+/** 언어별 큐레이션 영상 — 파이프라인이 매일 채우고 30일 지난 것은 삭제한다 */
+export async function getVideos(locale: string, limit = 9): Promise<VideoItem[]> {
+  const { data, error } = await db
+    .from("videos")
+    .select("video_id, title, channel_title, thumbnail_url, published_at, views, category")
+    .eq("locale", locale)
+    .order("published_at", { ascending: false })
+    .limit(limit);
+  if (error) throw new Error(`videos 조회 실패: ${error.message}`);
+  return data as VideoItem[];
+}
+
 export interface SitemapSkill {
   slug: string;
   updated_at: string;
