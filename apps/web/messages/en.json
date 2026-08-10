@@ -9,7 +9,8 @@
   "nav": {
     "skills": "Browse skills",
     "guide": "What is a Skill?",
-    "prompts": "Quick lines"
+    "prompts": "Quick lines",
+    "videos": "Learn by video"
   },
   "home": {
     "heroTitle": "Pick your Claude skills",
@@ -153,7 +154,9 @@
     "promptsTitle": "40 Claude prompt lines — Claude Skill Mart",
     "promptsDesc": "40 lines to paste into Claude with nothing installed — summaries, comparison tables, checklists, opening lines — each linked to skills that automate it.",
     "easyTitle": "{count} Claude Code skills that are easy to start with — Claude Skill Mart",
-    "easyDesc": "{count} Claude Code skills that install simply and work on the first try, with explanations and install steps."
+    "easyDesc": "{count} Claude Code skills that install simply and work on the first try, with explanations and install steps.",
+    "videosTitle": "Claude skills on YouTube — Claude Skill Mart",
+    "videosDesc": "A daily selection of YouTube videos about Claude and Claude Code skills from the past two weeks, per language."
   },
   "prompts": {
     "title": "40 lines you can use right now, no install",
@@ -161,5 +164,13 @@
     "auto": "To automate it",
     "homeTitle": "Use it now, no install",
     "homeMore": "See all 40 lines"
+  },
+  "videos": {
+    "title": "Learn by video",
+    "lead": "A daily pick of YouTube videos about Claude skills from the last two weeks. Tap a title to open YouTube.",
+    "empty": "No videos yet. The list fills up every morning.",
+    "views": "{count} views",
+    "onYoutube": "Watch on YouTube",
+    "note": "Videos and thumbnails belong to their YouTube channels; this site only links to them."
   }
 }

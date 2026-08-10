@@ -9,7 +9,8 @@
   "nav": {
     "skills": "스킬 둘러보기",
     "guide": "스킬이 뭐예요?",
-    "prompts": "바로 쓰는 문장"
+    "prompts": "바로 쓰는 문장",
+    "videos": "영상으로 배우기"
   },
   "home": {
     "heroTitle": "클로드 스킬, 골라 담으세요",
@@ -153,7 +154,9 @@
     "promptsTitle": "Claude·AI 프롬프트 문장 40개 — 클로드스킬마트",
     "promptsDesc": "설치 없이 Claude에 붙여넣어 바로 쓰는 문장 40개. 요약·비교표·체크리스트·첫 문장 뽑기까지, 각 문장을 자동으로 해주는 스킬로 이어집니다.",
     "easyTitle": "바로 쓰기 좋은 Claude Code 스킬 {count}개 — 클로드스킬마트",
-    "easyDesc": "설치가 간단하고 처음 써도 바로 되는 Claude Code 스킬 {count}개. 한국어 설명과 설치 방법을 함께 정리했습니다."
+    "easyDesc": "설치가 간단하고 처음 써도 바로 되는 Claude Code 스킬 {count}개. 한국어 설명과 설치 방법을 함께 정리했습니다.",
+    "videosTitle": "Claude 스킬 유튜브 영상 모음 — 클로드스킬마트",
+    "videosDesc": "최근 2주간 올라온 Claude·Claude Code 스킬 관련 유튜브 영상을 매일 골라 정리합니다. 언어별로 볼 수 있습니다."
   },
   "prompts": {
     "title": "설치 없이 바로 쓰는 문장 40개",
@@ -161,5 +164,13 @@
     "auto": "자동으로 하려면",
     "homeTitle": "설치 없이 바로 써보기",
     "homeMore": "문장 40개 전체 보기"
+  },
+  "videos": {
+    "title": "영상으로 배우기",
+    "lead": "최근 2주 유튜브에서 Claude 스킬을 다룬 영상을 매일 골라 담습니다. 제목을 누르면 유튜브로 이동합니다.",
+    "empty": "아직 담긴 영상이 없어요. 매일 새벽에 새로 채워집니다.",
+    "views": "조회 {count}",
+    "onYoutube": "YouTube에서 보기",
+    "note": "영상과 섬네일은 각 유튜브 채널의 것이며, 이 사이트는 링크만 제공합니다."
   }
 }
