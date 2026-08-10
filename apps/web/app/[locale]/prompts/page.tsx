@@ -41,12 +41,17 @@ export default async function PromptsPage({ params }: Props) {
           return (
             <li
               key={item.cmd}
-              className="rounded-xl border border-line bg-surface p-4"
+              id={item.cmd}
+              className="scroll-mt-24 rounded-xl border border-line bg-surface p-4"
             >
               <div className="mb-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <span className="font-mono-plex text-xs text-ink-soft">
                   {String(i + 1).padStart(2, "0")}
                 </span>
+                {/* 이름표일 뿐 — Claude의 정식 명령어가 아니다(상단 안내 문구에 명시) */}
+                <code className="rounded-md bg-bg px-2 py-0.5 font-mono-plex text-xs text-accent">
+                  /{item.cmd}
+                </code>
                 <h2 className="font-display font-bold">{text.label}</h2>
                 <Link
                   href={`/skills?category=${item.category}`}
