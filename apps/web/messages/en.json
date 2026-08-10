@@ -117,5 +117,16 @@
     "stall": "Today's stall",
     "tagline": "Claude Code skills, picked fresh daily",
     "count": "{count} skills"
+  },
+  "seo": {
+    "homeTitle": "Claude Code skills, picked daily — Claude Skill Mart",
+    "homeDesc": "AI finds skills on GitHub every day and explains them plainly. Installable in the Claude app too, no terminal needed.",
+    "listTitle": "{count} Claude Code skills — Claude Skill Mart",
+    "listDesc": "{count} Claude Code skills found daily by AI. Filter by corner and level, with install steps for each.",
+    "cornerTitle": "{corner} Claude Code skills ({count}) — Claude Skill Mart",
+    "cornerDesc": "{count} Claude Code skills in {corner}. What each skill does and how to install it.",
+    "skillTitle": "{name} — Claude Code skill | Claude Skill Mart",
+    "guideTitle": "What is a Claude Code skill? How to install — Claude Skill Mart",
+    "guideDesc": "What a Skill is and how to install one in the Claude desktop/web app and in Claude Code."
   }
 }

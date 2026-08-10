@@ -117,5 +117,16 @@
     "stall": "Sạp hôm nay",
     "tagline": "Skill cho Claude Code, chọn mỗi ngày",
     "count": "{count} skill"
+  },
+  "seo": {
+    "homeTitle": "Kho skill Claude Code — Claude Skill Mart",
+    "homeDesc": "AI tìm skill trên GitHub mỗi ngày và diễn giải lại. Cài được cả trong ứng dụng Claude, không cần terminal.",
+    "listTitle": "{count} skill cho Claude Code — Claude Skill Mart",
+    "listDesc": "{count} skill Claude Code do AI tìm mỗi ngày. Chọn theo mục và độ khó, kèm cách cài đặt.",
+    "cornerTitle": "Skill Claude Code: {corner} ({count}) — Claude Skill Mart",
+    "cornerDesc": "{count} skill Claude Code trong mục {corner}. Skill làm được gì và cách cài đặt.",
+    "skillTitle": "{name} — Skill Claude Code | Claude Skill Mart",
+    "guideTitle": "Skill của Claude Code là gì? Cách cài — Claude Skill Mart",
+    "guideDesc": "Skill là gì và cách cài vào Claude desktop/web cũng như Claude Code."
   }
 }

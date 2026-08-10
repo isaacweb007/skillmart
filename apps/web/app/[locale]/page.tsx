@@ -6,6 +6,7 @@ import SkillCard from "@/components/SkillCard";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIES } from "@/lib/categories";
 import { getCollections, getHomeSkills, getTrendingSkills, getVisibleCount } from "@/lib/db";
+import { jsonLd, webSite } from "@/lib/jsonld";
 import { pageAlternates } from "@/lib/site";
 
 export const revalidate = 3600;
@@ -16,7 +17,12 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  return { alternates: pageAlternates(locale, "") };
+  const t = await getTranslations({ locale });
+  return {
+    title: { absolute: t("seo.homeTitle") },
+    description: t("seo.homeDesc"),
+    alternates: pageAlternates(locale, ""),
+  };
 }
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
@@ -32,6 +38,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
   return (
     <div className="py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd(webSite(t("brand"), t("seo.homeDesc"), locale)),
+        }}
+      />
       <section className="mb-12 text-center">
         <h1 className="mb-3 font-display text-3xl font-bold sm:text-4xl">
           {t("home.heroTitle")}

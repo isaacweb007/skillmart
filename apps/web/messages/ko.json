@@ -117,5 +117,16 @@
     "stall": "오늘의 매대",
     "tagline": "Claude Code 스킬, 매일 골라 한국어로",
     "count": "스킬 {count}개"
+  },
+  "seo": {
+    "homeTitle": "Claude Code 스킬 모음 — 클로드스킬마트",
+    "homeDesc": "AI가 매일 GitHub에서 스킬을 발굴해 한국어로 풀어씁니다. 터미널 없이 Claude 앱에도 설치할 수 있습니다.",
+    "listTitle": "Claude Code 스킬 {count}개 — 클로드스킬마트",
+    "listDesc": "AI가 매일 발굴한 Claude Code 스킬 {count}개. 코너와 난이도로 골라 설치 방법까지 한국어로 봅니다.",
+    "cornerTitle": "{corner} Claude Code 스킬 {count}개 — 클로드스킬마트",
+    "cornerDesc": "{corner} 코너의 Claude Code 스킬 {count}개. 무엇을 해주는 스킬인지와 설치 방법을 한국어로 정리했습니다.",
+    "skillTitle": "{name} — Claude Code 스킬 | 클로드스킬마트",
+    "guideTitle": "Claude Code 스킬이란? 설치 방법 — 클로드스킬마트",
+    "guideDesc": "스킬이 무엇인지, Claude 데스크톱·웹과 Claude Code에 각각 어떻게 설치하는지 한국어로 설명합니다."
   }
 }

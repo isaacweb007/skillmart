@@ -13,12 +13,41 @@ export const revalidate = 3600;
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const raw = await searchParams;
   const t = await getTranslations({ locale });
-  return { title: t("list.title"), alternates: pageAlternates(locale, "/skills") };
+  const category = first(raw.category);
+  // 코너만 지정된 변형만 독립 페이지로 색인한다.
+  // 다른 파라미터가 섞이면 /skills로 통합해 무한 조합이 색인되는 것을 막는다.
+  const cornerOnly =
+    category !== undefined &&
+    (CATEGORIES as readonly string[]).includes(category) &&
+    !first(raw.q) &&
+    !first(raw.difficulty) &&
+    !first(raw.sort) &&
+    !first(raw.page);
+
+  if (cornerOnly) {
+    const corner = t(`categories.${category}`);
+    const { total } = await searchSkills({ locale, category, sort: "rank", page: 1 });
+    return {
+      title: { absolute: t("seo.cornerTitle", { corner, count: total }) },
+      description: t("seo.cornerDesc", { corner, count: total }),
+      alternates: pageAlternates(locale, `/skills?category=${category}`),
+    };
+  }
+
+  const { total } = await searchSkills({ locale, sort: "rank", page: 1 });
+  return {
+    title: { absolute: t("seo.listTitle", { count: total }) },
+    description: t("seo.listDesc", { count: total }),
+    alternates: pageAlternates(locale, "/skills"),
+  };
 }
 
 type Search = { q?: string; category?: string; difficulty?: string; sort?: string; page?: string };
@@ -76,7 +105,11 @@ export default async function SkillsPage({
 
   return (
     <div className="py-8">
-      <h1 className="mb-4 font-display text-2xl font-bold">{t("list.title")}</h1>
+      <h1 className="mb-4 font-display text-2xl font-bold">
+        {sp.category && (CATEGORIES as readonly string[]).includes(sp.category)
+          ? t(`categories.${sp.category}`)
+          : t("list.title")}
+      </h1>
       <div className="mb-5 max-w-xl">
         <SearchBar locale={locale} defaultValue={sp.q ?? ""} />
       </div>

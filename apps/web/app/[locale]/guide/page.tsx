@@ -9,8 +9,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale });
   return {
-    title: t("guide.title"),
-    description: t("guide.lead"),
+    title: { absolute: t("seo.guideTitle") },
+    description: t("seo.guideDesc"),
     alternates: pageAlternates(locale, "/guide"),
   };
 }
