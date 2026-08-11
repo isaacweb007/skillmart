@@ -2,7 +2,7 @@ name: daily-pipeline
 
 on:
   schedule:
-    - cron: "0 18 * * *" # 03:00 KST
+    - cron: "0 20 * * *" # 현지(UTC+7) 새벽 03:00 = KST 05:00
   workflow_dispatch:
     inputs:
       limit:
