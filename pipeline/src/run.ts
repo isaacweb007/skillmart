@@ -179,7 +179,7 @@ async function main() {
       console.error(`문장 추가 실패(무시하고 계속): ${(e as Error).message}`);
     }
 
-    // 주간 컬렉션 (KST 일요일 03시 런 = UTC 토 18시) 또는 --collections 강제
+    // 주간 컬렉션 (현지 일요일 새벽 3시 런 = UTC 토 20시) 또는 --collections 강제
     const isWeekly = startedOnUtcSaturday || process.argv.includes("--collections");
     if (isWeekly) {
       try {
