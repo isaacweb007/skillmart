@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "tsx src/run.ts",
+    "rescore": "tsx src/rescore.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },

@@ -30,7 +30,9 @@ describe("ANALYSIS_SCHEMA", () => {
   it("구조화 출력 규칙: additionalProperties false + 전 필드 required", () => {
     expect(ANALYSIS_SCHEMA.additionalProperties).toBe(false);
     expect(ANALYSIS_SCHEMA.required).toEqual([
-      "category", "tags", "difficulty", "ai_score", "install_command", "reviews", "translations",
+      "category", "tags", "difficulty",
+      "completeness_hits", "universality", "doc_hits", "risk",
+      "install_command", "reviews", "translations",
     ]);
   });
   it("3개 로케일이 모두 required다", () => {
@@ -82,7 +84,10 @@ function validAnalysisJson(overrides: Record<string, unknown> = {}): string {
     category: "utility",
     tags: ["a", "b", "c", "d", "e", "f"], // 6개 — 5개 슬라이스 검증용
     difficulty: "beginner",
-    ai_score: 22, // 범위 밖 — 10 클램프 검증용
+    completeness_hits: 9, // 범위 밖 — 4 클램프 검증용
+    universality: 3,
+    doc_hits: 3,
+    risk: false,
     install_command: "git clone https://github.com/acme/skills ~/.claude/skills/pdf",
     reviews: { ko: "한줄평", vi: "Nhận xét", en: "One-line review" },
     translations: {
@@ -117,7 +122,7 @@ describe("runAnalysisBatch", () => {
     expect(result.size).toBe(0);
   });
 
-  it("succeeded + 유효 JSON: ai_score 22 → 10 클램프, tags 6개 → 5개 슬라이스, usage 토큰 기록", async () => {
+  it("succeeded + 유효 JSON: 충족 개수 합산(클램프 포함) → ai_score, tags 6개 → 5개 슬라이스, usage 토큰 기록", async () => {
     const requests = [buildBatchRequest(CAND, "c0")];
     const client = fakeClient([
       { custom_id: "c0", result: succeededResult(validAnalysisJson(), { inputTokens: 111, outputTokens: 222 }) },
@@ -125,10 +130,19 @@ describe("runAnalysisBatch", () => {
     const result = await runAnalysisBatch(client, requests);
     const outcome = result.get("c0");
     expect(outcome?.error).toBeUndefined();
-    expect(outcome?.analysis?.ai_score).toBe(10);
+    expect(outcome?.analysis?.ai_score).toBe(10); // clamp(9→4) + 3 + 3
     expect(outcome?.analysis?.tags).toHaveLength(5);
     expect(outcome?.inputTokens).toBe(111);
     expect(outcome?.outputTokens).toBe(222);
+  });
+
+  it("risk=true면 합산이 높아도 ai_score 2 상한 — 목록 노출(5점) 차단", async () => {
+    const requests = [buildBatchRequest(CAND, "c0")];
+    const client = fakeClient([
+      { custom_id: "c0", result: succeededResult(validAnalysisJson({ risk: true })) },
+    ]);
+    const result = await runAnalysisBatch(client, requests);
+    expect(result.get("c0")?.analysis?.ai_score).toBe(2);
   });
 
   it('succeeded + stop_reason "refusal": error "refusal" 기록, analysis 없음, usage는 기록', async () => {
@@ -157,10 +171,10 @@ describe("runAnalysisBatch", () => {
     expect(outcome?.outputTokens).toBe(0);
   });
 
-  it("succeeded + ai_score가 문자열인 JSON: error \"json_parse\" 기록, analysis 없음", async () => {
+  it("succeeded + 채점 필드가 문자열인 JSON: error \"json_parse\" 기록, analysis 없음", async () => {
     const requests = [buildBatchRequest(CAND, "c0")];
     const client = fakeClient([
-      { custom_id: "c0", result: succeededResult(validAnalysisJson({ ai_score: "many" })) },
+      { custom_id: "c0", result: succeededResult(validAnalysisJson({ completeness_hits: "many" })) },
     ]);
     const result = await runAnalysisBatch(client, requests);
     const outcome = result.get("c0");
