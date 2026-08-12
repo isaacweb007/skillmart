@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -54,6 +55,8 @@ export default async function LocaleLayout({
             <Footer />
           </FavoritesProvider>
         </NextIntlClientProvider>
+        {/* Vercel 대시보드에서 Web Analytics를 켜야 수집 시작 — 꺼져 있으면 조용히 no-op */}
+        <Analytics />
       </body>
     </html>
   );
