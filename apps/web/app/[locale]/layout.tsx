@@ -1,5 +1,6 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -57,6 +58,19 @@ export default async function LocaleLayout({
         </NextIntlClientProvider>
         {/* Vercel 대시보드에서 Web Analytics를 켜야 수집 시작 — 꺼져 있으면 조용히 no-op */}
         <Analytics />
+        {/* GA4 — NEXT_PUBLIC_GA_ID(G-…)가 빌드에 있을 때만 로드. 라우트 전환은
+            GA4 향상된 측정(브라우저 방문 기록 이벤트, 기본 켜짐)이 잡는다 */}
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${process.env.NEXT_PUBLIC_GA_ID}');`}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   );
