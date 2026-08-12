@@ -178,7 +178,7 @@ async function findSkillMdPaths(
   }
 }
 
-async function fetchRaw(
+export async function fetchRaw(
   octokit: Octokit,
   owner: string,
   repo: string,
