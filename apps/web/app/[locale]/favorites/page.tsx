@@ -17,7 +17,7 @@ export default async function FavoritesPage({ params }: Props) {
   const t = await getTranslations("auth");
   return (
     <div className="py-10">
-      <h1 className="mb-6 font-display text-3xl font-bold">{t("myList")}</h1>
+      <h1 className="mb-6 font-display text-3xl font-semibold">{t("myList")}</h1>
       <FavoritesList />
     </div>
   );

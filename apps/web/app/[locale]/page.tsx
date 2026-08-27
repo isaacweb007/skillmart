@@ -45,18 +45,21 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           __html: jsonLd(webSite(t("brand"), t("seo.homeDesc"), locale)),
         }}
       />
-      <section className="mb-12 text-center">
-        <h1 className="mb-3 font-display text-3xl font-bold sm:text-4xl">
+      {/* Linear의 히어로는 크고 자간이 좁다 — 80px에서 -3px, 즉 크기의 약 4% */}
+      <section className="mb-16 pt-8 text-center sm:pt-14">
+        <h1 className="mx-auto mb-5 max-w-3xl font-display text-4xl font-semibold text-balance sm:text-5xl md:text-6xl">
           {t("home.heroTitle")}
         </h1>
-        <p className="mb-6 text-sm text-ink-soft">{t("home.heroSubtitle", { count })}</p>
+        <p className="mx-auto mb-8 max-w-xl text-base text-ink-subtle sm:text-lg">
+          {t("home.heroSubtitle", { count })}
+        </p>
         <div className="mx-auto max-w-xl">
           <SearchBar locale={locale} />
         </div>
       </section>
 
       <section className="mb-12">
-        <h2 className="mb-4 font-display text-xl font-bold">{t("home.corners")}</h2>
+        <h2 className="mb-4 font-display text-xl font-semibold">{t("home.corners")}</h2>
         <div className="flex flex-wrap gap-2">
           {CATEGORIES.map((c) => (
             <Link key={c} href={`/skills?category=${c}`}>
@@ -73,7 +76,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       {/* 설치 전에 얻는 가치 — 첫 방문자가 여기서 바로 써본다 */}
       <section className="mb-12 rounded-xl border border-line bg-surface p-5">
-        <h2 className="mb-2 font-display text-xl font-bold">{t("prompts.homeTitle")}</h2>
+        <h2 className="mb-2 font-display text-xl font-semibold">{t("prompts.homeTitle")}</h2>
         <p className="mb-4 text-sm leading-relaxed text-ink-soft">{t("prompts.lead")}</p>
         <div className="mb-4 space-y-2">
           {PROMPTS.slice(0, 4).map((p) => {
@@ -95,15 +98,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       {collections.length > 0 && (
         <section className="mb-12">
-          <h2 className="mb-4 font-display text-xl font-bold">{t("home.collections")}</h2>
+          <h2 className="mb-4 font-display text-xl font-semibold">{t("home.collections")}</h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {collections.map((c) => (
               <Link
                 key={c.id}
                 href={`/collections/${c.slug}`}
-                className="group block rounded-xl border border-line bg-surface p-4 transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-sm"
+                className="group block rounded-xl border border-line bg-surface p-4 transition-colors duration-150 hover:border-line-strong hover:bg-surface-2"
               >
-                <h3 className="mb-1 font-display text-lg font-bold group-hover:text-accent">{c.title}</h3>
+                <h3 className="mb-1 font-display text-lg font-semibold group-hover:text-accent">{c.title}</h3>
                 <p className="mb-2 line-clamp-2 text-sm leading-relaxed text-ink-soft">{c.description}</p>
                 <span className="text-xs text-accent">{t("collection.skillCount", { count: c.count })} →</span>
               </Link>
@@ -141,7 +144,7 @@ function HomeSection({
   return (
     <section className="mb-12">
       <div className="mb-4 flex items-baseline justify-between">
-        <h2 className="font-display text-xl font-bold">{title}</h2>
+        <h2 className="font-display text-xl font-semibold">{title}</h2>
         <Link href={href} className="text-sm text-accent">
           {viewAll} →
         </Link>

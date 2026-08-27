@@ -8,7 +8,7 @@ import FavoritesProvider from "@/components/FavoritesProvider";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { routing } from "@/i18n/routing";
-import { plex, plexMono, sourceSerif } from "@/lib/fonts";
+import { inter, mono } from "@/lib/fonts";
 import { SITE_URL } from "@/lib/site";
 import "../globals.css";
 
@@ -45,7 +45,7 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
-  const fontVars = `${sourceSerif.variable} ${plex.variable} ${plexMono.variable}`;
+  const fontVars = `${inter.variable} ${mono.variable}`;
   return (
     <html lang={locale} className={fontVars}>
       <body className="flex min-h-screen flex-col">

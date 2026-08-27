@@ -27,7 +27,7 @@ export default async function VideosPage({ params }: Props) {
 
   return (
     <div className="py-10">
-      <h1 className="mb-3 font-display text-3xl font-bold">{t("videos.title")}</h1>
+      <h1 className="mb-3 font-display text-3xl font-semibold">{t("videos.title")}</h1>
       <p className="mb-8 max-w-2xl text-[15px] leading-relaxed text-ink-soft">{t("videos.lead")}</p>
 
       {videos.length === 0 ? (
@@ -54,7 +54,7 @@ export default async function VideosPage({ params }: Props) {
                   loading="lazy"
                   className="mb-3 w-full rounded-lg border border-line bg-bg object-cover"
                 />
-                <h2 className="mb-1 line-clamp-2 font-display font-bold group-hover:text-accent">
+                <h2 className="mb-1 line-clamp-2 font-display font-semibold group-hover:text-accent">
                   {v.title}
                 </h2>
               </a>

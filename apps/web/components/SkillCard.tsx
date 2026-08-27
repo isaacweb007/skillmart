@@ -10,10 +10,10 @@ export default function SkillCard({ skill }: { skill: SkillListItem }) {
     <div className="relative">
       <Link
         href={`/skills/${skill.slug}`}
-        className="group block rounded-xl border border-line bg-surface p-4 transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-sm"
+        className="group block rounded-xl border border-line bg-surface p-4 transition-colors duration-150 hover:border-line-strong hover:bg-surface-2"
       >
         <div className="mb-1 flex items-baseline justify-between gap-2 pr-8">
-          <h3 className="truncate font-display text-lg font-bold group-hover:text-accent">
+          <h3 className="truncate font-display text-lg font-semibold group-hover:text-accent">
             {skill.name}
           </h3>
           {skill.is_official && (

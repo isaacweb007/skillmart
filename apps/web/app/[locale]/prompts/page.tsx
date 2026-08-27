@@ -45,7 +45,7 @@ export default async function PromptsPage({ params }: Props) {
         <span className="font-mono-plex text-xs text-ink-soft">{String(n).padStart(2, "0")}</span>
         {/* 이름표일 뿐 — Claude의 정식 명령어가 아니다(상단 안내 문구에 명시). 클릭하면 복사된다 */}
         <CopyChip text={`/${row.cmd}`} title={t("prompts.copyCmd")} />
-        <h2 className="font-display font-bold">{row.label}</h2>
+        <h2 className="font-display font-semibold">{row.label}</h2>
         <Link
           href={`/skills?category=${row.category}`}
           className="ml-auto text-xs whitespace-nowrap text-accent underline"
@@ -62,14 +62,14 @@ export default async function PromptsPage({ params }: Props) {
 
   return (
     <div className="py-10">
-      <h1 className="mb-3 font-display text-3xl font-bold">{t("prompts.title")}</h1>
+      <h1 className="mb-3 font-display text-3xl font-semibold">{t("prompts.title")}</h1>
       <p className="mb-8 max-w-2xl text-[15px] leading-relaxed text-ink-soft">
         {t("prompts.lead")}
       </p>
 
       {daily.length > 0 && (
         <section className="mb-10">
-          <h2 className="mb-1 font-display text-xl font-bold">{t("prompts.newTitle")}</h2>
+          <h2 className="mb-1 font-display text-xl font-semibold">{t("prompts.newTitle")}</h2>
           <p className="mb-4 text-sm text-ink-soft">{t("prompts.newLead")}</p>
           <ol className="space-y-3">{daily.map((row, i) => renderRow(row, i + 1))}</ol>
         </section>

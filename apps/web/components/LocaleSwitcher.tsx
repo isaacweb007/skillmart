@@ -20,7 +20,7 @@ export default function LocaleSwitcher() {
           href={{ pathname, query }}
           locale={l}
           aria-current={l === locale ? "true" : undefined}
-          className={`whitespace-nowrap rounded-full px-2 py-1 ${
+          className={`whitespace-nowrap rounded-md px-2 py-1 transition-colors ${
             l === locale ? "bg-accent text-accent-ink" : "text-ink-soft hover:text-ink"
           }`}
         >
