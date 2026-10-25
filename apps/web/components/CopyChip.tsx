@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { trackCopy } from "@/lib/track";
 
 /** 클릭하면 자기 텍스트를 복사하는 칩. 라벨을 그대로 유지하고 ✓만 덧붙인다
  *  (라벨을 "복사됨"으로 바꾸면 어떤 명령어였는지 사라진다). */
@@ -20,6 +21,7 @@ export default function CopyChip({ text, title }: { text: string; title: string 
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(text);
+          trackCopy(text);
           setDone(true);
           if (timer.current) clearTimeout(timer.current);
           timer.current = setTimeout(() => setDone(false), 1500);
