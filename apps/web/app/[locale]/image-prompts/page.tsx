@@ -36,6 +36,13 @@ export default async function ImagePromptsPage({ params }: Props) {
           <CopyChip text={`/${p.cmd}`} title={t("prompts.copyCmd")} />
           <h3 className="font-display font-semibold">{text.label}</h3>
         </div>
+        {/* 예시 결과물 — 텍스트 표는 복제돼도 결과물은 차별점. alt는 로케일 라벨(이미지 검색 유입) */}
+        <img
+          src={`/image-prompts/${p.cmd}.webp`}
+          alt={text.label}
+          loading="lazy"
+          className="mb-2 max-h-64 w-auto rounded-lg border border-line"
+        />
         <div className="flex items-start gap-2 rounded-lg border border-line bg-bg p-3">
           <p className="min-w-0 flex-1 font-mono-plex text-xs leading-relaxed">{text.example}</p>
           <CopyButton text={text.example} />
