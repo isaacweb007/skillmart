@@ -11,7 +11,7 @@ export default function Header() {
       {/* flex-wrap + nowrap: 좁은 화면에서 항목이 줄바꿈되게 한다.
           없으면 375px에서 flex가 항목을 최소폭으로 짜내 글자가 세로로 쪼개진다 */}
       <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
-        <Link href="/" className="font-display text-lg font-bold whitespace-nowrap">
+        <Link href="/" className="font-display text-lg font-semibold whitespace-nowrap">
           {t("brand")}
         </Link>
         <Link href="/skills" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
@@ -19,6 +19,9 @@ export default function Header() {
         </Link>
         <Link href="/prompts" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
           {t("nav.prompts")}
+        </Link>
+        <Link href="/image-prompts" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
+          {t("nav.imagePrompts")}
         </Link>
         <Link href="/videos" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
           {t("nav.videos")}

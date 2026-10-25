@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { trackCopy } from "@/lib/track";
 
 export default function CopyButton({ text }: { text: string }) {
   const t = useTranslations("detail");
@@ -13,6 +14,7 @@ export default function CopyButton({ text }: { text: string }) {
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(text);
+          trackCopy(text);
           setCopied(true);
           setTimeout(() => setCopied(false), 2000);
         } catch {

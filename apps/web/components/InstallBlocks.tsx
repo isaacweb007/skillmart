@@ -24,13 +24,13 @@ export default function InstallBlocks({
   const tryPrompt = t("tryPrompt", { rawUrl });
   return (
     <section className="my-8 border-y-2 border-dashed border-line bg-surface px-5 py-6">
-      <h2 className="mb-4 text-center font-display text-lg font-bold tracking-widest">
+      <h2 className="mb-4 text-center font-display text-lg font-semibold tracking-widest">
         · · · {t("install")} · · ·
       </h2>
 
       {/* 가장 마찰이 적은 경로를 맨 위에 — 첫 방문자가 10초 안에 써볼 수 있다 */}
       <details open className="mb-3 rounded-xl border-2 border-accent bg-bg p-4">
-        <summary className="cursor-pointer font-display font-bold">{t("tryTitle")}</summary>
+        <summary className="cursor-pointer font-display font-semibold">{t("tryTitle")}</summary>
         <p className="mt-3 mb-2 text-sm text-ink-soft">{t("tryLead")}</p>
         <div className="flex items-start gap-2 rounded-lg border border-line bg-surface p-3">
           <pre className="min-w-0 flex-1 whitespace-pre-wrap font-mono-plex text-xs leading-relaxed">
@@ -43,7 +43,7 @@ export default function InstallBlocks({
       </details>
 
       <details open className="mb-3 rounded-xl border border-line bg-bg p-4">
-        <summary className="cursor-pointer font-display font-bold">{t("installAppTitle")}</summary>
+        <summary className="cursor-pointer font-display font-semibold">{t("installAppTitle")}</summary>
         <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-relaxed">
           <li>{t("installAppStep1")}</li>
           <li>{t("installAppStep2")}</li>
@@ -58,7 +58,7 @@ export default function InstallBlocks({
       </details>
 
       <details className="rounded-xl border border-line bg-bg p-4">
-        <summary className="cursor-pointer font-display font-bold">{t("installCodeTitle")}</summary>
+        <summary className="cursor-pointer font-display font-semibold">{t("installCodeTitle")}</summary>
         <p className="mt-3 mb-2 text-sm text-ink-soft">{t("installCodeAsk")}</p>
         <div className="flex items-start gap-2 rounded-lg border border-line bg-surface p-3">
           <pre className="min-w-0 flex-1 whitespace-pre-wrap font-mono-plex text-xs leading-relaxed">

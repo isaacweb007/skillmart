@@ -69,9 +69,9 @@ export default async function SkillDetail({ params }: Props) {
 
       <header className="mt-4 mb-6">
         <div className="mb-2 flex items-center gap-2">
-          <h1 className="font-display text-3xl font-bold">{skill.name}</h1>
+          <h1 className="font-display text-3xl font-semibold">{skill.name}</h1>
           {skill.is_official && (
-            <span className="rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-accent-ink">
+            <span className="rounded-md bg-accent px-2 py-0.5 text-xs font-medium text-accent-ink">
               {t("detail.official")}
             </span>
           )}

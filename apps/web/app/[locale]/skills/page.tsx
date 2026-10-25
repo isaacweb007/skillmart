@@ -118,7 +118,7 @@ export default async function SkillsPage({
 
   return (
     <div className="py-8">
-      <h1 className="mb-4 font-display text-2xl font-bold">
+      <h1 className="mb-4 font-display text-2xl font-semibold">
         {sp.category && (CATEGORIES as readonly string[]).includes(sp.category)
           ? t(`categories.${sp.category}`)
           : sp.difficulty === "beginner" && !sp.category

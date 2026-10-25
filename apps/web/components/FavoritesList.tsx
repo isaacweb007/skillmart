@@ -85,7 +85,7 @@ export default function FavoritesList() {
             href={`/skills/${r.slug}`}
             className="block rounded-xl border border-line bg-surface p-4 hover:shadow-sm"
           >
-            <h3 className="mb-1 truncate pr-8 font-display text-lg font-bold">{r.name}</h3>
+            <h3 className="mb-1 truncate pr-8 font-display text-lg font-semibold">{r.name}</h3>
             <p className="line-clamp-2 text-sm leading-relaxed text-ink-soft">{r.one_liner}</p>
           </Link>
           {/* 앵커 밖에 절대 배치 — SkillCard와 같은 이유(중첩 인터랙티브 금지) */}

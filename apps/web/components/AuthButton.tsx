@@ -20,7 +20,7 @@ export default function AuthButton() {
           const { error } = await signInWithGoogle();
           if (error) alert(t("failed"));
         }}
-        className="rounded-lg bg-accent px-3 py-1.5 text-xs font-semibold text-accent-ink"
+        className="rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-accent-ink transition-colors hover:bg-accent-hover"
       >
         {t("signIn")}
       </button>

@@ -6,7 +6,7 @@ export default function ErrorBoundary({ reset }: { error: Error; reset: () => vo
   const t = useTranslations("error");
   return (
     <div className="py-24 text-center">
-      <h1 className="mb-2 font-display text-2xl font-bold">{t("title")}</h1>
+      <h1 className="mb-2 font-display text-2xl font-semibold">{t("title")}</h1>
       <p className="mb-6 text-sm text-ink-soft">{t("desc")}</p>
       <button
         type="button"

@@ -25,6 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   add("/skills");
   add("/guide");
   add("/prompts");
+  add("/image-prompts");
   add("/videos");
   add("/terminal");
   add("/skills?difficulty=beginner"); // 바로 쓰기 좋은 스킬

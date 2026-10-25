@@ -10,11 +10,11 @@ export default function SearchBar({ locale, defaultValue = "" }: { locale: strin
         defaultValue={defaultValue}
         placeholder={t("searchPlaceholder")}
         aria-label={t("searchPlaceholder")}
-        className="w-full rounded-xl border border-line bg-surface px-4 py-3 text-sm placeholder:text-ink-soft"
+        className="w-full rounded-lg border border-line bg-surface px-4 py-3 text-sm transition-colors placeholder:text-ink-tertiary focus:border-line-strong"
       />
       <button
         type="submit"
-        className="shrink-0 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-accent-ink"
+        className="shrink-0 rounded-lg bg-accent px-5 py-3 text-sm font-medium text-accent-ink transition-colors hover:bg-accent-hover"
       >
         {t("searchButton")}
       </button>

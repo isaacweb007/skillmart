@@ -59,12 +59,12 @@ export default async function TerminalPage({ params }: Props) {
   const tn = await getTranslations();
 
   const step = "mb-10";
-  const h2 = "mb-3 font-display text-xl font-bold";
+  const h2 = "mb-3 font-display text-xl font-semibold";
   const body = "text-[15px] leading-relaxed";
 
   return (
     <article className="mx-auto max-w-2xl py-10">
-      <h1 className="mb-3 font-display text-3xl font-bold">{t("title")}</h1>
+      <h1 className="mb-3 font-display text-3xl font-semibold">{t("title")}</h1>
       <p className="mb-10 text-[15px] leading-relaxed text-ink-soft">{t("lead")}</p>
 
       <section className={step}>

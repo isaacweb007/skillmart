@@ -10,6 +10,7 @@
     "skills": "Khám phá skill",
     "guide": "Skill là gì?",
     "prompts": "Câu dùng ngay",
+    "imagePrompts": "Lệnh tạo ảnh",
     "videos": "Học qua video",
     "terminal": "Dùng terminal"
   },
@@ -160,7 +161,9 @@
     "videosTitle": "Video YouTube về skill Claude — Claude Skill Mart",
     "videosDesc": "Tuyển chọn hằng ngày các video YouTube về Claude và Claude Code skill trong 2 tuần gần nhất, theo từng ngôn ngữ.",
     "terminalTitle": "Cách dùng terminal Claude Code — cài trên Windows và Mac (cho người mới)",
-    "terminalDesc": "Hướng dẫn cài và dùng Claude Code cho người chưa từng mở terminal. Có hình minh hoạ từng bước cho cả Windows và Mac."
+    "terminalDesc": "Hướng dẫn cài và dùng Claude Code cho người chưa từng mở terminal. Có hình minh hoạ từng bước cho cả Windows và Mac.",
+    "imagePromptsTitle": "50 lệnh tạo ảnh AI — Claude Skill Mart",
+    "imagePromptsDesc": "50 câu lệnh tạo ảnh dán vào ChatGPT, Claude hay Gemini là dùng được ngay: ảnh sản phẩm, quảng cáo, nội dung mạng xã hội, thương hiệu và chỉnh sửa ảnh."
   },
   "prompts": {
     "title": "40 câu dùng được ngay, không cần cài",
@@ -218,5 +221,19 @@
     "stuck3": "Cửa sổ đăng nhập không mở → mở trình duyệt trước, rồi gõ `claude` lại.",
     "stuck4": "Có thông báo về gói dịch vụ → gói miễn phí không dùng được, cần Pro trở lên.",
     "stuckAsk": "Vẫn không được thì nhắn cho nhà phát triển ở dưới. Gửi ảnh chụp màn hình chỗ bị kẹt sẽ nhanh hơn."
+  },
+  "imagePrompts": {
+    "title": "50 lệnh tạo ảnh AI",
+    "lead": "Bộ câu lệnh tạo ảnh dán thẳng vào ChatGPT, Claude hay Gemini đều dùng được. /lệnh bên trái chỉ là nhãn cho dễ nhớ — thứ bạn copy là câu bên phải.",
+    "tip": "Cách dùng: đính kèm ảnh sản phẩm hoặc chân dung vào chat, dán câu lệnh, rồi chỉ sửa phần trong [ngoặc vuông] cho đúng ý bạn.",
+    "toPrompts": "Xem thêm 40 lệnh viết lách",
+    "fromPrompts": "50 lệnh tạo ảnh AI",
+    "cat": {
+      "product": "Ảnh sản phẩm",
+      "ads": "Quảng cáo & marketing",
+      "sns": "Nội dung mạng xã hội",
+      "branding": "Chân dung & thương hiệu",
+      "edit": "Chỉnh sửa & biến đổi"
+    }
   }
 }

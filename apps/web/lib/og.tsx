@@ -4,12 +4,15 @@ import { join } from "node:path";
 export const OG_SIZE = { width: 1200, height: 630 };
 export const OG_FONT_FAMILY = "Gowun";
 
-const PAPER = "#fdfcf9";
-const COUNTER = "#e9e5db";
-const INK = "#33302a";
-const INK_SOFT = "#6e6858";
-const TERRA = "#c15f3c";
-const LINE = "#e3dfd3";
+/* Linear 팔레트 (DESIGN.md). satori는 CSS 변수를 못 읽어 여기만 값을 직접 쓴다 —
+ * globals.css 를 고치면 이 여섯 줄도 같이 맞춰야 한다.
+ * 영수증 구조는 그대로 둔다: 스킬"마트"라는 이름과 붙은 브랜드 장치다. */
+const PAPER = "#0f1011";
+const COUNTER = "#18191a";
+const INK = "#f7f8f8";
+const INK_SOFT = "#8a8f98";
+const TERRA = "#828fff";  /* 근검정 위에서는 primary(#5e6ad2)가 어두워 hover 라벤더를 쓴다 */
+const LINE = "#23252a";
 
 /** 아래가 찢긴 영수증 배경. satori는 SVG 요소를 직접 그리지 못해 data URI 이미지로 넣는다. */
 function receiptBackground(): string {

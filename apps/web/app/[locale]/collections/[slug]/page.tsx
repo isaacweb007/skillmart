@@ -33,7 +33,7 @@ export default async function CollectionPage({ params }: Props) {
       <Link href="/" className="text-sm text-ink-soft hover:text-ink">
         ← {t("collection.back")}
       </Link>
-      <h1 className="mt-4 mb-2 font-display text-3xl font-bold">{data.summary.title}</h1>
+      <h1 className="mt-4 mb-2 font-display text-3xl font-semibold">{data.summary.title}</h1>
       <p className="mb-6 max-w-2xl leading-relaxed text-ink-soft">{data.summary.description}</p>
       <p className="mb-4 text-sm text-ink-soft">
         {t("collection.skillCount", { count: data.skills.length })}
