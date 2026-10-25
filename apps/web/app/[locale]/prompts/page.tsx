@@ -77,10 +77,16 @@ export default async function PromptsPage({ params }: Props) {
 
       <ol className="space-y-3">{seed.map((row, i) => renderRow(row, i + 1))}</ol>
 
-      <div className="mt-10">
+      <div className="mt-10 flex flex-wrap gap-3">
+        <Link
+          href="/image-prompts"
+          className="inline-block rounded-xl bg-accent px-5 py-3 font-semibold text-accent-ink"
+        >
+          {t("imagePrompts.fromPrompts")} →
+        </Link>
         <Link
           href="/guide"
-          className="inline-block rounded-xl bg-accent px-5 py-3 font-semibold text-accent-ink"
+          className="inline-block rounded-xl border border-line px-5 py-3 font-semibold text-ink"
         >
           {t("nav.guide")} →
         </Link>

@@ -91,9 +91,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             );
           })}
         </div>
-        <Link href="/prompts" className="text-sm font-semibold text-accent underline">
-          {t("prompts.homeMore")} →
-        </Link>
+        <div className="flex flex-wrap gap-x-5 gap-y-1">
+          <Link href="/prompts" className="text-sm font-semibold text-accent underline">
+            {t("prompts.homeMore")} →
+          </Link>
+          <Link href="/image-prompts" className="text-sm font-semibold text-accent underline">
+            {t("imagePrompts.fromPrompts")} →
+          </Link>
+        </div>
       </section>
 
       {collections.length > 0 && (
