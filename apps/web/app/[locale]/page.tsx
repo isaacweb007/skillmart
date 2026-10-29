@@ -75,9 +75,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </Link>
           ))}
         </div>
-        <div className="mt-3">
+        <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
           <Link href="/skills?difficulty=beginner" className="text-sm text-accent underline">
             {t("list.easyTitle")} →
+          </Link>
+          <Link href="/learn" className="text-sm text-accent underline">
+            {t("learnPage.title")} →
+          </Link>
+          <Link href="/programs" className="text-sm text-accent underline">
+            {t("programsPage.title")} →
           </Link>
         </div>
       </section>

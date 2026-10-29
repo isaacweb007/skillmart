@@ -9,7 +9,9 @@
   "nav": {
     "skills": "Browse skills",
     "guide": "What is a Skill?",
-    "prompts": "Quick lines",
+    "prompts": "Prompts",
+    "programs": "Programs",
+    "learn": "Learn",
     "imagePrompts": "Image prompts",
     "videos": "Learn by video",
     "terminal": "Terminal guide"
@@ -163,7 +165,13 @@
     "terminalTitle": "How to use the Claude Code terminal — Windows and Mac setup for beginners",
     "terminalDesc": "Install and use Claude Code even if you have never opened a terminal. Step-by-step with illustrations for both Windows and Mac.",
     "imagePromptsTitle": "50 AI image prompts — AI Skill Mart",
-    "imagePromptsDesc": "50 image-generation prompts you can paste into ChatGPT, Claude or Gemini: product shots, ads, social content, branding and photo edits — one copy away."
+    "imagePromptsDesc": "50 image-generation prompts you can paste into ChatGPT, Claude or Gemini: product shots, ads, social content, branding and photo edits — one copy away.",
+    "gptTitle": "41 ChatGPT commands — custom instructions setup | AI Skill Mart",
+    "gptDesc": "Register once in ChatGPT's custom instructions and use 41 commands like /truth: judgment, writing, analysis, execution and study commands, one copy away.",
+    "learnTitle": "Learn AI skills — start with zero installs | AI Skill Mart",
+    "learnDesc": "The terminal can wait. A learning track in order: ChatGPT commands, installing skills, then writing your own SKILL.md.",
+    "programsTitle": "Recommended open-source programs — step-by-step installs | AI Skill Mart",
+    "programsDesc": "Well-starred, well-reviewed GitHub projects with step-by-step guides from install to teardown. Twenty CRM, Automaton and more."
   },
   "prompts": {
     "title": "40 lines you can use right now, no install",
@@ -235,5 +243,59 @@
       "branding": "People & branding",
       "edit": "Edit & transform"
     }
+  },
+  "promptTabs": {
+    "label": "Prompt collections",
+    "text": "Writing prompts",
+    "image": "Image prompts",
+    "gpt": "ChatGPT commands"
+  },
+  "gptPage": {
+    "title": "41 ChatGPT commands",
+    "lead": "Commands for ChatGPT. The /name is just a memorable label — what ChatGPT understands is the description. Register the custom instructions below once, and from then on typing /truth alone works.",
+    "customTitle": "Register the custom instructions once, done",
+    "customLead": "Go to ChatGPT Settings → Custom Instructions and paste the full text below. After that, just type /truth or /no fluff in chat. No name collisions with the image prompt set, so they can live together.",
+    "studyTitle": "4 study commands — in order, they finish a topic",
+    "studyLead": "Skim with Cheat Sheet → frame it with Blueprint → memorize with Flashcards → wrap up with Mind Map.",
+    "source": "Sources",
+    "cat": {
+      "judge": "Forced judgment",
+      "write": "Writing & editing",
+      "analyze": "Analysis & decoding",
+      "execute": "Execution & structure",
+      "self": "Self-understanding"
+    }
+  },
+  "learnPage": {
+    "title": "Learn",
+    "lead": "If the terminal feels hard, start here. Follow the track from using skills with zero installs to writing your own.",
+    "startTitle": "Starting track",
+    "cards": {
+      "what": {
+        "title": "What's a skill?",
+        "desc": "The concept and install, in pictures. Download a ZIP, drop it in — no terminal needed"
+      },
+      "gpt": {
+        "title": "Start with ChatGPT",
+        "desc": "The easiest door — nothing to install, 41 commands to copy"
+      },
+      "terminal": {
+        "title": "Using the terminal",
+        "desc": "When you're ready: 10 illustrated steps, Windows and Mac"
+      },
+      "videos": {
+        "title": "Learn from videos",
+        "desc": "Korean, Vietnamese and English YouTube — top-viewed only, refreshed daily"
+      }
+    },
+    "readTitle": "Guides you follow along",
+    "readLead": "Not skills, not programs — articles you just follow. Copy the prompt boxes as-is and change only the [bracketed] parts.",
+    "original": "Original"
+  },
+  "programsPage": {
+    "title": "Open-source programs",
+    "lead": "Not skills — programs you download from GitHub and install yourself. We pick well-starred, well-reviewed projects and lay out everything from install to shutdown so you can just follow along.",
+    "install": "Follow the install",
+    "snapshotNote": "Stars and versions are snapshots from the day of writing. Check the GitHub link for current numbers."
   }
 }

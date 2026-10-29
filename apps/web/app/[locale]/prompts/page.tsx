@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import CopyButton from "@/components/CopyButton";
 import CopyChip from "@/components/CopyChip";
+import PromptTabs from "@/components/PromptTabs";
 import { Link } from "@/i18n/navigation";
 import { getDailyPrompts } from "@/lib/db";
 import { PROMPTS } from "@/lib/prompts";
@@ -63,9 +64,10 @@ export default async function PromptsPage({ params }: Props) {
   return (
     <div className="py-10">
       <h1 className="mb-3 font-display text-3xl font-semibold">{t("prompts.title")}</h1>
-      <p className="mb-8 max-w-2xl text-[15px] leading-relaxed text-ink-soft">
+      <p className="mb-6 max-w-2xl text-[15px] leading-relaxed text-ink-soft">
         {t("prompts.lead")}
       </p>
+      <PromptTabs active="text" />
 
       {daily.length > 0 && (
         <section className="mb-10">

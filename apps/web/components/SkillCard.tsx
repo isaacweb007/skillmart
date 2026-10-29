@@ -45,7 +45,8 @@ export default function SkillCard({ skill }: { skill: SkillListItem }) {
         <p className="mb-3 line-clamp-2 min-h-10 text-sm leading-relaxed text-ink-soft">
           {skill.one_liner}
         </p>
-        <div className="flex items-center gap-2 text-xs text-ink-soft">
+        {/* pr-14: 오른쪽 아래 ZIP 버튼 자리 — 없으면 점수와 겹친다 */}
+        <div className="flex items-center gap-2 pr-14 text-xs text-ink-soft">
           <Chip>
             <CategoryIcon category={skill.category} className="h-3.5 w-3.5" />
             {t(`categories.${skill.category}`)}
@@ -63,6 +64,15 @@ export default function SkillCard({ skill }: { skill: SkillListItem }) {
       <div className="absolute top-3 right-3">
         <FavoriteButton skillId={skill.id} />
       </div>
+      {/* ZIP 바로받기 — 상세에 들어가지 않아도 내려받는 길. api 경로라 로케일 없는 일반 앵커 */}
+      <a
+        href={`/api/skills/${skill.slug}/zip`}
+        title={t("detail.installAppDownload")}
+        aria-label={`${t("detail.installAppDownload")}: ${skill.name}`}
+        className="absolute right-3 bottom-3 rounded-md border border-line bg-bg px-2 py-1 font-mono-plex text-[11px] text-ink-soft transition-colors hover:border-line-strong hover:text-ink"
+      >
+        ZIP ↓
+      </a>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { CATEGORIES } from "@/lib/categories";
 import { getAllVisibleForSitemap, getCollections } from "@/lib/db";
+import { GUIDES } from "@/lib/learn";
 import { SITE_URL, sitemapLanguages } from "@/lib/site";
 
 export const revalidate = 3600;
@@ -26,6 +27,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   add("/guide");
   add("/prompts");
   add("/image-prompts");
+  add("/chatgpt");
+  add("/learn");
+  for (const g of GUIDES) add(`/learn/${g.slug}`);
+  add("/programs");
   add("/videos");
   add("/terminal");
   add("/skills?difficulty=beginner"); // 바로 쓰기 좋은 스킬

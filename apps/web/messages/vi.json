@@ -9,7 +9,9 @@
   "nav": {
     "skills": "Khám phá skill",
     "guide": "Skill là gì?",
-    "prompts": "Câu dùng ngay",
+    "prompts": "Lệnh",
+    "programs": "Chương trình",
+    "learn": "Học",
     "imagePrompts": "Lệnh tạo ảnh",
     "videos": "Học qua video",
     "terminal": "Dùng terminal"
@@ -163,7 +165,13 @@
     "terminalTitle": "Cách dùng terminal Claude Code — cài trên Windows và Mac (cho người mới)",
     "terminalDesc": "Hướng dẫn cài và dùng Claude Code cho người chưa từng mở terminal. Có hình minh hoạ từng bước cho cả Windows và Mac.",
     "imagePromptsTitle": "50 lệnh tạo ảnh AI — AI Skill Mart",
-    "imagePromptsDesc": "50 câu lệnh tạo ảnh dán vào ChatGPT, Claude hay Gemini là dùng được ngay: ảnh sản phẩm, quảng cáo, nội dung mạng xã hội, thương hiệu và chỉnh sửa ảnh."
+    "imagePromptsDesc": "50 câu lệnh tạo ảnh dán vào ChatGPT, Claude hay Gemini là dùng được ngay: ảnh sản phẩm, quảng cáo, nội dung mạng xã hội, thương hiệu và chỉnh sửa ảnh.",
+    "gptTitle": "41 lệnh ChatGPT — cách đăng ký Custom Instructions | AI Skill Mart",
+    "gptDesc": "Đăng ký một lần vào Custom Instructions của ChatGPT là dùng được 41 lệnh như /truth: tư duy, viết lách, phân tích, thực thi và học tập.",
+    "learnTitle": "Học skill AI — bắt đầu không cần cài đặt | AI Skill Mart",
+    "learnDesc": "Terminal khó cũng không sao. Lộ trình học theo thứ tự: từ lệnh ChatGPT, cài skill, đến tự viết SKILL.md của riêng bạn.",
+    "programsTitle": "Chương trình mã nguồn mở nên dùng — cài theo từng bước | AI Skill Mart",
+    "programsDesc": "Chọn các dự án GitHub nhiều sao, đánh giá tốt, hướng dẫn từng bước từ cài đặt đến gỡ bỏ. Twenty CRM, Automaton và hơn nữa."
   },
   "prompts": {
     "title": "40 câu dùng được ngay, không cần cài",
@@ -235,5 +243,59 @@
       "branding": "Chân dung & thương hiệu",
       "edit": "Chỉnh sửa & biến đổi"
     }
+  },
+  "promptTabs": {
+    "label": "Nhóm lệnh",
+    "text": "Lệnh viết",
+    "image": "Lệnh tạo ảnh",
+    "gpt": "Lệnh ChatGPT"
+  },
+  "gptPage": {
+    "title": "41 lệnh ChatGPT",
+    "lead": "Bộ lệnh dùng trong ChatGPT. /tên chỉ là nhãn cho dễ nhớ — thứ ChatGPT hiểu là phần mô tả. Đăng ký Custom Instructions bên dưới một lần, sau đó chỉ cần gõ tên như /truth là chạy.",
+    "customTitle": "Đăng ký Custom Instructions một lần là xong",
+    "customLead": "Vào ChatGPT Settings → Custom Instructions và dán toàn văn bên dưới. Từ đó về sau chỉ cần gõ /truth, /no fluff trong chat. Không trùng tên với nhóm lệnh tạo ảnh nên dùng chung được.",
+    "studyTitle": "4 lệnh học — dùng theo thứ tự là xong một chủ đề",
+    "studyLead": "Lướt bằng Cheat Sheet → dựng khung bằng Blueprint → thuộc bằng Flashcards → tổng kết bằng Mind Map.",
+    "source": "Nguồn",
+    "cat": {
+      "judge": "Ép tư duy & phán đoán",
+      "write": "Viết & biên tập",
+      "analyze": "Phân tích & giải mã",
+      "execute": "Thực thi & cấu trúc",
+      "self": "Hiểu bản thân"
+    }
+  },
+  "learnPage": {
+    "title": "Học",
+    "lead": "Nếu terminal còn khó, hãy bắt đầu ở đây. Đi theo thứ tự: từ cách dùng không cần cài đặt đến tự làm skill của riêng bạn.",
+    "startTitle": "Lộ trình bắt đầu",
+    "cards": {
+      "what": {
+        "title": "Skill là gì?",
+        "desc": "Khái niệm và cách cài bằng hình. Tải ZIP rồi kéo lên là không cần terminal"
+      },
+      "gpt": {
+        "title": "Bắt đầu từ ChatGPT",
+        "desc": "Cửa vào dễ nhất, không cài gì — copy 41 lệnh dùng ngay"
+      },
+      "terminal": {
+        "title": "Dùng terminal",
+        "desc": "Khi đã sẵn sàng: 10 bước bằng hình, cả Windows lẫn Mac"
+      },
+      "videos": {
+        "title": "Học qua video",
+        "desc": "YouTube tiếng Việt, Hàn, Anh — chỉ chọn video nhiều lượt xem, cập nhật mỗi ngày"
+      }
+    },
+    "readTitle": "Bài đọc làm theo",
+    "readLead": "Không phải skill hay chương trình — là bài viết cứ làm theo là được. Ô prompt copy nguyên văn, chỉ đổi phần trong [ngoặc vuông].",
+    "original": "Bản gốc"
+  },
+  "programsPage": {
+    "title": "Chương trình mã nguồn mở",
+    "lead": "Không phải skill — là chương trình tải từ GitHub về tự cài. Chúng tôi chọn những dự án nhiều sao, đánh giá tốt, và soạn lại từ cách cài đến cách tắt để cứ làm theo là được.",
+    "install": "Cài theo từng bước",
+    "snapshotNote": "Số sao, phiên bản là số liệu tại ngày biên soạn. Xem số mới nhất ở link GitHub."
   }
 }

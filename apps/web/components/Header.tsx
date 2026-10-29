@@ -23,17 +23,15 @@ export default function Header() {
         <Link href="/skills" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
           {t("nav.skills")}
         </Link>
+        {/* 1차 링크는 5개로 유지한다 — 이미지 명령어·영상·터미널은 명령어/배우기 허브 안에서 진입 */}
         <Link href="/prompts" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
           {t("nav.prompts")}
         </Link>
-        <Link href="/image-prompts" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
-          {t("nav.imagePrompts")}
+        <Link href="/programs" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
+          {t("nav.programs")}
         </Link>
-        <Link href="/videos" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
-          {t("nav.videos")}
-        </Link>
-        <Link href="/terminal" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
-          {t("nav.terminal")}
+        <Link href="/learn" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
+          {t("nav.learn")}
         </Link>
         <Link href="/guide" className="py-1.5 text-sm whitespace-nowrap text-ink-soft hover:text-ink">
           {t("nav.guide")}

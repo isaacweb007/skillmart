@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import CopyButton from "@/components/CopyButton";
 import CopyChip from "@/components/CopyChip";
+import PromptTabs from "@/components/PromptTabs";
 import { Link } from "@/i18n/navigation";
 import { IMAGE_CATS, IMAGE_PROMPTS, type ImagePromptItem } from "@/lib/image-prompts";
 import { pageAlternates } from "@/lib/site";
@@ -57,9 +58,10 @@ export default async function ImagePromptsPage({ params }: Props) {
       <p className="mb-2 max-w-2xl text-[15px] leading-relaxed text-ink-soft">
         {t("imagePrompts.lead")}
       </p>
-      <p className="mb-8 max-w-2xl text-sm leading-relaxed text-ink-soft">
+      <p className="mb-6 max-w-2xl text-sm leading-relaxed text-ink-soft">
         {t("imagePrompts.tip")}
       </p>
+      <PromptTabs active="image" />
 
       {IMAGE_CATS.map((cat) => (
         <section key={cat} className="mb-10">
