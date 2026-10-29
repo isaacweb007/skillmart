@@ -4,7 +4,7 @@
     "desc": "Refresh the page or try again in a moment.",
     "retry": "Try again"
   },
-  "brand": "Claude Skill Mart",
+  "brand": "AI Skill Mart",
   "tagline": "The Claude Code skill market",
   "nav": {
     "skills": "Browse skills",
@@ -15,7 +15,7 @@
     "terminal": "Terminal guide"
   },
   "home": {
-    "heroTitle": "Pick your Claude skills",
+    "heroTitle": "Pick your AI skills",
     "heroSubtitle": "Claude Code skills discovered on GitHub daily by AI, explained in plain English — {count} on the shelves today",
     "searchPlaceholder": "What skill do you need? (e.g. PPT, code review)",
     "searchButton": "Search",
@@ -60,7 +60,7 @@
     "installCodeAsk": "Let Claude do it — paste this into Claude Code",
     "installCodeManual": "Install with a command instead",
     "installTrust": "This is a third-party skill. Check the source repository before installing.",
-    "installPrompt": "Install the skill I found on Claude Skill Mart.\nCopy the {dir} folder from the GitHub repo {repo} into my ~/.claude/skills/{slug}/.\nWhen it's done, tell me in one line what this skill can do.",
+    "installPrompt": "Install the skill I found on AI Skill Mart.\nCopy the {dir} folder from the GitHub repo {repo} into my ~/.claude/skills/{slug}/.\nWhen it's done, tell me in one line what this skill can do.",
     "tryTitle": "Try it now, no install",
     "tryLead": "Paste this into Claude to use the skill without installing anything.",
     "tryPrompt": "Read the instructions in this file and follow them to help me:\n{rawUrl}\n\nWhat I want: (describe your task here)",
@@ -87,7 +87,7 @@
     "utility": "Utilities"
   },
   "footer": {
-    "disclaimer": "Claude Skill Mart is an unofficial service, not affiliated with Anthropic.",
+    "disclaimer": "AI Skill Mart is an unofficial service, not affiliated with Anthropic.",
     "dataNote": "Skill data is collected automatically every day from public GitHub repositories.",
     "contact": "Contact the developer"
   },
@@ -145,24 +145,24 @@
     "count": "{count} skills"
   },
   "seo": {
-    "homeTitle": "Claude Code skills, picked daily — Claude Skill Mart",
+    "homeTitle": "Claude Code skills, picked daily — AI Skill Mart",
     "homeDesc": "AI finds skills on GitHub every day and explains them plainly. Installable in the Claude app too, no terminal needed.",
-    "listTitle": "{count} Claude Code skills — Claude Skill Mart",
+    "listTitle": "{count} Claude Code skills — AI Skill Mart",
     "listDesc": "{count} Claude Code skills found daily by AI. Filter by corner and level, with install steps for each.",
-    "cornerTitle": "{corner} Claude Code skills ({count}) — Claude Skill Mart",
+    "cornerTitle": "{corner} Claude Code skills ({count}) — AI Skill Mart",
     "cornerDesc": "{count} Claude Code skills in {corner}. What each skill does and how to install it.",
-    "skillTitle": "{name} — Claude Code skill | Claude Skill Mart",
-    "guideTitle": "What is a Claude Code skill? How to install — Claude Skill Mart",
+    "skillTitle": "{name} — Claude Code skill | AI Skill Mart",
+    "guideTitle": "What is a Claude Code skill? How to install — AI Skill Mart",
     "guideDesc": "What a Skill is and how to install one in the Claude desktop/web app and in Claude Code.",
-    "promptsTitle": "40 Claude prompt lines — Claude Skill Mart",
+    "promptsTitle": "40 Claude prompt lines — AI Skill Mart",
     "promptsDesc": "40 lines to paste into Claude with nothing installed — summaries, comparison tables, checklists, opening lines — each linked to skills that automate it.",
-    "easyTitle": "{count} Claude Code skills that are easy to start with — Claude Skill Mart",
+    "easyTitle": "{count} Claude Code skills that are easy to start with — AI Skill Mart",
     "easyDesc": "{count} Claude Code skills that install simply and work on the first try, with explanations and install steps.",
-    "videosTitle": "Claude skills on YouTube — Claude Skill Mart",
+    "videosTitle": "Claude skills on YouTube — AI Skill Mart",
     "videosDesc": "A daily selection of YouTube videos about Claude and Claude Code skills from the past two weeks, per language.",
     "terminalTitle": "How to use the Claude Code terminal — Windows and Mac setup for beginners",
     "terminalDesc": "Install and use Claude Code even if you have never opened a terminal. Step-by-step with illustrations for both Windows and Mac.",
-    "imagePromptsTitle": "50 AI image prompts — Claude Skill Mart",
+    "imagePromptsTitle": "50 AI image prompts — AI Skill Mart",
     "imagePromptsDesc": "50 image-generation prompts you can paste into ChatGPT, Claude or Gemini: product shots, ads, social content, branding and photo edits — one copy away."
   },
   "prompts": {
@@ -213,7 +213,7 @@
     "folderMac": "Mac tip: type `cd ` (with one space) and then drag the folder onto the terminal window — the path fills itself in. Press Enter, then type `claude`.",
     "folderWin": "Windows tip: open the folder, click the address bar at the top to copy the path, then paste it after `cd `.",
     "skillTitle": "8. Now install a skill",
-    "skillBody": "That's the setup done. Pick a skill on Claude Skill Mart, copy its \"Let Claude do it\" line, and paste it into the `claude` session you just started — it installs the skill for you.",
+    "skillBody": "That's the setup done. Pick a skill on AI Skill Mart, copy its \"Let Claude do it\" line, and paste it into the `claude` session you just started — it installs the skill for you.",
     "skillCta": "Browse skills",
     "stuckTitle": "If you get stuck",
     "stuck1": "Typed a command and nothing happened → check that you pressed Enter.",

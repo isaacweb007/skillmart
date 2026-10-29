@@ -1,6 +1,8 @@
 import "server-only";
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
+import { CATEGORIES } from "./categories";
 
 const db = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -86,6 +88,21 @@ export const countVisibleSkills = cache(
     return count ?? 0;
   },
 );
+
+/** 코너별 개수 12종. 목록 페이지는 searchParams 탓에 매 요청 동적이라(ISR 미적용)
+ *  head 쿼리 12개를 매번 쏘지 않도록 1시간 데이터 캐시에 올린다. 개수는 하루 단위로만 변한다. */
+export function categoryCounts(locale: string): Promise<Record<string, number>> {
+  return unstable_cache(
+    async () => {
+      const entries = await Promise.all(
+        CATEGORIES.map(async (c) => [c, await countVisibleSkills(locale, c)] as const),
+      );
+      return Object.fromEntries(entries);
+    },
+    ["category-counts", locale],
+    { revalidate: 3600 },
+  )();
+}
 
 export async function getHomeSkills(
   locale: string,

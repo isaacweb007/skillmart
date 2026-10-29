@@ -4,7 +4,7 @@
     "desc": "Hãy tải lại trang hoặc thử lại sau ít phút.",
     "retry": "Thử lại"
   },
-  "brand": "Claude Skill Mart",
+  "brand": "AI Skill Mart",
   "tagline": "Chợ kỹ năng Claude Code",
   "nav": {
     "skills": "Khám phá skill",
@@ -15,7 +15,7 @@
     "terminal": "Dùng terminal"
   },
   "home": {
-    "heroTitle": "Chọn skill Claude cho bạn",
+    "heroTitle": "Chọn skill AI cho bạn",
     "heroSubtitle": "Skill Claude Code do AI khám phá trên GitHub mỗi ngày, giải thích bằng tiếng Việt — hôm nay có {count} skill trên kệ",
     "searchPlaceholder": "Bạn cần skill gì? (vd: PPT, review code)",
     "searchButton": "Tìm kiếm",
@@ -60,7 +60,7 @@
     "installCodeAsk": "Để Claude làm — dán câu dưới đây vào Claude Code",
     "installCodeManual": "Cài bằng lệnh thủ công",
     "installTrust": "Đây là skill do người khác tạo. Hãy kiểm tra repo gốc trước khi cài.",
-    "installPrompt": "Hãy cài skill mình tìm thấy trên Claude Skill Mart.\nCopy thư mục {dir} từ repo GitHub {repo} vào ~/.claude/skills/{slug}/ của mình.\nSau khi cài xong, cho mình biết skill này làm được gì trong một câu.",
+    "installPrompt": "Hãy cài skill mình tìm thấy trên AI Skill Mart.\nCopy thư mục {dir} từ repo GitHub {repo} vào ~/.claude/skills/{slug}/ của mình.\nSau khi cài xong, cho mình biết skill này làm được gì trong một câu.",
     "tryTitle": "Dùng thử ngay, không cần cài",
     "tryLead": "Dán đoạn dưới vào Claude là dùng được skill này mà không cần cài đặt.",
     "tryPrompt": "Hãy đọc hướng dẫn trong tệp này và làm theo để giúp mình:\n{rawUrl}\n\nMình muốn: (viết việc bạn cần ở đây)",
@@ -87,7 +87,7 @@
     "utility": "Tiện ích"
   },
   "footer": {
-    "disclaimer": "Claude Skill Mart là dịch vụ không chính thức, không liên quan đến Anthropic.",
+    "disclaimer": "AI Skill Mart là dịch vụ không chính thức, không liên quan đến Anthropic.",
     "dataNote": "Dữ liệu skill được thu thập tự động mỗi ngày từ các kho GitHub công khai.",
     "contact": "Liên hệ nhà phát triển"
   },
@@ -145,24 +145,24 @@
     "count": "{count} skill"
   },
   "seo": {
-    "homeTitle": "Kho skill Claude Code — Claude Skill Mart",
+    "homeTitle": "Kho skill Claude Code — AI Skill Mart",
     "homeDesc": "AI tìm skill trên GitHub mỗi ngày và diễn giải lại. Cài được cả trong ứng dụng Claude, không cần terminal.",
-    "listTitle": "{count} skill cho Claude Code — Claude Skill Mart",
+    "listTitle": "{count} skill cho Claude Code — AI Skill Mart",
     "listDesc": "{count} skill Claude Code do AI tìm mỗi ngày. Chọn theo mục và độ khó, kèm cách cài đặt.",
-    "cornerTitle": "Skill Claude Code: {corner} ({count}) — Claude Skill Mart",
+    "cornerTitle": "Skill Claude Code: {corner} ({count}) — AI Skill Mart",
     "cornerDesc": "{count} skill Claude Code trong mục {corner}. Skill làm được gì và cách cài đặt.",
-    "skillTitle": "{name} — Skill Claude Code | Claude Skill Mart",
-    "guideTitle": "Skill của Claude Code là gì? Cách cài — Claude Skill Mart",
+    "skillTitle": "{name} — Skill Claude Code | AI Skill Mart",
+    "guideTitle": "Skill của Claude Code là gì? Cách cài — AI Skill Mart",
     "guideDesc": "Skill là gì và cách cài vào Claude desktop/web cũng như Claude Code.",
-    "promptsTitle": "40 câu lệnh prompt cho Claude — Claude Skill Mart",
+    "promptsTitle": "40 câu lệnh prompt cho Claude — AI Skill Mart",
     "promptsDesc": "40 câu dán thẳng vào Claude, không cần cài gì. Tóm tắt, bảng so sánh, checklist, câu mở đầu — mỗi câu đều dẫn tới skill làm việc đó tự động.",
-    "easyTitle": "{count} skill Claude Code dễ dùng ngay — Claude Skill Mart",
+    "easyTitle": "{count} skill Claude Code dễ dùng ngay — AI Skill Mart",
     "easyDesc": "{count} skill Claude Code dễ cài và dùng được ngay từ lần đầu, kèm giải thích và cách cài.",
-    "videosTitle": "Video YouTube về skill Claude — Claude Skill Mart",
+    "videosTitle": "Video YouTube về skill Claude — AI Skill Mart",
     "videosDesc": "Tuyển chọn hằng ngày các video YouTube về Claude và Claude Code skill trong 2 tuần gần nhất, theo từng ngôn ngữ.",
     "terminalTitle": "Cách dùng terminal Claude Code — cài trên Windows và Mac (cho người mới)",
     "terminalDesc": "Hướng dẫn cài và dùng Claude Code cho người chưa từng mở terminal. Có hình minh hoạ từng bước cho cả Windows và Mac.",
-    "imagePromptsTitle": "50 lệnh tạo ảnh AI — Claude Skill Mart",
+    "imagePromptsTitle": "50 lệnh tạo ảnh AI — AI Skill Mart",
     "imagePromptsDesc": "50 câu lệnh tạo ảnh dán vào ChatGPT, Claude hay Gemini là dùng được ngay: ảnh sản phẩm, quảng cáo, nội dung mạng xã hội, thương hiệu và chỉnh sửa ảnh."
   },
   "prompts": {
@@ -213,7 +213,7 @@
     "folderMac": "Mẹo trên Mac: gõ `cd ` (có một dấu cách) rồi kéo thư mục vào cửa sổ terminal, đường dẫn sẽ tự điền. Enter, rồi gõ `claude`.",
     "folderWin": "Mẹo trên Windows: mở thư mục, bấm vào ô địa chỉ phía trên để copy đường dẫn, rồi dán sau `cd `.",
     "skillTitle": "8. Giờ thử cài một skill",
-    "skillBody": "Đến đây là xong phần chuẩn bị. Chọn một skill trên Claude Skill Mart, copy câu \"Để Claude làm\" rồi dán vào `claude` vừa mở — nó sẽ tự cài.",
+    "skillBody": "Đến đây là xong phần chuẩn bị. Chọn một skill trên AI Skill Mart, copy câu \"Để Claude làm\" rồi dán vào `claude` vừa mở — nó sẽ tự cài.",
     "skillCta": "Xem các skill",
     "stuckTitle": "Khi bị kẹt",
     "stuck1": "Gõ lệnh mà không thấy gì xảy ra → kiểm tra xem đã bấm Enter chưa.",
