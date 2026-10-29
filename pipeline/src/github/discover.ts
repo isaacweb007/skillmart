@@ -14,7 +14,12 @@ export interface Candidate {
 
 // 시드 저장소는 운영자가 관리한다. 추가 발견 시 여기에 늘린다.
 const SEED_REPOS = ["anthropics/skills", "daymade/claude-code-skills"];
-const TOPICS = ["claude-skills", "claude-code-skills", "claude-code-plugin", "agent-skills"];
+// SKILL.md는 cross-agent 표준이라 Codex·ChatGPT용 스킬 저장소도 같은 파서로 수집된다.
+// grok-skills 토픽은 2026-10 실사에서 최고 3★ — 생태계가 없어 넣지 않는다.
+const TOPICS = [
+  "claude-skills", "claude-code-skills", "claude-code-plugin", "agent-skills",
+  "codex-skills", "chatgpt-skills", "gpt-skills",
+];
 const MAX_SEARCH_REPOS = 300; // 런당 검색으로 새로 스캔할 저장소 상한 (초과분은 다음 런 이월)
 const TOPIC_PAGES = 6; // 토픽당 50 × 6 = 최대 300
 const CODE_PAGES = 4;
