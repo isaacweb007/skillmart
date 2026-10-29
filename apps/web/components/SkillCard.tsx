@@ -1,8 +1,28 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { SkillListItem } from "@/lib/db";
+import CategoryIcon from "./CategoryIcon";
 import Chip from "./Chip";
 import FavoriteButton from "./FavoriteButton";
+
+const LEVEL = { beginner: 1, intermediate: 2, advanced: 3 } as const;
+
+/** 난이도를 점 3개로 — 단어를 읽지 않고도 카드 사이 비교가 된다 */
+function DifficultyDots({ difficulty, label }: { difficulty: string; label: string }) {
+  const level = LEVEL[difficulty as keyof typeof LEVEL];
+  if (!level) return null;
+  return (
+    <span className="inline-flex items-center gap-1" title={label} aria-label={label}>
+      {[1, 2, 3].map((n) => (
+        <span
+          key={n}
+          aria-hidden="true"
+          className={`h-1.5 w-1.5 rounded-full ${n <= level ? "bg-ink-soft" : "bg-line-strong"}`}
+        />
+      ))}
+    </span>
+  );
+}
 
 export default function SkillCard({ skill }: { skill: SkillListItem }) {
   const t = useTranslations();
@@ -26,7 +46,13 @@ export default function SkillCard({ skill }: { skill: SkillListItem }) {
           {skill.one_liner}
         </p>
         <div className="flex items-center gap-2 text-xs text-ink-soft">
-          <Chip>{t(`categories.${skill.category}`)}</Chip>
+          <Chip>
+            <CategoryIcon category={skill.category} className="h-3.5 w-3.5" />
+            {t(`categories.${skill.category}`)}
+          </Chip>
+          {skill.difficulty && (
+            <DifficultyDots difficulty={skill.difficulty} label={t(`difficulty.${skill.difficulty}`)} />
+          )}
           <span>★ {skill.stars.toLocaleString()}</span>
           <span className="ml-auto">
             {t("detail.score")} {skill.ai_score}/10

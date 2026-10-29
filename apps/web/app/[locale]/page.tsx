@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import Chip from "@/components/Chip";
+import CategoryIcon from "@/components/CategoryIcon";
 import SearchBar from "@/components/SearchBar";
 import SkillCard from "@/components/SkillCard";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIES } from "@/lib/categories";
-import { getCollections, getHomeSkills, getTrendingSkills, getVisibleCount } from "@/lib/db";
+import { categoryCounts, getCollections, getHomeSkills, getTrendingSkills, getVisibleCount } from "@/lib/db";
 import { jsonLd, webSite } from "@/lib/jsonld";
 import { PROMPTS } from "@/lib/prompts";
 import { pageAlternates } from "@/lib/site";
@@ -30,11 +30,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations();
-  const [count, { top, fresh }, trending, collections] = await Promise.all([
+  const [count, { top, fresh }, trending, collections, counts] = await Promise.all([
     getVisibleCount(),
     getHomeSkills(locale),
     getTrendingSkills(locale),
     getCollections(locale),
+    categoryCounts(locale),
   ]);
 
   return (
@@ -60,10 +61,17 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       <section className="mb-12">
         <h2 className="mb-4 font-display text-xl font-semibold">{t("home.corners")}</h2>
-        <div className="flex flex-wrap gap-2">
+        {/* 코너 = 이 마트의 매대 배치도. 칩 한 줄이 아니라 들어가 볼 수 있는 입구로 보여준다 */}
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
           {CATEGORIES.map((c) => (
-            <Link key={c} href={`/skills?category=${c}`}>
-              <Chip>{t(`categories.${c}`)}</Chip>
+            <Link
+              key={c}
+              href={`/skills?category=${c}`}
+              className="group flex items-center gap-2.5 rounded-lg border border-line bg-surface px-3 py-2.5 transition-colors hover:border-line-strong hover:bg-surface-2"
+            >
+              <CategoryIcon category={c} className="h-4 w-4 text-ink-soft group-hover:text-ink" />
+              <span className="min-w-0 truncate text-sm">{t(`categories.${c}`)}</span>
+              <span className="ml-auto text-xs text-ink-tertiary">{counts[c] ?? 0}</span>
             </Link>
           ))}
         </div>

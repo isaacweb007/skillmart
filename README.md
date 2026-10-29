@@ -1,4 +1,4 @@
-# 클로드스킬마트 · Claude Skill Mart
+# AI 스킬마트 · AI Skill Mart
 
 **[skillmart.dev](https://skillmart.dev)** — AI가 매일 GitHub에서 Claude Code 스킬을 발굴해 한국어·베트남어·영어로 풀어쓰는 스킬 안내소.
 

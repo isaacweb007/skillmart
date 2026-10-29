@@ -4,7 +4,7 @@
     "desc": "새로고침하거나 잠시 뒤 다시 시도해주세요.",
     "retry": "다시 시도"
   },
-  "brand": "클로드스킬마트",
+  "brand": "AI 스킬마트",
   "tagline": "Claude Code 스킬 안내소",
   "nav": {
     "skills": "스킬 둘러보기",
@@ -15,7 +15,7 @@
     "terminal": "터미널 사용법"
   },
   "home": {
-    "heroTitle": "클로드 스킬, 골라 담으세요",
+    "heroTitle": "AI 스킬, 골라 담으세요",
     "heroSubtitle": "AI가 매일 GitHub에서 발굴해 한국어로 풀어쓴 Claude Code 스킬 — 오늘 매대에 {count}개",
     "searchPlaceholder": "어떤 스킬을 찾으세요? (예: PPT, 코드 리뷰)",
     "searchButton": "검색",
@@ -60,7 +60,7 @@
     "installCodeAsk": "Claude에게 맡기기 — 아래 문장을 Claude Code에 붙여넣으세요",
     "installCodeManual": "직접 명령으로 설치하기",
     "installTrust": "제3자가 만든 스킬입니다. 설치 전 원본 저장소를 한 번 확인하세요.",
-    "installPrompt": "클로드스킬마트에서 찾은 스킬을 설치해줘.\nGitHub 저장소 {repo} 의 {dir} 폴더를 내 ~/.claude/skills/{slug}/ 에 그대로 복사해줘.\n설치가 끝나면 이 스킬로 무엇을 할 수 있는지 한 줄로 알려줘.",
+    "installPrompt": "AI 스킬마트에서 찾은 스킬을 설치해줘.\nGitHub 저장소 {repo} 의 {dir} 폴더를 내 ~/.claude/skills/{slug}/ 에 그대로 복사해줘.\n설치가 끝나면 이 스킬로 무엇을 할 수 있는지 한 줄로 알려줘.",
     "tryTitle": "설치 없이 지금 한 번 써보기",
     "tryLead": "아래를 Claude에 붙여넣으면 설치하지 않고도 이 스킬을 그대로 씁니다.",
     "tryPrompt": "이 파일의 지시를 읽고 그대로 따라서 나를 도와줘:\n{rawUrl}\n\n내가 원하는 것: (여기에 하고 싶은 일을 쓰세요)",
@@ -87,7 +87,7 @@
     "utility": "유틸리티"
   },
   "footer": {
-    "disclaimer": "클로드스킬마트는 비공식 서비스이며 Anthropic과 무관합니다.",
+    "disclaimer": "AI 스킬마트는 비공식 서비스이며 Anthropic과 무관합니다.",
     "dataNote": "스킬 정보는 GitHub 공개 저장소에서 매일 자동 수집됩니다.",
     "contact": "개발자에게 문의"
   },
@@ -145,24 +145,24 @@
     "count": "스킬 {count}개"
   },
   "seo": {
-    "homeTitle": "Claude Code 스킬 모음 — 클로드스킬마트",
+    "homeTitle": "Claude Code 스킬 모음 — AI 스킬마트",
     "homeDesc": "AI가 매일 GitHub에서 스킬을 발굴해 한국어로 풀어씁니다. 터미널 없이 Claude 앱에도 설치할 수 있습니다.",
-    "listTitle": "Claude Code 스킬 {count}개 — 클로드스킬마트",
+    "listTitle": "Claude Code 스킬 {count}개 — AI 스킬마트",
     "listDesc": "AI가 매일 발굴한 Claude Code 스킬 {count}개. 코너와 난이도로 골라 설치 방법까지 한국어로 봅니다.",
-    "cornerTitle": "{corner} Claude Code 스킬 {count}개 — 클로드스킬마트",
+    "cornerTitle": "{corner} Claude Code 스킬 {count}개 — AI 스킬마트",
     "cornerDesc": "{corner} 코너의 Claude Code 스킬 {count}개. 무엇을 해주는 스킬인지와 설치 방법을 한국어로 정리했습니다.",
-    "skillTitle": "{name} — Claude Code 스킬 | 클로드스킬마트",
-    "guideTitle": "Claude Code 스킬이란? 설치 방법 — 클로드스킬마트",
+    "skillTitle": "{name} — Claude Code 스킬 | AI 스킬마트",
+    "guideTitle": "Claude Code 스킬이란? 설치 방법 — AI 스킬마트",
     "guideDesc": "스킬이 무엇인지, Claude 데스크톱·웹과 Claude Code에 각각 어떻게 설치하는지 한국어로 설명합니다.",
-    "promptsTitle": "Claude·AI 프롬프트 문장 40개 — 클로드스킬마트",
+    "promptsTitle": "Claude·AI 프롬프트 문장 40개 — AI 스킬마트",
     "promptsDesc": "설치 없이 Claude에 붙여넣어 바로 쓰는 문장 40개. 요약·비교표·체크리스트·첫 문장 뽑기까지, 각 문장을 자동으로 해주는 스킬로 이어집니다.",
-    "easyTitle": "바로 쓰기 좋은 Claude Code 스킬 {count}개 — 클로드스킬마트",
+    "easyTitle": "바로 쓰기 좋은 Claude Code 스킬 {count}개 — AI 스킬마트",
     "easyDesc": "설치가 간단하고 처음 써도 바로 되는 Claude Code 스킬 {count}개. 한국어 설명과 설치 방법을 함께 정리했습니다.",
-    "videosTitle": "Claude 스킬 유튜브 영상 모음 — 클로드스킬마트",
+    "videosTitle": "Claude 스킬 유튜브 영상 모음 — AI 스킬마트",
     "videosDesc": "최근 2주간 올라온 Claude·Claude Code 스킬 관련 유튜브 영상을 매일 골라 정리합니다. 언어별로 볼 수 있습니다.",
     "terminalTitle": "클로드 코드 터미널 사용법 — 윈도우·맥 설치부터 (초보용)",
     "terminalDesc": "터미널을 한 번도 안 써본 사람을 위한 Claude Code 설치·사용법. 윈도우와 맥 각각 화면 그림과 함께 순서대로 따라가면 됩니다.",
-    "imagePromptsTitle": "AI 이미지 명령어 50개 — 클로드스킬마트",
+    "imagePromptsTitle": "AI 이미지 명령어 50개 — AI 스킬마트",
     "imagePromptsDesc": "챗GPT·클로드·제미나이에 붙여넣어 바로 쓰는 이미지 생성 문장 50개. 제품 사진·광고·SNS·브랜딩·사진 편집까지 복사 한 번이면 됩니다."
   },
   "prompts": {

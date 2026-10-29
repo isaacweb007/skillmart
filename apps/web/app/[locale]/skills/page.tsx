@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import CategoryIcon from "@/components/CategoryIcon";
 import Chip from "@/components/Chip";
 import SearchBar from "@/components/SearchBar";
 import SkillCard from "@/components/SkillCard";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIES, DIFFICULTIES } from "@/lib/categories";
-import { countVisibleSkills, PAGE_SIZE, searchSkills } from "@/lib/db";
+import { categoryCounts, countVisibleSkills, PAGE_SIZE, searchSkills } from "@/lib/db";
 import { pageAlternates } from "@/lib/site";
 
 export const revalidate = 3600;
@@ -80,6 +81,18 @@ function first(v: string | string[] | undefined): string | undefined {
   return Array.isArray(v) ? v[0] : v;
 }
 
+/** 처음·현재±1·끝, 사이가 벌어지면 "…". [1,"…",41,42,43,"…",85] 꼴 */
+function pageItems(page: number, lastPage: number): (number | "…")[] {
+  const want = new Set([1, page - 1, page, page + 1, lastPage]);
+  const nums = [...want].filter((n) => n >= 1 && n <= lastPage).sort((a, b) => a - b);
+  const out: (number | "…")[] = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (i > 0 && nums[i] - nums[i - 1] > 1) out.push("…");
+    out.push(nums[i]);
+  }
+  return out;
+}
+
 export default async function SkillsPage({
   params,
   searchParams,
@@ -101,14 +114,17 @@ export default async function SkillsPage({
   const sort = sp.sort === "new" ? "new" : sp.sort === "trending" ? "trending" : "rank";
   const pageNum = Number(sp.page);
   const page = Number.isInteger(pageNum) && pageNum > 0 ? pageNum : 1;
-  const { items, total } = await searchSkills({
-    locale,
-    q: sp.q,
-    category: sp.category,
-    difficulty: sp.difficulty,
-    sort,
-    page,
-  });
+  const [{ items, total }, counts] = await Promise.all([
+    searchSkills({
+      locale,
+      q: sp.q,
+      category: sp.category,
+      difficulty: sp.difficulty,
+      sort,
+      page,
+    }),
+    categoryCounts(locale),
+  ]);
   const lastPage = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const base: Search = { ...sp, sort, page: undefined };
 
@@ -129,13 +145,20 @@ export default async function SkillsPage({
         <SearchBar locale={locale} defaultValue={sp.q ?? ""} />
       </div>
 
-      <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
+      {/* 모바일은 가로 스크롤, sm 이상은 전부 펼친다 — 13개 코너가 화면 밖에 숨지 않게 */}
+      <div className="mb-3 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
         <Link href={qs(base, { category: undefined })} aria-current={!sp.category ? "true" : undefined}>
           <Chip active={!sp.category}>{t("list.all")}</Chip>
         </Link>
         {CATEGORIES.map((c) => (
           <Link key={c} href={qs(base, { category: c })} aria-current={sp.category === c ? "true" : undefined}>
-            <Chip active={sp.category === c}>{t(`categories.${c}`)}</Chip>
+            <Chip active={sp.category === c}>
+              <CategoryIcon category={c} className="h-3.5 w-3.5" />
+              {t(`categories.${c}`)}
+              <span className={sp.category === c ? "opacity-70" : "text-ink-tertiary"}>
+                {counts[c] ?? 0}
+              </span>
+            </Chip>
           </Link>
         ))}
       </div>
@@ -175,17 +198,39 @@ export default async function SkillsPage({
       )}
 
       {lastPage > 1 && (
-        <nav className="mt-8 flex items-center justify-center gap-4 text-sm">
+        <nav className="mt-8 flex items-center justify-center gap-1.5 text-sm" aria-label={t("list.title")}>
           {page > 1 && (
-            <Link className="text-accent" href={qs(base, { page: String(page - 1) })}>
+            <Link
+              className="rounded-md border border-line px-3 py-1.5 text-ink-soft transition-colors hover:border-line-strong hover:text-ink"
+              href={qs(base, { page: page - 1 > 1 ? String(page - 1) : undefined })}
+            >
               ← {t("list.prev")}
             </Link>
           )}
-          <span className="text-ink-soft">
-            {page} / {lastPage}
-          </span>
+          {/* 85페이지를 이전/다음으로만 걷게 하지 않는다: 처음·현재±1·끝 + 줄임표 */}
+          {pageItems(page, lastPage).map((it, i) =>
+            it === "…" ? (
+              <span key={`gap-${i}`} className="px-1 text-ink-tertiary" aria-hidden="true">…</span>
+            ) : (
+              <Link
+                key={it}
+                href={qs(base, { page: it > 1 ? String(it) : undefined })}
+                aria-current={it === page ? "page" : undefined}
+                className={`rounded-md border px-3 py-1.5 transition-colors ${
+                  it === page
+                    ? "border-accent bg-accent text-accent-ink"
+                    : "border-line text-ink-soft hover:border-line-strong hover:text-ink"
+                }`}
+              >
+                {it}
+              </Link>
+            ),
+          )}
           {page < lastPage && (
-            <Link className="text-accent" href={qs(base, { page: String(page + 1) })}>
+            <Link
+              className="rounded-md border border-line px-3 py-1.5 text-ink-soft transition-colors hover:border-line-strong hover:text-ink"
+              href={qs(base, { page: String(page + 1) })}
+            >
               {t("list.next")} →
             </Link>
           )}
