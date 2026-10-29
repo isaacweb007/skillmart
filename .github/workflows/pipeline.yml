@@ -37,6 +37,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # 없으면 유튜브 패스를 건너뛴다 (파이프라인 본류는 영향 없음)
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       - name: keepalive — 50일 무커밋이면 빈 커밋 (60일 자동 비활성화 방지)
         if: always()
         run: |
@@ -48,9 +52,5 @@ jobs:
             git commit --allow-empty -m "chore: keepalive — 예약 워크플로 60일 비활성화 방지"
             git push
           fi
-          # 없으면 유튜브 패스를 건너뛴다 (파이프라인 본류는 영향 없음)
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
 # 재인덱싱 트리거용 주석 (기능 무관)
