@@ -13,7 +13,18 @@ export interface Candidate {
 }
 
 // 시드 저장소는 운영자가 관리한다. 추가 발견 시 여기에 늘린다.
-const SEED_REPOS = ["anthropics/skills", "daymade/claude-code-skills"];
+const SEED_REPOS = [
+  "anthropics/skills",
+  "daymade/claude-code-skills",
+  // 토픽이 claude-code·mcp 뿐이라 TOPICS 검색에 안 잡힌다. SKILL.md 는 agent_reach/skill/ 에 있다.
+  "Panniantong/Agent-Reach",
+  // 토픽이 ai-gateway 계열이라 TOPICS 에 안 걸린다. SKILL.md 는 .claude/skills/ 아래.
+  "cheaper-inference/OmniRoute",
+  "rebelytics/one-skill-to-rule-them-all",
+  // 13.9K★인데도 토픽 검색 이월에 밀려 미수집이던 것(2026-11-09 사용자 요청).
+  // SKILL.md 는 plugin/skills/lemo-opuscar/ 와 tools/directory/ 두 곳.
+  "lemomo-ai/lemo-opuscar",
+];
 // SKILL.md는 cross-agent 표준이라 Codex·ChatGPT용 스킬 저장소도 같은 파서로 수집된다.
 // grok-skills 토픽은 2026-10 실사에서 최고 3★ — 생태계가 없어 넣지 않는다.
 const TOPICS = [
